@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Speech Translator</title>
+    <script defer src="{{ url_for('static', filename='dist/js/index.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/style.css') }}">
 </head>
+
 <body>
-    홈페이지 입니다. 안녕하세요
+    <section class="main">
+        <ul id="recordingsList"></ul>
+        <button class="btn-mic hvr-radial-out">
+            <img class="mic-icon" src= {{ url_for('static', filename='dist/img/mic.svg')}}/>
+        </button>
+        <audio controls id="player" class="hidden"></audio>
+    </section>
 </body>
 </html>
