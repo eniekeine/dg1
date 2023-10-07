@@ -1,3 +1,5 @@
+#speak.py 파일 추가
+
 # dg1
 
 ## 협업자 가이드라인(Contributing Guidelines)
