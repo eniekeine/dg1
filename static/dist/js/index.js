@@ -3,8 +3,8 @@
     생성일 : 2023년 10월 12일 이경근이 만들었습니다.
     설명 : index.html 파일의 로직을 지정하는 파일입니다.
 */
-let state = '대기';
 let chats = [];
+let currChat = null;
 
 const elemBtnMic = document.querySelector('.btn-mic');
 const elemSldConfigRate = document.querySelector('#sld-config-rate');
@@ -106,6 +106,8 @@ function saveChats()
 {
     chats[0].saveToLocalStorage(chats[0].id)
     chats[1].saveToLocalStorage(chats[1].id)
+
+    // TODO : 2 개 보다 더 많은 챗 지원하기
 }
 
 function loadChats()
@@ -113,6 +115,8 @@ function loadChats()
     chats = [new ChatModel(), new ChatModel()]
     chats[0].loadFromLocalStorage(chats[0].id)
     chats[1].loadFromLocalStorage(chats[1].id)
+
+    // TODO : 2개 보다 더 많은 챗 지원하기
 }
 
 function makeSampleChats()
@@ -132,11 +136,17 @@ function makeSampleChats()
     sampleChat2.id = 2;
     sampleChat2.title = "가나다라마바사"
     sampleChat2.addMessage("user", "가나다라마바사");
-    sampleChat2.addMessage("assistant", "아자차카타파하------------------------");
+    sampleChat2.addMessage("assistant", "아자차카타파하");
     sampleChat2.addMessage("user", "아야어여오요");
     sampleChat2.addMessage("assistant", "우유으이");
     sampleChat2.addMessage("user", "소프트웨어");
     sampleChat2.addMessage("assistant", "개발");
+    sampleChat2.addMessage("user", "소프트웨어");
+    sampleChat2.addMessage("assistant", "개발자");
+    sampleChat2.addMessage("user", "소프트웨어");
+    sampleChat2.addMessage("assistant", "설계");
+    sampleChat2.addMessage("user", "소프트웨어");
+    sampleChat2.addMessage("assistant", "엔지니어링");
 
     chats[0] = sampleChat1;
     chats[1] = sampleChat2;
@@ -144,6 +154,7 @@ function makeSampleChats()
 
 function selectChat(chatModel)
 {
+    currChat = chatModel;
     elemChatMessages.textContent='';
     for(let i = 0; i < chatModel.messages.length; ++i )
     {
@@ -160,15 +171,26 @@ selectChat(chats[0])
 
 elemBtnMic.addEventListener('mousedown', function (event) {
     event.preventDefault(); // prevent default navigation behavior
-    if (state == '대기') {
-        state = '음성입력'
-        // TODO : 마이크 버튼을 클릭했을 때 음성 입력을 받아들이는 상태(state)로 전환합니다.
-    }
-    else if (state == '음성입력') {
-        // TODO : 마이크 버튼을 한 번 더 클릭하면 음성 입력을 그만 받아들이고 쿼리를 전송합니다.
-        state = '대기'
-    }
-    console.log('앱 상태: ', state)
+        // TODO : 마이크 버튼을 클릭했을 때 음성 입력을 받아들이는 상태임을 사용자 눈에 보이게 표시합니다.
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert('Your browser does not support the Web Speech API. Please try another browser.');
+        } else {
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'ko-KR'; // 'en-US' 영어
+            recognition.interimResults = false; 
+
+            recognition.onresult = function(event) {
+                const text = event.results[0][0].transcript;
+
+                elemTxtInput.value = text;
+
+                submitQuery();
+            };
+
+            recognition.start();
+        }
 });
 
 elemSldConfigRate.addEventListener('change', function (event) {
@@ -185,26 +207,64 @@ elemSldConfigVolume.addEventListener('change', function (event) {
 
 elemChkConfigAutoplay.addEventListener('change', function (event) {
     console.log("자동재생 : ", this.checked);
+
+    // TODO : 응답이 돌아왔을 때 자동으로 소리내어 읽도록 합니다.
 });
 
 elemBtnMalVoice.addEventListener('mousedown', event => {
     event.preventDefault(); // prevent default navigation behavior
     console.log("남성 목소리");
+
+    // TODO : 비서의 응답 소리가 목소리 설정에 따라 달라지도록 합니다.
 })
 
 elemBtnFemVoice.addEventListener('mousedown', event => {
     event.preventDefault(); // prevent default navigation behavior
     console.log("여성 목소리");
+
+    // TODO : 비서의 응답 소리가 목소리 설정에 따라 달라지도록 합니다.
 })
+
+function submitQuery()
+{
+    let queryText = elemTxtInput.value.trim();
+    if( elemTxtInput.value.trim() === "" )
+    {
+        console.log("쿼리가 비어있으므로 실행을 취소합니다.")
+        return false;
+    }
+    else
+    {
+        currChat.addMessage("user", queryText);
+        selectChat(currChat);
+        const data = {
+            queryText: queryText,
+        };
+        fetch('/text-query', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(x => {
+            let content = x.choices[0].message.content;
+            currChat.addMessage("assistant", content)
+            selectChat(currChat)
+            console.log(x)
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+        console.log("쿼리 제출. 응답 기다리는 중. (쿼리내용 : " + queryText + ")");
+        return true;
+    }
+}
 
 elemBtnSubmit.addEventListener('mousedown', event => {
     event.preventDefault(); // prevent def
-    fetch("/query-text")
-    .then(x=>x.json())
-    .then(x=>{
-        console.log(x.text)
-    });
-    console.log("쿼리 제출");
+    submitQuery();
 })
 
 elemTxtInput.addEventListener('input', event => {
