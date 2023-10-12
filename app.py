@@ -1,7 +1,6 @@
 # 파일이름 : app.py 
 from flask import Flask, render_template, send_from_directory, jsonify, request
 import openai
-openai.api_key = "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"
 
 app = Flask(__name__)
 
