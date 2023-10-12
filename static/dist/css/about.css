@@ -1,3 +1,41 @@
-h1 {
-    background-color : #ff0000;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 20%;
+    background-color: #2c2c2c;
+    color: #fff;
+    padding: 20px;
+}
+
+.content {
+    width: 80%;
+    padding: 20px;
+}
+
+.chat-history div {
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.chat-history .selected {
+    background-color: #555;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
 }

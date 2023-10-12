@@ -4,21 +4,22 @@
     설명 : index.html 파일의 서식을 지정하는 파일입니다.
 */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
 body {
     display:flex;
     flex-direction: row;
     padding: 0; /* 내 안의 자식과의 간격 */
     margin : 0; /* 내 바깥의 부모와의 간격 */
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Raleway', 'Noto Sans KR', sans-serif;
 }
-.sidebar {
+/* .sidebar {
     display:flex;
     flex-direction: column;
     height:100vh;
-    background-color: red;
-    width:128px;
+    background-color: white;
+    width:337px;
     justify-content: space-between;
-}
+} */
 
 .chat{
     display:flex;
@@ -27,7 +28,12 @@ body {
     overflow-y: scroll;
     flex-direction: column;
     justify-content: space-between;
+    background-color : #343541;
     margin: 5 5;
+    align-items: center;
+    align-content: center;
+}
+.chat li{
     list-style-type: none;
 }
 .righted{
@@ -52,4 +58,34 @@ body {
     display:flex;
     flex-direction: column;
     justify-content: space-between;
+    width:1386;
+    height:816;
+}
+.config {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.main {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+header{
+    width: 1583px;
+    height: 87px;
+}
+.message-user{
+    text-align: right;
+    color:white;
+    background-color: #10A37F;
+    border-radius: 8px 8px 0px 8px;
+    padding:12px;
+    width:auto;
+    align-self:flex-end;
+}
+.message-assistant{
+    color:white;
+    background-color: rgba(1.0, 1.0, 1.0, 0.2);
+    
 }

@@ -6,28 +6,24 @@
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/index.css') }}">
     <script defer src="{{ url_for('static', filename='dist/js/index.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='dist/js/sidebar.js') }}"></script>
 </head>
 <body>
     {% include 'sidebar.html' %}
-    <section class="main">    
+    <section class="main">
         {% include 'header.html' %}
         <div class="chat">
             <ul>
-                <li class="message righted">
-                    <div class="role assistant">사용자</div>
-                    <div class="content">안녕하고 말해봐</div>
+                <li class="message-user">
+                    <div class="content">Why is the sky blue?</div>
                 </li>
-                <li class="message lefted">
-                    <div class="role user">ChatGPT</div>
-                    <div class="content">안녕
-                        <span class="btn-play">듣기</span>
-                    </div>
+                <li class="message-assistant">
+                    <div class="content">The sky appears blue because of the scattering of sunlight by Earth's atmosphere. As sunlight enters the atmosphere, it encounters tiny molecules of gas and other particles in the air.These particles scatter the light in all directions. However, blue light is scattered more than other colors because it travels in smaller, shorter waves. This is known as Rayleigh scattering.</div>
                 </li>
             </ul>
         </div>
-        <button onclick=sayhi()>sayhi</button>
-        <p class="pout"></p>
         {% include 'footer.html' %}
     </section>
+    {% include 'config.html' %}
 </body>
 </html>
