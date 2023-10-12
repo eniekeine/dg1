@@ -20,6 +20,32 @@ body {
     font-family: 'Raleway', 'Noto Sans KR', sans-serif;
 }
 
+
+.main {
+    display: flex;
+    overflow:hidden;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    height: 87px;
+    border: gray;
+    width: 100%;
+}
+
+.main-middle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    padding:0px 50px;
+}
+
 .chat {
     display: flex;
     width : 50%;
@@ -70,7 +96,7 @@ body {
     background-position: center center;
 }
 
-.chat li {
+.chat li {  
     list-style-type: none;
     margin: 48px 96px;
     padding: 10px 10px;
@@ -86,16 +112,19 @@ body {
     justify-content: flex-start;
     color:white;
 }
+
 .config-row{
     display:flex;
     flex-direction: row;
     flex-grow: 0;
     margin: 10px;
 }
+
 .config-col1{
     display:flex;
     width: 100px;
 }
+
 .config-col2{
     display:flex;
     flex-grow:1;
@@ -103,11 +132,13 @@ body {
     justify-content: start;
     align-items: center;
 }
+
 .config-voice-sel-btn-area
 {
     display:flex;
     flex-direction: row;
 }
+
 .config-voice-sel-btn{
     display:flex;
     flex-direction: column;
@@ -120,72 +151,16 @@ body {
     width : 36px;
     height : 36px;
 }
+
 .btn-fem{
     background: url('https://api.iconify.design/heroicons-solid/user-circle.svg') no-repeat center center / contain;
     width : 36px;
     height : 36px;
 }
-.message-user {
-    align-self: end;
-}
-
-.righted {
-    background-color: #ffaaaa;
-    align-self: end;
-    text-align: right;
-}
-
-.lefted {
-    background-color: #aaffaa;
-    text-align: left;
-}
-
-.role {
-    display: inline;
-    background-color: #ffddff;
-    border-radius: 5px;
-    margin: 5 5;
-}
 
 .content {
     padding-bottom: 10px;
     margin: 5 5;
-}
-
-.main {
-    display: flex;
-    width: 100%;
-    overflow:hidden;
-    height: 100vh;
-}
-
-.main-middle {
-    display: flex;
-    background-color: blue;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-}
-
-.config {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.main {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-header {
-    display: flex;
-    justify-content: center;
-    align-self: center;
-    height: 87px;
-    border: gray;
-    width: 100%;
 }
 
 .message-user {
