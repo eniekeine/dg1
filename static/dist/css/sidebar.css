@@ -6,10 +6,10 @@
     --nav--width: 92px;
 
     /* Colores */
-    --first-color: #0c5df4;
-    --bg-color: #12192c;
+    --first-color: #F2F4F8;
+    --bg-color: ##F2F4F8;
     --sub-color: #b6cefc;
-    --white-color: #fff;
+    --font-color: black;
 
     /* Fuente y tipografia */
     --body-font: 'Poppins', sans-serif;
@@ -56,7 +56,7 @@
     width: var(--nav--width);
     height: 100vh;
     background-color: var(--bg-color);
-    color: var(--white-color);
+    color: var(--font-color);
     padding: 1.5rem 1.5rem 2rem;
     transition: .5s;
     z-index: var(--z-fixed);
@@ -86,7 +86,7 @@
 }
 
 .nav__logo {
-    color: var(--white-color);
+    color: var(--font-color);
     font-weight: 600;
 }
 
@@ -96,7 +96,7 @@
     align-items: center;
     column-gap: .75rem;
     padding: .75rem;
-    color: var(--white-color);
+    color: var(--font-color);
     border-radius: .5rem;
     margin-bottom: 1rem;
     transition: .3s;
@@ -151,7 +151,7 @@
 }
 
 .collapse__sublink:hover {
-    color: var(--white-color);
+    color: var(--font-color);
 }
 
 /* Show collapse */

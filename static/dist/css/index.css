@@ -3,8 +3,12 @@
     생성일 : 2023년 10월 12일 이경근이 만들었습니다.
     설명 : index.html 파일의 서식을 지정하는 파일입니다.
 */
+/* Noto Sans KR */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+/* Raleway */
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* roboto */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
 body {
     display: flex;
@@ -16,29 +20,23 @@ body {
     font-family: 'Raleway', 'Noto Sans KR', sans-serif;
 }
 
-/* .sidebar {
-    display:flex;
-    flex-direction: column;
-    height:100vh;
-    background-color: white;
-    width:337px;
-    justify-content: space-between;
-} */
-
 .chat {
     display: flex;
-    width: 80%;
-    height: 720px;
+    width : 50%;
+    height : 90%;
+    min-width: 480px;
     flex-direction: column;
     justify-content: top;
     background-color: #343541;
     margin: 5 5;
     align-items: center;
     align-content: center;
+    flex-grow : 1;
 }
 
 .chat-middle {
     display: flex;
+    width:100%;
     flex-direction: row;
     height: max-content;
     border: 1px solid rgba(255, 255, 255, .3);
@@ -67,6 +65,9 @@ body {
     width: 100%;
     height: 62px;
     border: 1px solid rgba(255, 255, 255, .3);
+    background-repeat: no-repeat;
+    background-image: url("/static/dist/img/chatgpt-symbol.svg");
+    background-position: center center;
 }
 
 .chat li {
@@ -83,6 +84,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    color:white;
 }
 .config-row{
     display:flex;
@@ -98,6 +100,30 @@ body {
     display:flex;
     flex-grow:1;
     align-items: start;
+    justify-content: start;
+    align-items: center;
+}
+.config-voice-sel-btn-area
+{
+    display:flex;
+    flex-direction: row;
+}
+.config-voice-sel-btn{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-mal{
+    background: url('https://api.iconify.design/heroicons-solid/user-circle.svg') no-repeat center center / contain;
+    width : 36px;
+    height : 36px;
+}
+.btn-fem{
+    background: url('https://api.iconify.design/heroicons-solid/user-circle.svg') no-repeat center center / contain;
+    width : 36px;
+    height : 36px;
 }
 .message-user {
     align-self: end;
@@ -128,8 +154,17 @@ body {
 
 .main {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    width: 100%;
+    overflow:hidden;
+    height: 100vh;
+}
+
+.main-middle {
+    display: flex;
+    background-color: blue;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
 }
 
 .config {
@@ -145,12 +180,15 @@ body {
 }
 
 header {
-    width: 1583px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
     height: 87px;
+    border: gray;
+    width: 100%;
 }
 
 .message-user {
-    text-align: right;
     color: white;
     background-color: #10A37F;
     border-radius: 8px 8px 0px 8px;
@@ -169,7 +207,7 @@ header {
 .slider {
     -webkit-appearance: none;
     width: 100%;
-    height: 12px;
+    height: 4px;
     background: #d3d3d3;
     outline: none;
     opacity: 0.7;
@@ -184,17 +222,17 @@ header {
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #04AA6D;
+    width: 14px;
+    height: 14px;
+    background: #10A37F;
     cursor: pointer;
     border-radius: 50%;
 }
 
 .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #04AA6D;
+    width: 14px;
+    height: 14px;
+    background: #10A37F;
     cursor: pointer;
     border-radius: 50%;
 }
@@ -203,8 +241,8 @@ header {
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 30px;
+    height: 17px;
 }
 
 .switch input {
@@ -220,7 +258,7 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color:gray;
     -webkit-transition: .4s;
     transition: .4s;
 }
@@ -228,32 +266,32 @@ header {
 .toggle:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 13px;
+    width: 13px;
+    left: 2px;
+    bottom: 2px;
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
 }
 
 input:checked+.toggle {
-    background-color: #2196F3;
+    background-color: #10A37F;
 }
 
 input:focus+.toggle {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #10A37F;
 }
 
 input:checked+.toggle:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
 }
 
 /* Rounded sliders */
 .toggle.round {
-    border-radius: 34px;
+    border-radius: 17px;
 }
 
 .toggle.round:before {
@@ -266,9 +304,15 @@ input:checked+.toggle:before {
     background-position: center;
     background-size: contain; 
     border: none;
-    width: 100px;  /* width of your SVG image */
-    height: 100px; /* height of your SVG image */
+    width: 100px;
+    height: 100px;
     cursor: pointer;
-    /* Add more styles as needed */
     border-radius: 50%;
+}
+
+footer {
+    background-color: rgba(133, 134, 141, .5);
+    text-align: center;
+    color:white;
+    padding: 20px 0;
 }
