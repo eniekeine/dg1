@@ -1,9 +1,7 @@
-import sys
-import os
+# 파일이름 : app.py 
 from flask import Flask, render_template, send_from_directory, jsonify
 
 app = Flask(__name__)
-basedir = os.path.abspath(__file__)
 
 @app.route('/')
 def current_time():

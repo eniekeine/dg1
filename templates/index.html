@@ -8,26 +8,26 @@
     <script defer src="{{ url_for('static', filename='dist/js/index.js') }}"></script>
 </head>
 <body>
-    <section class="sidebar">
-        <ul>
-            <li>채팅 1</li>
-            <li>채팅 2</li>
-        </ul>
-    </section>
+    {% include 'sidebar.html' %}
     <section class="main">    
-        <header>
-            <h1>GPTalk</h1>
-        </header>
+        {% include 'header.html' %}
         <div class="chat">
             <ul>
-                <li>
+                <li class="message righted">
+                    <div class="role assistant">사용자</div>
+                    <div class="content">안녕하고 말해봐</div>
+                </li>
+                <li class="message lefted">
+                    <div class="role user">ChatGPT</div>
+                    <div class="content">안녕
+                        <span class="btn-play">듣기</span>
+                    </div>
                 </li>
             </ul>
         </div>
         <button onclick=sayhi()>sayhi</button>
         <p class="pout"></p>
+        {% include 'footer.html' %}
     </section>
-    <footer>
-    </footer>
 </body>
 </html>

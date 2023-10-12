@@ -19,3 +19,37 @@ body {
     width:128px;
     justify-content: space-between;
 }
+
+.chat{
+    display:flex;
+    width:480px;
+    height:360px;
+    overflow-y: scroll;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 5 5;
+    list-style-type: none;
+}
+.righted{
+    background-color : #ffaaaa;
+    text-align: right;
+}
+.lefted{
+    background-color : #aaffaa;
+    text-align: left;
+}
+.role {
+    display:inline;
+    background-color: #ffddff;
+    border-radius: 5px;
+    margin: 5 5;
+}
+.content {
+    padding-bottom:10px;
+    margin: 5 5;
+}
+.main{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
