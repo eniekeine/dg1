@@ -25,6 +25,7 @@ body {
     display: flex;
     overflow: hidden;
     height: 100vh;
+    width: 80%;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -77,6 +78,7 @@ header {
     flex-grow: 1;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .chat-messages {
@@ -86,6 +88,7 @@ header {
     margin: 0 0;
     overflow-y: scroll;
     max-height: 480px;
+    width: 100%;
 }
 
 .chat-top-filler {
@@ -113,6 +116,7 @@ header {
     justify-content: flex-start;
     color: white;
     border: 1px solid rgba(255, 255, 255, .3);
+    flex-grow:0;
 }
 
 .config-row {
