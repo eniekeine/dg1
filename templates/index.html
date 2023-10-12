@@ -13,17 +13,25 @@
     <section class="main">
         {% include 'header.html' %}
         <div class="chat">
-            <ul>
-                <li class="message-user">
-                    <div class="content">Why is the sky blue?</div>
-                </li>
-                <li class="message-assistant">
-                    <div class="content">The sky appears blue because of the scattering of sunlight by Earth's atmosphere. As sunlight enters the atmosphere, it encounters tiny molecules of gas and other particles in the air.These particles scatter the light in all directions. However, blue light is scattered more than other colors because it travels in smaller, shorter waves. This is known as Rayleigh scattering.</div>
-                </li>
-            </ul>
+            <div class="chat-top-filler">GPTalk</div>
+            <div class="chat-middle">
+                <div class="chat-middle-left">
+                    <ul>
+                        <li class="message-user">
+                            <div class="content">Why is the sky blue?</div>
+                        </li>
+                        <li class="message-assistant">
+                            <div class="content">The sky appears blue because of the scattering of sunlight by Earth's atmosphere. As sunlight enters the atmosphere, it encounters tiny molecules of gas and other particles in the air.These particles scatter the light in all directions. However, blue light is scattered more than other colors because it travels in smaller, shorter waves. This is known as Rayleigh scattering.</div>
+                        </li>
+                    </ul>
+                    <div>
+                        <button class="btn-mic"></button>
+                    </div>
+                </div>
+                {% include 'config.html' %}
+            </div>
         </div>
         {% include 'footer.html' %}
     </section>
-    {% include 'config.html' %}
 </body>
 </html>

@@ -5,13 +5,17 @@
 */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 body {
-    display:flex;
+    display: flex;
     flex-direction: row;
-    padding: 0; /* 내 안의 자식과의 간격 */
-    margin : 0; /* 내 바깥의 부모와의 간격 */
+    padding: 0;
+    /* 내 안의 자식과의 간격 */
+    margin: 0;
+    /* 내 바깥의 부모와의 간격 */
     font-family: 'Raleway', 'Noto Sans KR', sans-serif;
 }
+
 /* .sidebar {
     display:flex;
     flex-direction: column;
@@ -21,71 +25,250 @@ body {
     justify-content: space-between;
 } */
 
-.chat{
-    display:flex;
-    width:480px;
-    height:360px;
-    overflow-y: scroll;
+.chat {
+    display: flex;
+    width: 80%;
+    height: 720px;
     flex-direction: column;
-    justify-content: space-between;
-    background-color : #343541;
+    justify-content: top;
+    background-color: #343541;
     margin: 5 5;
     align-items: center;
     align-content: center;
 }
-.chat li{
-    list-style-type: none;
+
+.chat-middle {
+    display: flex;
+    flex-direction: row;
+    height: max-content;
+    border: 1px solid rgba(255, 255, 255, .3);
+    flex-grow: 1;
 }
-.righted{
-    background-color : #ffaaaa;
+
+.chat-middle-left {
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    border: 1px solid rgba(255, 255, 255, .3);
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, .3);
+    margin: 0 0;
+    overflow-y: scroll;
+}
+
+.chat-top-filler {
+    width: 100%;
+    height: 62px;
+    border: 1px solid rgba(255, 255, 255, .3);
+}
+
+.chat li {
+    list-style-type: none;
+    margin: 48px 96px;
+    padding: 10px 10px;
+    width: fit-content;
+    block-size: fit-content;
+}
+
+.config {
+    width: 400px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.config-row{
+    display:flex;
+    flex-direction: row;
+    flex-grow: 0;
+    margin: 10px;
+}
+.config-col1{
+    display:flex;
+    width: 100px;
+}
+.config-col2{
+    display:flex;
+    flex-grow:1;
+    align-items: start;
+}
+.message-user {
+    align-self: end;
+}
+
+.righted {
+    background-color: #ffaaaa;
+    align-self: end;
     text-align: right;
 }
-.lefted{
-    background-color : #aaffaa;
+
+.lefted {
+    background-color: #aaffaa;
     text-align: left;
 }
+
 .role {
-    display:inline;
+    display: inline;
     background-color: #ffddff;
     border-radius: 5px;
     margin: 5 5;
 }
+
 .content {
-    padding-bottom:10px;
+    padding-bottom: 10px;
     margin: 5 5;
 }
-.main{
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width:1386;
-    height:816;
-}
-.config {
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
+
 .main {
-    display:flex;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-header{
+
+.config {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header {
     width: 1583px;
     height: 87px;
 }
-.message-user{
+
+.message-user {
     text-align: right;
-    color:white;
+    color: white;
     background-color: #10A37F;
     border-radius: 8px 8px 0px 8px;
-    padding:12px;
-    width:auto;
-    align-self:flex-end;
+    padding: 12px;
+    width: auto;
+    align-self: flex-end;
 }
-.message-assistant{
-    color:white;
-    background-color: rgba(1.0, 1.0, 1.0, 0.2);
-    
+
+.message-assistant {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+
+}
+
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_rangeslider */
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 12px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.toggle:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.toggle {
+    background-color: #2196F3;
+}
+
+input:focus+.toggle {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.toggle:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.toggle.round {
+    border-radius: 34px;
+}
+
+.toggle.round:before {
+    border-radius: 50%;
+}
+
+.btn-mic {
+    background-image: url("/static/dist/img/mic-svgrepo-com.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain; 
+    border: none;
+    width: 100px;  /* width of your SVG image */
+    height: 100px; /* height of your SVG image */
+    cursor: pointer;
+    /* Add more styles as needed */
+    border-radius: 50%;
 }
