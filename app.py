@@ -1,6 +1,6 @@
 import sys
 import os
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, jsonify
 
 app = Flask(__name__)
 basedir = os.path.abspath(__file__)
@@ -13,6 +13,10 @@ def current_time():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/sayhi')
+def sayhi():
+    return jsonify({"text":"hi"})
 
 @app.route('/static/<path:path>')
 def serve_static(path):

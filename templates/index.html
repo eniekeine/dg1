@@ -8,16 +8,24 @@
     <script defer src="{{ url_for('static', filename='dist/js/index.js') }}"></script>
 </head>
 <body>
-    <header>
-        <h1>GPTalk</h1>
-    </header>
-    <section class="main">
+    <section class="sidebar">
+        <ul>
+            <li>채팅 1</li>
+            <li>채팅 2</li>
+        </ul>
+    </section>
+    <section class="main">    
+        <header>
+            <h1>GPTalk</h1>
+        </header>
         <div class="chat">
             <ul>
                 <li>
                 </li>
             </ul>
         </div>
+        <button onclick=sayhi()>sayhi</button>
+        <p class="pout"></p>
     </section>
     <footer>
     </footer>

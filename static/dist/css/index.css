@@ -3,3 +3,19 @@
     생성일 : 2023년 10월 12일 이경근이 만들었습니다.
     설명 : index.html 파일의 서식을 지정하는 파일입니다.
 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+body {
+    display:flex;
+    flex-direction: row;
+    padding: 0; /* 내 안의 자식과의 간격 */
+    margin : 0; /* 내 바깥의 부모와의 간격 */
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.sidebar {
+    display:flex;
+    flex-direction: column;
+    height:100vh;
+    background-color: red;
+    width:128px;
+    justify-content: space-between;
+}
