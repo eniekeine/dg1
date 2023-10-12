@@ -23,7 +23,7 @@ body {
 
 .main {
     display: flex;
-    overflow:hidden;
+    overflow: hidden;
     height: 100vh;
     flex-direction: column;
     justify-content: space-between;
@@ -43,13 +43,13 @@ header {
     justify-content: center;
     align-items: center;
     flex-grow: 1;
-    padding:0px 50px;
+    padding: 0px 50px;
 }
 
 .chat {
     display: flex;
-    width : 50%;
-    height : 90%;
+    width: 50%;
+    height: 90%;
     min-width: 480px;
     flex-direction: column;
     justify-content: top;
@@ -57,12 +57,12 @@ header {
     margin: 5 5;
     align-items: center;
     align-content: center;
-    flex-grow : 1;
+    flex-grow: 1;
 }
 
 .chat-middle {
     display: flex;
-    width:100%;
+    width: 100%;
     flex-direction: row;
     height: max-content;
     border: 1px solid rgba(255, 255, 255, .3);
@@ -85,6 +85,7 @@ header {
     border: 1px solid rgba(255, 255, 255, .3);
     margin: 0 0;
     overflow-y: scroll;
+    max-height: 480px;
 }
 
 .chat-top-filler {
@@ -96,9 +97,9 @@ header {
     background-position: center center;
 }
 
-.chat li {  
+.chat li {
     list-style-type: none;
-    margin: 48px 96px;
+    margin: 12px 24px;
     padding: 10px 10px;
     width: fit-content;
     block-size: fit-content;
@@ -110,52 +111,52 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    color:white;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, .3);
 }
 
-.config-row{
-    display:flex;
+.config-row {
+    display: flex;
     flex-direction: row;
     flex-grow: 0;
     margin: 10px;
 }
 
-.config-col1{
-    display:flex;
+.config-col1 {
+    display: flex;
     width: 100px;
 }
 
-.config-col2{
-    display:flex;
-    flex-grow:1;
+.config-col2 {
+    display: flex;
+    flex-grow: 1;
     align-items: start;
     justify-content: start;
     align-items: center;
 }
 
-.config-voice-sel-btn-area
-{
-    display:flex;
+.config-voice-sel-btn-area {
+    display: flex;
     flex-direction: row;
 }
 
-.config-voice-sel-btn{
-    display:flex;
+.config-voice-sel-btn {
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: inherit;     /* Use the color of the parent element */
+    text-decoration: none;  /* Remove the underline */
 }
 
-.btn-mal{
-    background: url('https://api.iconify.design/heroicons-solid/user-circle.svg') no-repeat center center / contain;
-    width : 36px;
-    height : 36px;
+.config-voice-sel-btn-tag{
+    color:white;
 }
 
-.btn-fem{
-    background: url('https://api.iconify.design/heroicons-solid/user-circle.svg') no-repeat center center / contain;
-    width : 36px;
-    height : 36px;
+.config-voice-sel-btn ion-icon
+{
+    width:98px;
+    height:98px;
 }
 
 .content {
@@ -169,13 +170,16 @@ header {
     border-radius: 8px 8px 0px 8px;
     padding: 12px;
     width: auto;
+    max-width: 80%;
     align-self: flex-end;
 }
 
 .message-assistant {
     color: white;
+    width: auto;
+    max-width: 80%;
     background-color: rgba(255, 255, 255, 0.2);
-
+    border-radius: 8px, 8px, 8px, 0px;
 }
 
 /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_rangeslider */
@@ -233,7 +237,7 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color:gray;
+    background-color: gray;
     -webkit-transition: .4s;
     transition: .4s;
 }
@@ -273,21 +277,74 @@ input:checked+.toggle:before {
     border-radius: 50%;
 }
 
+.mic-input-area {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .btn-mic {
-    background-image: url("/static/dist/img/mic-svgrepo-com.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain; 
     border: none;
-    width: 100px;
-    height: 100px;
     cursor: pointer;
     border-radius: 50%;
+}
+
+.btn-mic ion-icon {
+    width: 61px;
+    height: 61px;
+    color: #10A37F;
+}
+
+.tag-btn-mic {
+    color:white;
+}
+
+
+.input-container {
+    position: relative;
+    width: 100%;
+    max-width: 650px;
+}
+
+.input-container input {
+    width: 100%;
+    border: none;
+    font-size: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 12px 15px;
+    border-radius: 5px;
+    box-shadow:
+        rgba(0, 0, 0, 0.05) 0 54px 55px,
+        rgba(0, 0, 0, 0.05) 0 -12px 30px,
+        rgba(0, 0, 0, 0.05) 0 4px 6px,
+        rgba(0, 0, 0, 0.05) 0 12px 3px,
+        rgba(0, 0, 0, 0.05) 0 -3px 5px;
+    color: white;
+}
+
+.input-container input:focus {
+    outline: none;
+}
+
+#btn-submit {
+    position: absolute;
+    bottom : 2px;
+    right : 0;
+    cursor : pointer;
+    width: 36px;
+    height: 36px;
+}
+
+#btn-submit ion-icon{
+    background-color: #10A37F;
+    color: white;
+    padding: 5px;
+    border-radius:5px;
 }
 
 footer {
     background-color: rgba(133, 134, 141, .5);
     text-align: center;
-    color:white;
+    color: white;
     padding: 20px 0;
 }
