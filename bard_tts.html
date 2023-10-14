@@ -1,0 +1,77 @@
+<!--
+파일이름 : bard_tts.html
+생성일 : 2023년 10월 14일 강동수가 만들었습니다.
+설명 : 입력한 텍스트를 음성으로 변환하는 코드가 담긴 html파일입니다.
+재생속도 조절을 할수 있는데 초기 설정한 속도로 동작하고
+재생 중간에 속도가 바뀌지 않습니다.
+-->    
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>텍스트를 음성으로 변환</title>
+</head>
+<body>
+    <h1>텍스트를 음성으로 변환</h1>
+    <div id="input-container">
+        <textarea id="text-to-speech" rows="4" cols="50" placeholder="여기에 텍스트를 입력하세요" style="width: 733px; height: 556px;"></textarea>    </div>
+    <label for="rate">음성 출력 속도:</label>
+    <input type="range" id="rate" min="0.1" max="2" step="0.1" value="1">
+    <span id="rate-value">1</span>
+    <button id="speak-button">음성 출력</button>
+    <button id="stop-button">음성 정지</button>
+
+
+
+    <script>
+        var inputContainer = document.getElementById("input-container");
+        var initialText = "텍스트를 입력해주세요";
+        document.getElementById("text-to-speech").value = initialText;
+
+        var rateSlider = document.getElementById("rate");
+        var rateValue = document.getElementById("rate-value");
+
+        var speakButton = document.getElementById("speak-button");
+        var stopButton = document.getElementById("stop-button");
+        var speaking = false; // 음성 출력 중 여부
+
+        // 포커스가 텍스트 입력란에 들어갈 때 초기 텍스트를 지우고 이벤트 제거
+        document.getElementById("text-to-speech").addEventListener("focus", function () {
+            if (this.value === initialText) {
+                this.value = "";
+            }
+        });
+
+        // 슬라이더 값 변경 시 음성 출력 속도 업데이트
+        rateSlider.addEventListener("input", function () {
+            var rate = parseFloat(this.value);
+            rateValue.textContent = rate;
+        });
+
+        // 버튼 클릭 시 음성 출력
+        speakButton.addEventListener("click", function () {
+            var text = document.getElementById("text-to-speech").value;
+            if (text && text !== initialText && !speaking) {
+                var rate = parseFloat(rateSlider.value);
+                var speech = new SpeechSynthesisUtterance(text);
+                speech.rate = rate;
+                window.speechSynthesis.speak(speech);
+                speaking = true;
+
+                // 음성 출력이 완료되면 speaking 변수를 false로 설정
+                speech.onend = function () {
+                    speaking = false;
+                };
+            }
+        });
+
+        // 정지 버튼 클릭 시 음성 출력 중지
+        stopButton.addEventListener("click", function () {
+            if (speaking) {
+                window.speechSynthesis.cancel();
+                speaking = false;
+            }
+        });
+    </script>
+</body>
+</html>

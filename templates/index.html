@@ -4,8 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/index.css') }}">
+    <script defer src="{{ url_for('static', filename='dist/js/index.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='dist/js/sidebar.js') }}"></script>
 </head>
 <body>
-    홈페이지 입니다. 안녕하세요
+    {% include 'sidebar.html' %}
+    <section class="main">
+        {% include 'header.html' %}
+        <div class="main-middle">
+            <div class="chat">
+                <div class="chat-top-filler"></div>
+                <div class="chat-middle">
+                    <div class="chat-middle-left">
+                        <ul class="chat-messages">
+                        </ul>
+                        <div class="mic-input-area">
+                            <div class="tag-btn-mic">누르고 음성 입력</div>
+                            <a href="#" class="btn-mic">
+                                <ion-icon name="mic-circle"></ion-icon>
+                            </a>
+                        </div>
+                        <div class = "input-container">
+                            <input id="txt-input"/>
+                            <a id="btn-submit"><ion-icon name="paper-plane-outline"></ion-icon></a>
+                        </div>
+                    </div>
+                    {% include 'config.html' %}
+                </div>
+            </div>
+        </div>
+        {% include 'footer.html' %}
+    </section>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
