@@ -4,9 +4,7 @@
 # 앱의 이름이 app일 경우 이 줄은 사실 필요 없습니다.
 # 추후 앱의 이름이 바뀔 경우 이 환경변수의 값 또한 바뀌어야 합니다.
 export FLASK_APP=app
-
-#open ai api키를 윈도우 환경변수에 로딩합니다
-source ~/.zshrc
+export OPENAI_API_KEY=!!여기를 API KEY로 바꿔주세요!! # sk-....l6
 
 #제대로 로딩되었는지 확인하여 출력합니다
 echo $OPENAI_API_KEY
