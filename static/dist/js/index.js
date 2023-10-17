@@ -39,7 +39,8 @@
                 });
                 elemBtnCopy.addEventListener('mousedown', (event) => {
                     console.log("btn-copy");
-                    console.log(this.content);
+                    navigator.clipboard.writeText(this.content);
+                    alert("'" + this.content + "' 가 클립보드에 복사되었습니다.");
                 });
                 li.appendChild(clone);
             }
