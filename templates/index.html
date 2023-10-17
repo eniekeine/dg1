@@ -9,6 +9,10 @@
     <script defer src="{{ url_for('static', filename='dist/js/sidebar.js') }}"></script>
 </head>
 <body>
+    <template id="template-message-menu">
+        <a href="#" class="btn-play"><ion-icon name="megaphone-outline"></ion-icon></a>
+        <a href="#" class="btn-copy"><ion-icon name="clipboard-outline"></ion-icon></a>
+    </template>
     {% include 'sidebar.html' %}
     <section class="main">
         {% include 'header.html' %}
@@ -34,6 +38,7 @@
                 </div>
             </div>
         </div>
+        <div id="target"></div>
         {% include 'footer.html' %}
     </section>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

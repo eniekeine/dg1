@@ -26,7 +26,23 @@
             divContent.textContent = this.content;
             // li 요소를 div 요소의 부모로 설정
             li.appendChild(divContent);
-            
+            // 메세지 메뉴
+            if( this.role == "assistant" )
+            {
+                const templateMessageMenu = document.querySelector('#template-message-menu').content;
+                const clone = document.importNode(templateMessageMenu, true); // This creates a deep clone of the template content.
+                const elemBtnPlay = clone.querySelector(".btn-play");
+                const elemBtnCopy = clone.querySelector(".btn-copy");
+                elemBtnPlay.addEventListener('mousedown', (event) => {
+                    console.log("btn-play");
+                    console.log(this.content);
+                });
+                elemBtnCopy.addEventListener('mousedown', (event) => {
+                    console.log("btn-copy");
+                    console.log(this.content);
+                });
+                li.appendChild(clone);
+            }
             return li;
         }
     }
