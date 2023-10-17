@@ -4,7 +4,6 @@
     설명 : index.html 파일의 로직을 지정하는 파일입니다.
 */
 import {ChatModel} from './chat-model.js'
-import {Message} from './message.js'
 
 // ChatModel의 배열. 히스토리에 표시되는 채팅 목록. i.e. `why is the sky blue?, 가나다라마바사`
 let chats = [];
