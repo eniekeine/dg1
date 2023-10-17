@@ -354,3 +354,13 @@ footer {
     color: white;
     padding: 20px 0;
 }
+
+.btn-play {
+    color: inherit;         /* Use the color of the parent element */
+    text-decoration: none;  /* Remove the underline */
+}
+
+.btn-copy {
+    color: inherit;         /* Use the color of the parent element */
+    text-decoration: none;  /* Remove the underline */
+}
