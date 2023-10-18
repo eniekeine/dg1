@@ -4,11 +4,9 @@
     설명 : index.html 파일의 로직을 지정하는 파일입니다.
 */
 import {ChatModel} from './chat-model.js'
+import {} from './sidebar.js'
+import {prevChat, currChat, selectChat, addChat, saveChats, loadChats} from './models.js'
 
-// ChatModel의 배열. 히스토리에 표시되는 채팅 목록. i.e. `why is the sky blue?, 가나다라마바사`
-let chats = [];
-// current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
-let currChat = null;
 // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
 // 사용자가 음성 입력을 하려고 할 때 누를는 마이크 버튼
 const elemBtnMic = document.querySelector('.btn-mic');
@@ -28,120 +26,34 @@ const elemBtnSubmit = document.querySelector('#btn-submit');
 const elemTxtInput = document.querySelector('#txt-input');
 // 채팅 메세지가 표시되는 영역
 const elemChatMessages = document.querySelector('.chat-messages');
-
-// 히스토리에 표시되는 채팅 목록 요소를 만드는 함수
-function createNavLink(chatModel) {
-    // Create anchor element
-    const anchor = document.createElement('a');
-    anchor.href = '#';
-    anchor.classList.add('nav__link');
-
-    // Create ion-icon element
-    const ionIcon = document.createElement('ion-icon');
-    ionIcon.name = "chatbubbles-outline";
-    ionIcon.classList.add('nav__icon');
-    anchor.appendChild(ionIcon); // Attach ion-icon to anchor
-
-    // Create span for chat name
-    const span = document.createElement('span');
-    span.classList.add('nav_name');
-    span.textContent = chatModel.title;
-    anchor.appendChild(span); // Attach span to anchor
-
-    anchor.addEventListener('mousedown', event => {
-        selectChat(chatModel)
-    });
-
-    return anchor;
-}
-
-// 사이드바에 채팅 목록 요소를 추가하는 함수
-function updateSidebar()
-{
-    for(let i = 0; i < chats.length; ++i )
-    {
-        let nl = createNavLink(chats[i])
-        document.querySelector('.nav__list').appendChild(nl)
-    }
-}
-
-function saveChats()
-{
-    chats[0].saveToLocalStorage(chats[0].id)
-    chats[1].saveToLocalStorage(chats[1].id)
-
-    // TODO : 2 개 보다 더 많은 챗 지원하기
-}
-
-function loadChats()
-{
-    chats = [new ChatModel(), new ChatModel()]
-    chats[0].loadFromLocalStorage(chats[0].id)
-    chats[1].loadFromLocalStorage(chats[1].id)
-
-    // TODO : 2개 보다 더 많은 챗 지원하기
-}
-
-function makeSampleChats()
-{
-    const sampleChat1 = new ChatModel();
-    sampleChat1.id = 1;
-    sampleChat1.title = "why is the sky blue?";
-    sampleChat1.addMessage("user", "Why is the sky blue?");
-    sampleChat1.addMessage("assistant", 
-    "The sky appears blue because of the scattering of sunlight by Earth's atmosphere. " +
-    "As sunlight enters the atmosphere, it encounters tiny molecules of gas and other " +
-    "particles in the air.These particles scatter the light in all directions. " +
-    "However, blue light is scattered more than other colors because it travels in smaller, " +
-    "shorter waves. This is known as Rayleigh scattering.")
-
-    const sampleChat2 = new ChatModel()
-    sampleChat2.id = 2;
-    sampleChat2.title = "가나다라마바사"
-    sampleChat2.addMessage("user", "가나다라마바사");
-    sampleChat2.addMessage("assistant", "아자차카타파하");
-    sampleChat2.addMessage("user", "아야어여오요");
-    sampleChat2.addMessage("assistant", "우유으이");
-    sampleChat2.addMessage("user", "소프트웨어");
-    sampleChat2.addMessage("assistant", "개발");
-    sampleChat2.addMessage("user", "소프트웨어");
-    sampleChat2.addMessage("assistant", "개발자");
-    sampleChat2.addMessage("user", "소프트웨어");
-    sampleChat2.addMessage("assistant", "설계");
-    sampleChat2.addMessage("user", "소프트웨어");
-    sampleChat2.addMessage("assistant", "엔지니어링");
-    
-    const sampleChat3 = new ChatModel()
-    sampleChat3.id = 3;
-    sampleChat3.title = "1+1"
-    sampleChat3.addMessage("user", "1+1은 뭐야?");
-    sampleChat3.addMessage("assistant", "1+1은 2입니다.");
-
-    chats[0] = sampleChat1;
-    chats[1] = sampleChat2;
-    chats[2] = sampleChat3;
-}
+// 새 채팅 추가 버튼
+const elemBtnNewChat = document.querySelector('.btn-new-chat')
+// 채팅 히스토리 목록
+const elemNavList = document.querySelector('.nav__list');
 
 // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
-function selectChat(chatModel)
-{
-    currChat = chatModel;
-    // 원래 있던 메세지를 삭제
+document.addEventListener("chatsUpdated", event => {
     elemChatMessages.textContent='';
-    // chatModel의 메세지 요소를 만들어서 페이지에 추가
-    for(let i = 0; i < chatModel.messages.length; ++i )
+    // 새로운 채팅으로 옮겨간 경우, 현재 실행중인 답변을 중지
+    if (prevChat != currChat ) audioOutput.pause();
+    // 새로운 채팅이 주어진 경우 채팅 메세지 목록을 새로운 채팅의 내용으로 채우기
+    if (currChat)
     {
-        const li = chatModel.messages[i].createListItem();
-        elemChatMessages.appendChild(li);
+        // chatModel의 메세지 요소를 만들어서 페이지에 추가
+        for(let i = 0; i < currChat.messages.length; ++i )
+        {
+            const li = currChat.messages[i].createListItem();
+            elemChatMessages.appendChild(li);
+        }
+        // 바닥까지 스크롤하기
+        elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
     }
-}
+});
 
-// 둘 중 하나만
-// loadChats(); // 1. 실제 사용시
-makeSampleChats(); // 2. 샘플로 테스트 할 때
-updateSidebar();
+// 이전 세션에서의 채팅 목록을 불러오기
+loadChats();
 // 일단 처음 시작때는 첫번째 채팅을 보는 상태로 시작
-selectChat(chats[0])
+// selectChat(chats[0])
 
 // --------------------------
 // 이벤트 리스너
@@ -170,7 +82,8 @@ elemBtnMic.addEventListener('mousedown', function (event) {
             elemTxtInput.value = text;
 
             // 백엔드 서버에 그 내용으로 쿼리를 보내주세요
-            submitQuery();
+            // submitQuery();
+            submitStreamedQuery();
         };
 
         // 비동기적 작업 → 이 작업이 끝났을 때 내가 원하는 코드를 부르려면? 콜백함수(onresult)를 지정해야 됩니다.
@@ -200,38 +113,36 @@ elemBtnMalVoice.addEventListener('mousedown', event => {
     event.preventDefault(); // prevent default navigation behavior
     console.log("남성 목소리");
     setVoiceType('male'); // =============================================================== 아람
-    // TODO : 비서의 응답 소리가 목소리 설정에 따라 달라지도록 합니다.
+    
 })
 
 elemBtnFemVoice.addEventListener('mousedown', event => {
     event.preventDefault(); // prevent default navigation behavior
     console.log("여성 목소리");
     setVoiceType('female'); // =============================================================== 아람
-    // TODO : 비서의 응답 소리가 목소리 설정에 따라 달라지도록 합니다.
+    
 })
-
-// 목소리 유형 변수 (기본값: 남자) ============================================================= 아람
-let selectedVoice = 'ko-KR-Wavenet-C';
 
 // 목소리 유형을 설정하는 함수 ================================================================= 아람
 function setVoiceType(type) {
     // 남자 목소리를 선택한 경우
     if (type === 'male') {
-        selectedVoice = 'ko-KR-Wavenet-C';
+        return 'ko-KR-Wavenet-C';
     }
     // 여자 목소리를 선택한 경우
     else if (type === 'female') {
-        selectedVoice = 'ko-KR-Wavenet-B';
+        return 'ko-KR-Wavenet-B';
     }
+    // 기본 목소리 값 남자
+    return 'ko-KR-Wavenet-C';
 }
 
-// API 키 =============================================================================== 아람
-const apiKey = 'AIzaSyCT5ikIE-05ZiLhjAiDlRs4PgzQxsjXAgQ'; // 실제 API 키로 대체
-// 음성 출력을 위한 오디오 요소
-const audioOutput = new Audio();
-
-// Google Text-to-Speech API를 사용하여 텍스트를 음성으로 변환하는 함수
-function textToSpeech(text) {
+// Google Text-to-Speech API를 사용하여 텍스트를 음성으로 변환하는 함수 ========================================= 아람
+function textToSpeech(text, type) {
+    // API 키
+    const apiKey = 'AIzaSyCT5ikIE-05ZiLhjAiDlRs4PgzQxsjXAgQ'; // 실제 API 키로 대체
+    // 음성 출력을 위한 오디오 요소
+    const audioOutput = new Audio();
     const apiUrl = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
 
     // fetch API를 사용하여 Text-to-Speech API에 요청을 보냅니다.
@@ -242,7 +153,7 @@ function textToSpeech(text) {
         },
         body: JSON.stringify({
             input: { text },
-            voice: { languageCode: 'ko-KR', name: selectedVoice, ssmlGender: 'NEUTRAL' },
+            voice: { languageCode: 'ko-KR', name: setVoiceType(type) },
             audioConfig: { audioEncoding: 'LINEAR16' }
         }),
     })
@@ -299,7 +210,7 @@ function submitQuery()
             // 추가된 메세지까지 포함해서 다시 표시 : 뷰 업데이트
             selectChat(currChat)
             textToSpeech(content); // ========================================================================= 아람
-            console.log(x)
+            saveChats();
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -312,7 +223,8 @@ function submitQuery()
 // 텍스트 입력 후 비행기 버튼을 클릭했을 때 할 일
 elemBtnSubmit.addEventListener('mousedown', event => {
     event.preventDefault(); // prevent def
-    submitQuery();
+    // submitQuery();
+    submitStreamedQuery();
 })
 
 // 텍스트 박스 안의 내용이 바뀔 떄 할 일
@@ -324,3 +236,78 @@ elemTxtInput.addEventListener('input', event => {
 window.addEventListener("beforeunload", event => {
     saveChats();
 });
+
+elemBtnNewChat.addEventListener('mousedown', event => {
+    // 새로운 채팅 데이터
+    const chatModel = new ChatModel();
+    addChat(chatModel)
+    selectChat(chatModel);
+});
+
+async function fetchStreamedQuery(queryText) {
+    const response = await fetch('/text-stream-query', { 
+        method: 'POST' ,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            queryText: queryText,
+        })
+    });
+    if (!response.ok) {
+        throw new Error("fetchStreamedChat failed : Network response was not ok");
+    }
+    console.log("쿼리 제출. 응답 기다리는 중. (쿼리내용 : " + queryText + ")");
+    // 사용자 메세지 추가
+    currChat.addMessage("user", queryText);
+    selectChat(currChat)
+    // 비서 메세지 추가
+    const message = currChat.addMessage("assistant", "")
+    selectChat(currChat)
+    const reader = response.body.getReader();
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+            break;
+        }
+        let delta = new TextDecoder().decode(value);
+        message.content = message.content + delta;
+        // console.log(message.content)
+        // console.log(delta);
+        message.updateView();
+    }
+    // 비서 메세지가 완성되고 나면 음성실행
+    textToSpeech(message.content);
+}
+
+function submitStreamedQuery()
+{
+    let queryText = elemTxtInput.value.trim();
+    // 쿼리가 비어있다면 
+    if( queryText === "" )
+    {
+        console.log("쿼리가 비어있으므로 실행을 취소합니다.")
+        return false;
+    }
+    // 쿼리가 비어있지 않다면
+    else
+    {
+        // 텍스트 상자의 내용을 비우기
+        elemTxtInput.value = ""
+        // 만약 현재 채팅이 없다면
+        if( !currChat )
+        {
+            // 새로운 채팅을 추가
+            let chatModel = new ChatModel();
+            addChat(chatModel)
+            selectChat(chatModel)
+        }
+        fetchStreamedQuery(queryText)
+        .then(() => {
+            saveChats();
+        })
+        .catch(error => {
+            console.error(error)
+        });
+    }
+}

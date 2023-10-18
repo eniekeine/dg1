@@ -1,4 +1,10 @@
-/* GOOGLE FONTS */
+/* Noto Sans KR */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+/* Raleway */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* roboto */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+/* Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
 /* VARIABLES CSS */
@@ -6,13 +12,13 @@
     --nav--width: 92px;
 
     /* Colores */
-    --first-color: #F2F4F8;
+    --first-color: #A2A4A8;
     --bg-color: #F2F4F8;
     --sub-color: #b6cefc;
     --font-color: black;
 
     /* Fuente y tipografia */
-    --body-font: 'Poppins', sans-serif;
+    --body-font: 'Raleway', sans-serif;
     --normal-font-size: 1rem;
     --small-font-size: .875rem;
 
@@ -90,6 +96,10 @@
     font-weight: 600;
 }
 
+.nav-row {
+    position:relative;
+}
+
 .nav__link {
     display: grid;
     grid-template-columns: max-content max-content;
@@ -163,4 +173,45 @@
 .rotate {
     transform: rotate(180deg);
     transition: .5s;
+}
+
+.sidebar-btns{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    
+    border-radius: 10px;
+    border: 1px solid #000;
+    background-color: inherit;
+    overflow:hidden;
+    height : 48px;
+}
+.btn-new-chat{
+    text-decoration: none;
+    color: inherit;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-new-chat-text{
+    overflow:hidden;
+    white-space: nowrap;
+    margin-left: 8px;
+}
+.btn-edit-title{
+    position: absolute;
+    bottom : 7px;
+    right : 0;
+    text-decoration: none;
+    color:inherit;
+}
+.btn-remove-chat{
+    position: absolute;
+    bottom : 7px;
+    right : 20px;
+    text-decoration: none;
+    color:inherit;
+}
+.hidden {
+    display:none;
 }
