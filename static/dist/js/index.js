@@ -361,39 +361,35 @@
     elemBtnMalVoice.addEventListener('mousedown', event => {
         event.preventDefault(); // prevent default navigation behavior
         console.log("남성 목소리");
-        setVoiceType('male'); // =============================================================== 아람
-        // TODO : 비서의 응답 소리가 목소리 설정에 따라 달라지도록 합니다.
+        
     });
 
     elemBtnFemVoice.addEventListener('mousedown', event => {
         event.preventDefault(); // prevent default navigation behavior
         console.log("여성 목소리");
-        setVoiceType('female'); // =============================================================== 아람
-        // TODO : 비서의 응답 소리가 목소리 설정에 따라 달라지도록 합니다.
+        
     });
-
-    // 목소리 유형 변수 (기본값: 남자) ============================================================= 아람
-    let selectedVoice = 'ko-KR-Wavenet-C';
 
     // 목소리 유형을 설정하는 함수 ================================================================= 아람
     function setVoiceType(type) {
         // 남자 목소리를 선택한 경우
         if (type === 'male') {
-            selectedVoice = 'ko-KR-Wavenet-C';
+            return 'ko-KR-Wavenet-C';
         }
         // 여자 목소리를 선택한 경우
         else if (type === 'female') {
-            selectedVoice = 'ko-KR-Wavenet-B';
+            return 'ko-KR-Wavenet-B';
         }
+        // 기본 목소리 값 남자
+        return 'ko-KR-Wavenet-C';
     }
 
-    // API 키 =============================================================================== 아람
-    const apiKey = 'AIzaSyCT5ikIE-05ZiLhjAiDlRs4PgzQxsjXAgQ'; // 실제 API 키로 대체
-    // 음성 출력을 위한 오디오 요소
-    const audioOutput = new Audio();
-
-    // Google Text-to-Speech API를 사용하여 텍스트를 음성으로 변환하는 함수
-    function textToSpeech(text) {
+    // Google Text-to-Speech API를 사용하여 텍스트를 음성으로 변환하는 함수 ========================================= 아람
+    function textToSpeech(text, type) {
+        // API 키
+        const apiKey = 'AIzaSyCT5ikIE-05ZiLhjAiDlRs4PgzQxsjXAgQ'; // 실제 API 키로 대체
+        // 음성 출력을 위한 오디오 요소
+        const audioOutput = new Audio();
         const apiUrl = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
 
         // fetch API를 사용하여 Text-to-Speech API에 요청을 보냅니다.
@@ -404,7 +400,7 @@
             },
             body: JSON.stringify({
                 input: { text },
-                voice: { languageCode: 'ko-KR', name: selectedVoice, ssmlGender: 'NEUTRAL' },
+                voice: { languageCode: 'ko-KR', name: setVoiceType(type) },
                 audioConfig: { audioEncoding: 'LINEAR16' }
             }),
         })
