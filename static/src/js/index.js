@@ -318,4 +318,3 @@ function submitStreamedQuery()
         });
     }
 }
-

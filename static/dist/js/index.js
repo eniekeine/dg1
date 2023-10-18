@@ -156,6 +156,7 @@
     const toggle = document.getElementById('nav-toggle');
     const navbar = document.getElementById('navbar');
     const bodypadding = document.getElementById("body-pd");
+    const elemBtnNewChatText = document.querySelector(".btn-new-chat-text");
 
     // 채팅 목록에 변화가 있을 경우
     document.addEventListener('chatsUpdated', e => {
@@ -185,6 +186,8 @@
             if( show ) editButtons[i].classList.remove('hidden');
             else editButtons[i].classList.add('hidden');
         }
+        if( show ) elemBtnNewChatText.classList.remove('hidden');
+        else elemBtnNewChatText.classList.add('hidden');
     }
 
     // 사이드바에 채팅 목록 요소를 추가하는 함수
