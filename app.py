@@ -88,9 +88,7 @@ def text_stream_query():
         collected_chunks = []
         # iterate through the stream of events
         for chunk in response:
-            print(collected_chunks)
             collected_chunks.append(chunk)  # save the event response
-            print(chunk)
             chunk_message = chunk['choices'][0]['delta']  # extract the message
             content = chunk_message.content
             if len(content) == 0:
