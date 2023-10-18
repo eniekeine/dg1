@@ -70,40 +70,46 @@
             this.messages = [];
             // 제목
             this.title = "chat";
+            // 아이디
+            const uuid = crypto.randomUUID();
+            this.id = uuid;
         }
 
         // 새로운 메세지를 추가하는 함수
         // i.e. 사용자가 "1+1은 뭐야?"
         // i.e. ChatGPT가 "2입니다"
         addMessage(role, content) {
-            const message = new Message(role, content);
+            // 처음 추가된 메세지를 타이틀로 설정
+            if(this.messages.length == 0 ) this.title = content;
+            // 메세지 객체 생성 및 추가
+            const message = new Message(role, content, new Date());
             this.messages.push(message);
-            if(this.messages.length == 0 )
-            {
-                this.title = content;
-            }
             return message;
         }
 
         // 브라우저 저장소에 저장을 하기
-        saveToLocalStorage(key) {
-            const data = JSON.stringify(this.messages);
+        saveToLocalStorage() {
+            const data = JSON.stringify(this);
             // 파이선의 딕셔너리와 유사. key - value 페어
             // setItem으로 데이터를 저장하고나면 브라우저를 껐다가 켜도 데이터가 유지됩니다.
-            localStorage.setItem(key, data);
+            localStorage.setItem(this.id, data);
         }
 
         // 브라우저 저장소에서 불러오기
-        loadFromLocalStorage(key) {
-            const data = localStorage.getItem(key);
+        loadFromLocalStorage(id) {
+            const data = localStorage.getItem(id);
+            const parsed = JSON.parse(data);
             if (data) {
-                this.messages = JSON.parse(data).map(msg => {
+                this.messages = parsed.messages.map(msg => {
                     // Convert the stored date string back to a Date object
-                    msg.timestamp = new Date(msg.timestamp);
-                    return new Message(msg.role, msg.content, msg.timestamp);
+                    return new Message(
+                        msg.role, 
+                        msg.content, 
+                        msg.timestamp
+                    );
                 });
-                this.id = key;
-                this.title = data.title;
+                this.id = id;
+                this.title = parsed.title;
             }
         }
 
@@ -112,39 +118,87 @@
         }
     }
 
-    /*
-        파일이름 : index.js
-        생성일 : 2023년 10월 16일 이경근이 만들었습니다.
-        설명 : index.html 파일의 로직을 지정하는 파일입니다.
-    */
-
     // ChatModel의 배열. 히스토리에 표시되는 채팅 목록. i.e. `why is the sky blue?, 가나다라마바사`
-    let chats = [];
+    const chats = [];
     // current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
     let currChat = null;
-    // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
-    // 사용자가 음성 입력을 하려고 할 때 누를는 마이크 버튼
-    const elemBtnMic = document.querySelector('.btn-mic');
-    // 설정에서 목소리 속도 바꾸는 슬라이더
-    const elemSldConfigRate = document.querySelector('#sld-config-rate');
-    // 설정에서 목소리 볼륨 바꾸는 슬라이더
-    const elemSldConfigVolume = document.querySelector('#sld-config-volume');
-    // 설정에서 자동재생 토글 버튼
-    const elemChkConfigAutoplay = document.querySelector('#chk-config-autoplay');
-    // 남자 목소리 버튼
-    const elemBtnMalVoice = document.querySelector('#btn-mal-voice');
-    // 여자 목소리 버튼
-    const elemBtnFemVoice = document.querySelector('#btn-fem-voice');
-    // 제출 버튼 (비행기 아이콘)
-    const elemBtnSubmit = document.querySelector('#btn-submit');
-    // 텍스트 상자
-    const elemTxtInput = document.querySelector('#txt-input');
-    // 채팅 메세지가 표시되는 영역
-    const elemChatMessages = document.querySelector('.chat-messages');
-    // 새 채팅 추가 버튼
-    const elemBtnNewChat = document.querySelector('.btn-new-chat');
-    // 채팅 히스토리 목록
+    const evtChatsUpdated = new Event('chatsUpdated', {
+        chats : chats
+    });
+    function selectChat(chatModel)
+    {
+        currChat = chatModel;
+        document.dispatchEvent(evtChatsUpdated);
+    }
+
+    function addChat(chatModel)
+    {
+        chats.push(chatModel);
+    }
+
+    function saveChats()
+    {
+        let ids = [];
+        for(let i = 0; i < chats.length; ++i )
+        {
+            ids.push(chats[i].id);
+        }
+        localStorage.setItem("ids", JSON.stringify(ids));
+        for(let i = 0; i < chats.length; ++i )
+        {
+            chats[i].saveToLocalStorage(ids[i]);
+        }
+    }
+
+    /* EXPANDER MENU */
+    let navState = 'close';
     const elemNavList = document.querySelector('.nav__list');
+
+    // 채팅 목록에 변화가 있을 경우
+    document.addEventListener('chatsUpdated', e => {
+        // 사이드바의 내용을 그에 맞춰 업데이트 할 것
+        updateSidebar();
+    });
+
+    const showMenu = (toggleId, navbarId, bodyId) => {
+      const toggle = document.getElementById(toggleId),
+      navbar = document.getElementById(navbarId),
+      bodypadding = document.getElementById(bodyId);
+
+      if( toggle && navbar ) {
+          toggle.addEventListener('click', ()=>{
+              if( navState == 'close' ) navState = 'open';
+              else navState = 'close';
+              navbar.classList.toggle('expander');
+              bodypadding.classList.toggle('body-pd');
+              let removeButtons = document.getElementsByClassName('btn-remove-chat');
+              for( let i = 0; i < removeButtons.length; ++i )
+              {
+                if( navState == 'close' ) removeButtons[i].classList.add('hidden');
+                else removeButtons[i].classList.remove('hidden');
+              }
+              let editButtons = document.getElementsByClassName('btn-edit-title');
+              for( let i = 0; i < editButtons.length; ++i )
+              {
+                if( navState == 'close' ) editButtons[i].classList.add('hidden');
+                else editButtons[i].classList.remove('hidden');
+              }
+          });
+      }
+    };
+
+    showMenu('nav-toggle', 'navbar', 'body-pd');
+
+    // 사이드바에 채팅 목록 요소를 추가하는 함수
+    function updateSidebar()
+    {
+        elemNavList.textContent = "";
+        for(let i = 0; i < chats.length; ++i )
+        {
+            let nl = createNavLink(chats[i]);
+            elemNavList.appendChild(nl);
+        }
+    }
 
     // 히스토리에 표시되는 채팅 목록 요소를 만드는 함수
     function createNavLink(chatModel) {
@@ -167,35 +221,40 @@
         elemBtnEditTitle.addEventListener('mousedown', event => {
             console.log("edit");
         });
-
+        if ( chatModel == currChat )
+            anchor.classList.add('active');
         return clone;
     }
 
-    // 사이드바에 채팅 목록 요소를 추가하는 함수
-    function updateSidebar()
-    {
-        const elemNavList = document.querySelector('.nav__list');
-        elemNavList.textContent = "";
-        for(let i = 0; i < chats.length; ++i )
-        {
-            let nl = createNavLink(chats[i]);
-            document.querySelector('.nav__list').appendChild(nl);
-        }
-    }
+    /*
+        파일이름 : index.js
+        생성일 : 2023년 10월 16일 이경근이 만들었습니다.
+        설명 : index.html 파일의 로직을 지정하는 파일입니다.
+    */
 
-    function saveChats()
-    {
-        let ids = [];
-        for(let i = 0; i < chats.length; ++i )
-        {
-            ids.push(chats[i].id);
-        }
-        localStorage.setItem("ids", JSON.stringify(ids));
-        for(let i = 0; i < chats.length; ++i )
-        {
-            chats[i].saveToLocalStorage(ids[i]);
-        }
-    }
+    // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
+    // 사용자가 음성 입력을 하려고 할 때 누를는 마이크 버튼
+    const elemBtnMic = document.querySelector('.btn-mic');
+    // 설정에서 목소리 속도 바꾸는 슬라이더
+    const elemSldConfigRate = document.querySelector('#sld-config-rate');
+    // 설정에서 목소리 볼륨 바꾸는 슬라이더
+    const elemSldConfigVolume = document.querySelector('#sld-config-volume');
+    // 설정에서 자동재생 토글 버튼
+    const elemChkConfigAutoplay = document.querySelector('#chk-config-autoplay');
+    // 남자 목소리 버튼
+    const elemBtnMalVoice = document.querySelector('#btn-mal-voice');
+    // 여자 목소리 버튼
+    const elemBtnFemVoice = document.querySelector('#btn-fem-voice');
+    // 제출 버튼 (비행기 아이콘)
+    const elemBtnSubmit = document.querySelector('#btn-submit');
+    // 텍스트 상자
+    const elemTxtInput = document.querySelector('#txt-input');
+    // 채팅 메세지가 표시되는 영역
+    const elemChatMessages = document.querySelector('.chat-messages');
+    // 새 채팅 추가 버튼
+    const elemBtnNewChat = document.querySelector('.btn-new-chat');
+    // 채팅 히스토리 목록
+    document.querySelector('.nav__list');
 
     function loadChats()
     {
@@ -208,72 +267,27 @@
         {
             const loadedChat = new ChatModel();
             loadedChat.loadFromLocalStorage(ids[i]);
-            chats.push(loadedChat);
+            addChat(loadedChat);
         }
-    }
-
-    function makeSampleChats()
-    {
-        const sampleChat1 = new ChatModel();
-        sampleChat1.id = 1;
-        sampleChat1.title = "why is the sky blue?";
-        sampleChat1.addMessage("user", "Why is the sky blue?");
-        sampleChat1.addMessage("assistant", 
-        "The sky appears blue because of the scattering of sunlight by Earth's atmosphere. " +
-        "As sunlight enters the atmosphere, it encounters tiny molecules of gas and other " +
-        "particles in the air.These particles scatter the light in all directions. " +
-        "However, blue light is scattered more than other colors because it travels in smaller, " +
-        "shorter waves. This is known as Rayleigh scattering.");
-
-        const sampleChat2 = new ChatModel();
-        sampleChat2.id = 2;
-        sampleChat2.title = "가나다라마바사";
-        sampleChat2.addMessage("user", "가나다라마바사");
-        sampleChat2.addMessage("assistant", "아자차카타파하");
-        sampleChat2.addMessage("user", "아야어여오요");
-        sampleChat2.addMessage("assistant", "우유으이");
-        sampleChat2.addMessage("user", "소프트웨어");
-        sampleChat2.addMessage("assistant", "개발");
-        sampleChat2.addMessage("user", "소프트웨어");
-        sampleChat2.addMessage("assistant", "개발자");
-        sampleChat2.addMessage("user", "소프트웨어");
-        sampleChat2.addMessage("assistant", "설계");
-        sampleChat2.addMessage("user", "소프트웨어");
-        sampleChat2.addMessage("assistant", "엔지니어링");
-        
-        const sampleChat3 = new ChatModel();
-        sampleChat3.id = 3;
-        sampleChat3.title = "1+1";
-        sampleChat3.addMessage("user", "1+1은 뭐야?");
-        sampleChat3.addMessage("assistant", "1+1은 2입니다.");
-
-        chats[0] = sampleChat1;
-        chats[1] = sampleChat2;
-        chats[2] = sampleChat3;
     }
 
     // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
-    function selectChat(chatModel)
-    {
-        currChat = chatModel;
-        // 원래 있던 메세지를 삭제
+    document.addEventListener("chatsUpdated", event => {
         elemChatMessages.textContent='';
         // chatModel의 메세지 요소를 만들어서 페이지에 추가
-        for(let i = 0; i < chatModel.messages.length; ++i )
+        for(let i = 0; i < currChat.messages.length; ++i )
         {
-            const li = chatModel.messages[i].createListItem();
+            const li = currChat.messages[i].createListItem();
             elemChatMessages.appendChild(li);
         }
         elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
-    }
+    });
 
     // 둘 중 하나만
     loadChats(); // 1. 실제 사용시
-    makeSampleChats(); // 2. 샘플로 테스트 할 때
     updateSidebar();
     // 일단 처음 시작때는 첫번째 채팅을 보는 상태로 시작
-    selectChat(chats[0]);
-
+    // selectChat(chats[0])
 
     // --------------------------
     // 이벤트 리스너
@@ -414,10 +428,7 @@
         chatModel.id = uuid;
         // 채팅 타이틀
         chatModel.title = "새로운 채팅";
-        createNavLink(chatModel);
-        chats.push(chatModel);
-        const navLink = createNavLink(chatModel);
-        elemNavList.appendChild(navLink);
+        addChat(chatModel);
         selectChat(chatModel);
     });
 
@@ -469,7 +480,14 @@
         // 쿼리가 비어있지 않다면
         else
         {
-            fetchStreamedQuery(queryText);
+            fetchStreamedQuery(queryText)
+            .then(() => {
+                console.log("뭐임");
+                saveChats();
+            })
+            .catch(error => {
+                console.error(error);
+            });
         }
     }
 

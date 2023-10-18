@@ -4,11 +4,9 @@
     설명 : index.html 파일의 로직을 지정하는 파일입니다.
 */
 import {ChatModel} from './chat-model.js'
+import {updateSidebar} from './sidebar.js'
+import {currChat, selectChat, addChat, saveChats} from './models.js'
 
-// ChatModel의 배열. 히스토리에 표시되는 채팅 목록. i.e. `why is the sky blue?, 가나다라마바사`
-let chats = [];
-// current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
-let currChat = null;
 // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
 // 사용자가 음성 입력을 하려고 할 때 누를는 마이크 버튼
 const elemBtnMic = document.querySelector('.btn-mic');
@@ -33,57 +31,6 @@ const elemBtnNewChat = document.querySelector('.btn-new-chat')
 // 채팅 히스토리 목록
 const elemNavList = document.querySelector('.nav__list');
 
-// 히스토리에 표시되는 채팅 목록 요소를 만드는 함수
-function createNavLink(chatModel) {
-    const templateNavLink = document.querySelector('#template-nav-link').content;
-    const clone = document.importNode(templateNavLink, true); // This creates a deep clone of the template content.
-    const anchor = clone.querySelector('.nav__link');
-    const elemBtnRemoveChat = clone.querySelector('.btn-remove-chat');
-    const elemBtnEditTitle = clone.querySelector('.btn-edit-title');
-    const span = anchor.querySelector('span');
-    span.textContent = chatModel.title;
-    anchor.addEventListener('mousedown', event => {
-        selectChat(chatModel)
-    });
-    elemBtnRemoveChat.addEventListener('mousedown', event =>{
-        console.log("remove")
-        let index = chats.indexOf(chatModel);
-        chats.splice(index, 1)
-        updateSidebar();
-    })
-    elemBtnEditTitle.addEventListener('mousedown', event => {
-        console.log("edit")
-    })
-
-    return clone;
-}
-
-// 사이드바에 채팅 목록 요소를 추가하는 함수
-function updateSidebar()
-{
-    const elemNavList = document.querySelector('.nav__list');
-    elemNavList.textContent = ""
-    for(let i = 0; i < chats.length; ++i )
-    {
-        let nl = createNavLink(chats[i])
-        document.querySelector('.nav__list').appendChild(nl)
-    }
-}
-
-function saveChats()
-{
-    let ids = []
-    for(let i = 0; i < chats.length; ++i )
-    {
-        ids.push(chats[i].id)
-    }
-    localStorage.setItem("ids", JSON.stringify(ids))
-    for(let i = 0; i < chats.length; ++i )
-    {
-        chats[i].saveToLocalStorage(ids[i])
-    }
-}
-
 function loadChats()
 {
     let ids = JSON.parse(localStorage.getItem("ids"));
@@ -95,72 +42,27 @@ function loadChats()
     {
         const loadedChat = new ChatModel();
         loadedChat.loadFromLocalStorage(ids[i])
-        chats.push(loadedChat)
+        addChat(loadedChat)
     }
-}
-
-function makeSampleChats()
-{
-    const sampleChat1 = new ChatModel();
-    sampleChat1.id = 1;
-    sampleChat1.title = "why is the sky blue?";
-    sampleChat1.addMessage("user", "Why is the sky blue?");
-    sampleChat1.addMessage("assistant", 
-    "The sky appears blue because of the scattering of sunlight by Earth's atmosphere. " +
-    "As sunlight enters the atmosphere, it encounters tiny molecules of gas and other " +
-    "particles in the air.These particles scatter the light in all directions. " +
-    "However, blue light is scattered more than other colors because it travels in smaller, " +
-    "shorter waves. This is known as Rayleigh scattering.")
-
-    const sampleChat2 = new ChatModel()
-    sampleChat2.id = 2;
-    sampleChat2.title = "가나다라마바사"
-    sampleChat2.addMessage("user", "가나다라마바사");
-    sampleChat2.addMessage("assistant", "아자차카타파하");
-    sampleChat2.addMessage("user", "아야어여오요");
-    sampleChat2.addMessage("assistant", "우유으이");
-    sampleChat2.addMessage("user", "소프트웨어");
-    sampleChat2.addMessage("assistant", "개발");
-    sampleChat2.addMessage("user", "소프트웨어");
-    sampleChat2.addMessage("assistant", "개발자");
-    sampleChat2.addMessage("user", "소프트웨어");
-    sampleChat2.addMessage("assistant", "설계");
-    sampleChat2.addMessage("user", "소프트웨어");
-    sampleChat2.addMessage("assistant", "엔지니어링");
-    
-    const sampleChat3 = new ChatModel()
-    sampleChat3.id = 3;
-    sampleChat3.title = "1+1"
-    sampleChat3.addMessage("user", "1+1은 뭐야?");
-    sampleChat3.addMessage("assistant", "1+1은 2입니다.");
-
-    chats[0] = sampleChat1;
-    chats[1] = sampleChat2;
-    chats[2] = sampleChat3;
 }
 
 // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
-function selectChat(chatModel)
-{
-    currChat = chatModel;
-    // 원래 있던 메세지를 삭제
+document.addEventListener("chatsUpdated", event => {
     elemChatMessages.textContent='';
     // chatModel의 메세지 요소를 만들어서 페이지에 추가
-    for(let i = 0; i < chatModel.messages.length; ++i )
+    for(let i = 0; i < currChat.messages.length; ++i )
     {
-        const li = chatModel.messages[i].createListItem();
+        const li = currChat.messages[i].createListItem();
         elemChatMessages.appendChild(li);
     }
     elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
-}
+});
 
 // 둘 중 하나만
 loadChats(); // 1. 실제 사용시
-makeSampleChats(); // 2. 샘플로 테스트 할 때
 updateSidebar();
 // 일단 처음 시작때는 첫번째 채팅을 보는 상태로 시작
-selectChat(chats[0])
-
+// selectChat(chats[0])
 
 // --------------------------
 // 이벤트 리스너
@@ -354,10 +256,7 @@ elemBtnNewChat.addEventListener('mousedown', event => {
     chatModel.id = uuid;
     // 채팅 타이틀
     chatModel.title = "새로운 채팅";
-    createNavLink(chatModel)
-    chats.push(chatModel);
-    const navLink = createNavLink(chatModel)
-    elemNavList.appendChild(navLink);
+    addChat(chatModel)
     selectChat(chatModel);
 });
 
@@ -409,6 +308,14 @@ function submitStreamedQuery()
     // 쿼리가 비어있지 않다면
     else
     {
-        fetchStreamedQuery(queryText);
+        fetchStreamedQuery(queryText)
+        .then(() => {
+            console.log("뭐임")
+            saveChats();
+        })
+        .catch(error => {
+            console.error(error)
+        });
     }
 }
+
