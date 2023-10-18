@@ -45,8 +45,9 @@ export function updateSidebar()
     elemNavList.textContent = ""
     for(let i = 0; i < chats.length; ++i )
     {
-        let nl = createNavLink(chats[i])
-        elemNavList.appendChild(nl)
+        let nl = createNavLink(chats[i]);
+        elemNavList.appendChild(nl);
+        nl.chatModel = chats[i];
     }
     showButtons(navState == 'open')
 }
@@ -59,21 +60,33 @@ export function createNavLink(chatModel) {
     const elemBtnRemoveChat = clone.querySelector('.btn-remove-chat');
     const elemBtnEditTitle = clone.querySelector('.btn-edit-title');
     const span = anchor.querySelector('span');
+    const elemTxtEditTitle = clone.querySelector('.txt-edit-title');
     span.textContent = chatModel.title;
     anchor.addEventListener('mousedown', event => {
         selectChat(chatModel)
     });
     elemBtnRemoveChat.addEventListener('mousedown', event =>{
-        if( currChat == chatModel )
-        {
-            selectChat(null)
-        }
+        if( currChat == chatModel ) selectChat(null)
         removeChat(chatModel)
     })
     elemBtnEditTitle.addEventListener('mousedown', event => {
         console.log("edit")
+        elemTxtEditTitle.classList.remove('hidden');
     })
-    if ( chatModel == currChat )
-        anchor.classList.add('active');
+    elemTxtEditTitle.addEventListener('keyup', event => {
+        if(event.key === "Escape") 
+        {
+            elemTxtEditTitle.classList.add('hidden')
+        }
+        else if (event.key === "Enter" )
+        {
+            const newTitle = elemTxtEditTitle.value.trim();
+            if (newTitle === "" ) return;
+            chatModel.title = elemTxtEditTitle.value;
+            elemTxtEditTitle.classList.add('hidden')
+            updateSidebar();
+        }
+    });
+    if ( chatModel == currChat ) anchor.classList.add('active');
     return clone;
 }

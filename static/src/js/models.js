@@ -98,6 +98,8 @@ export function removeChat(chatModel)
     chats.splice(index, 1)
     document.dispatchEvent(evtChatsUpdated);
     document.dispatchEvent(new CustomEvent('chatRemoved', {
-        removed : chatModel
+        detail : {
+            removed : chatModel
+        }
     }))
 }

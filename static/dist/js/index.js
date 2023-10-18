@@ -172,7 +172,9 @@
         chats.splice(index, 1);
         document.dispatchEvent(evtChatsUpdated);
         document.dispatchEvent(new CustomEvent('chatRemoved', {
-            removed : chatModel
+            detail : {
+                removed : chatModel
+            }
         }));
     }
 
@@ -224,6 +226,7 @@
         {
             let nl = createNavLink(chats[i]);
             elemNavList.appendChild(nl);
+            nl.chatModel = chats[i];
         }
         showButtons(navState == 'open');
     }
@@ -236,22 +239,34 @@
         const elemBtnRemoveChat = clone.querySelector('.btn-remove-chat');
         const elemBtnEditTitle = clone.querySelector('.btn-edit-title');
         const span = anchor.querySelector('span');
+        const elemTxtEditTitle = clone.querySelector('.txt-edit-title');
         span.textContent = chatModel.title;
         anchor.addEventListener('mousedown', event => {
             selectChat(chatModel);
         });
         elemBtnRemoveChat.addEventListener('mousedown', event =>{
-            if( currChat == chatModel )
-            {
-                selectChat(null);
-            }
+            if( currChat == chatModel ) selectChat(null);
             removeChat(chatModel);
         });
         elemBtnEditTitle.addEventListener('mousedown', event => {
             console.log("edit");
+            elemTxtEditTitle.classList.remove('hidden');
         });
-        if ( chatModel == currChat )
-            anchor.classList.add('active');
+        elemTxtEditTitle.addEventListener('keyup', event => {
+            if(event.key === "Escape") 
+            {
+                elemTxtEditTitle.classList.add('hidden');
+            }
+            else if (event.key === "Enter" )
+            {
+                const newTitle = elemTxtEditTitle.value.trim();
+                if (newTitle === "" ) return;
+                chatModel.title = elemTxtEditTitle.value;
+                elemTxtEditTitle.classList.add('hidden');
+                updateSidebar();
+            }
+        });
+        if ( chatModel == currChat ) anchor.classList.add('active');
         return clone;
     }
 
@@ -305,9 +320,8 @@
     });
 
     document.addEventListener('chatRemoved', e => {
-        console.log(e);
-        const removed = e.removed;
-        console.log(removed);
+        const removed = e.detail.removed;
+        console.log('removed', removed);
     });
 
     // 이전 세션에서의 채팅 목록을 불러오기
@@ -433,8 +447,10 @@
     });
 
     // 텍스트 박스 안의 내용이 바뀔 떄 할 일
-    elemTxtInput.addEventListener('input', event => {
-        console.log(event.target.value);
+    elemTxtInput.addEventListener('keyup', event => {
+        if (event.key === 'Enter' || event.keyCode === 13) {
+            submitStreamedQuery();
+        }
     });
 
     // 채팅 데이터 저장하기

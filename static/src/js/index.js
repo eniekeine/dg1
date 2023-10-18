@@ -51,9 +51,8 @@ document.addEventListener("chatsUpdated", event => {
 });
 
 document.addEventListener('chatRemoved', e => {
-    console.log(e)
-    const removed = e.removed;
-    console.log(removed);
+    const removed = e.detail.removed;
+    console.log('removed', removed)
 });
 
 // 이전 세션에서의 채팅 목록을 불러오기
@@ -234,8 +233,10 @@ elemBtnSubmit.addEventListener('mousedown', event => {
 })
 
 // 텍스트 박스 안의 내용이 바뀔 떄 할 일
-elemTxtInput.addEventListener('input', event => {
-    console.log(event.target.value);
+elemTxtInput.addEventListener('keyup', event => {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+        submitStreamedQuery();
+    }
 });
 
 // 채팅 데이터 저장하기

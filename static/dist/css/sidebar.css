@@ -229,3 +229,9 @@
 .hidden {
     display:none;
 }
+.txt-edit-title{
+    position:absolute;
+    left : 36px;
+    bottom: 10px;
+    right : 50px;
+}

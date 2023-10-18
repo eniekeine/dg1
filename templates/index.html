@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/index.css') }}">
     <script defer src="{{ url_for('static', filename='dist/js/index.js') }}"></script>
     <template id="template-message-menu">
-        <a href="#" class="btn-play"><ion-icon name="megaphone-outline"></ion-icon></a>
-        <a href="#" class="btn-copy"><ion-icon name="clipboard-outline"></ion-icon></a>
+        <a href="#" title="음성으로 재생" class="btn-play"><ion-icon name="megaphone-outline"></ion-icon></a>
+        <a href="#" title="클립보드에 복사" class="btn-copy"><ion-icon name="clipboard-outline"></ion-icon></a>
     </template>
     <template id="template-nav-link">
         <div class="nav-row">
-            <a href="#" class="btn-edit-title sidebar-chat-button hidden"><ion-icon name="pencil-outline"></ion-icon></a>
-            <a href="#" class="btn-remove-chat sidebar-chat-button hidden"><ion-icon name="trash-outline"></ion-icon></a>
-            <a href="#" class="nav__link">
+            <input class="txt-edit-title hidden"/>
+            <a href="#" title="제목 수정" class="btn-edit-title sidebar-chat-button hidden"><ion-icon name="pencil-outline"></ion-icon></a>
+            <a href="#" title="채팅 삭제" class="btn-remove-chat sidebar-chat-button hidden"><ion-icon name="trash-outline"></ion-icon></a>
+            <a href="#" title="채팅 선택" class="nav__link">
                 <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
                 <span class="nav_name"></span>
             </a>
@@ -32,7 +33,7 @@
                     <div class="chat-middle-left">
                         <ul class="chat-messages">
                         </ul>
-                        <div class="mic-input-area">
+                        <div title="클릭한 뒤 말을 걸어 보세요" class="mic-input-area">
                             <div class="tag-btn-mic">누르고 음성 입력</div>
                             <a href="#" class="btn-mic">
                                 <ion-icon name="mic-circle"></ion-icon>
@@ -40,7 +41,7 @@
                         </div>
                         <div class = "input-container">
                             <input id="txt-input"/>
-                            <a id="btn-submit"><ion-icon name="paper-plane-outline"></ion-icon></a>
+                            <a title="클릭하면 글을 전송합니다" id="btn-submit"><ion-icon name="paper-plane-outline"></ion-icon></a>
                         </div>
                     </div>
                     {% include 'config.html' %}
