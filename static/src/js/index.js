@@ -88,6 +88,10 @@ function saveChats()
 function loadChats()
 {
     const ids = JSON.parse(localStorage.getItem("ids"));
+    if (ids == null)
+    {
+        ids = []
+    }
     for(let i = 0; i < ids.length; ++i )
     {
         const loadedChat = new ChatModel();
