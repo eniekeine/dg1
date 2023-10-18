@@ -7,12 +7,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/index.css') }}">
     <script defer src="{{ url_for('static', filename='dist/js/index.js') }}"></script>
     <script defer src="{{ url_for('static', filename='dist/js/sidebar.js') }}"></script>
-</head>
-<body>
     <template id="template-message-menu">
         <a href="#" class="btn-play"><ion-icon name="megaphone-outline"></ion-icon></a>
         <a href="#" class="btn-copy"><ion-icon name="clipboard-outline"></ion-icon></a>
     </template>
+    <template id="template-nav-link">
+        <div class="nav-row">
+            <a href="#" class="btn-edit-title hidden"><ion-icon name="pencil-outline"></ion-icon></a>
+            <a href="#" class="btn-remove-chat hidden"><ion-icon name="trash-outline"></ion-icon></a>
+            <a href="#" class="nav__link">
+                <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
+                <span class="nav_name"></span>
+            </a>
+        </div>
+    </template>
+</head>
+<body>
     {% include 'sidebar.html' %}
     <section class="main">
         {% include 'header.html' %}

@@ -90,6 +90,10 @@
     font-weight: 600;
 }
 
+.nav-row {
+    position:relative;
+}
+
 .nav__link {
     display: grid;
     grid-template-columns: max-content max-content;
@@ -163,4 +167,38 @@
 .rotate {
     transform: rotate(180deg);
     transition: .5s;
+}
+
+.sidebar-btns{
+    display:flex;
+    justify-items: center;
+    align-items: center;
+    
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #888888;
+}
+.btn-new-chat{
+    text-decoration: none;
+    color: inherit;
+    display:flex;
+    justify-items: center;
+    align-items: center;
+}
+.btn-edit-title{
+    position: absolute;
+    bottom : 7px;
+    right : 0;
+    text-decoration: none;
+    color:inherit;
+}
+.btn-remove-chat{
+    position: absolute;
+    bottom : 7px;
+    right : 20px;
+    text-decoration: none;
+    color:inherit;
+}
+.hidden {
+    display:none;
 }

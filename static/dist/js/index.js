@@ -63,6 +63,10 @@
         addMessage(role, content) {
             const message = new Message(role, content);
             this.messages.push(message);
+            if(this.messages.length == 0 )
+            {
+                this.title = content;
+            }
         }
 
         // 브라우저 저장소에 저장을 하기
@@ -82,6 +86,8 @@
                     msg.timestamp = new Date(msg.timestamp);
                     return new Message(msg.role, msg.content, msg.timestamp);
                 });
+                this.id = key;
+                this.title = data.title;
             }
         }
 
@@ -119,36 +125,42 @@
     const elemTxtInput = document.querySelector('#txt-input');
     // 채팅 메세지가 표시되는 영역
     const elemChatMessages = document.querySelector('.chat-messages');
+    // 새 채팅 추가 버튼
+    const elemBtnNewChat = document.querySelector('.btn-new-chat');
+    // 채팅 히스토리 목록
+    const elemNavList = document.querySelector('.nav__list');
 
     // 히스토리에 표시되는 채팅 목록 요소를 만드는 함수
     function createNavLink(chatModel) {
-        // Create anchor element
-        const anchor = document.createElement('a');
-        anchor.href = '#';
-        anchor.classList.add('nav__link');
-
-        // Create ion-icon element
-        const ionIcon = document.createElement('ion-icon');
-        ionIcon.name = "chatbubbles-outline";
-        ionIcon.classList.add('nav__icon');
-        anchor.appendChild(ionIcon); // Attach ion-icon to anchor
-
-        // Create span for chat name
-        const span = document.createElement('span');
-        span.classList.add('nav_name');
+        const templateNavLink = document.querySelector('#template-nav-link').content;
+        const clone = document.importNode(templateNavLink, true); // This creates a deep clone of the template content.
+        const anchor = clone.querySelector('.nav__link');
+        const elemBtnRemoveChat = clone.querySelector('.btn-remove-chat');
+        const elemBtnEditTitle = clone.querySelector('.btn-edit-title');
+        const span = anchor.querySelector('span');
         span.textContent = chatModel.title;
-        anchor.appendChild(span); // Attach span to anchor
-
         anchor.addEventListener('mousedown', event => {
             selectChat(chatModel);
         });
+        
+        elemBtnRemoveChat.addEventListener('mousedown', event =>{
+            console.log("remove");
+            let index = chats.indexOf(chatModel);
+            chats.splice(index, 1);
+            updateSidebar();
+        });
+        elemBtnEditTitle.addEventListener('mousedown', event => {
+            console.log("edit");
+        });
 
-        return anchor;
+        return clone;
     }
 
     // 사이드바에 채팅 목록 요소를 추가하는 함수
     function updateSidebar()
     {
+        const elemNavList = document.querySelector('.nav__list');
+        elemNavList.textContent = "";
         for(let i = 0; i < chats.length; ++i )
         {
             let nl = createNavLink(chats[i]);
@@ -158,10 +170,27 @@
 
     function saveChats()
     {
-        chats[0].saveToLocalStorage(chats[0].id);
-        chats[1].saveToLocalStorage(chats[1].id);
+        let ids = [];
+        for(let i = 0; i < chats.length; ++i )
+        {
+            ids.push(chats[i].id);
+        }
+        localStorage.setItem("ids", JSON.stringify(ids));
+        for(let i = 0; i < chats.length; ++i )
+        {
+            chats[i].saveToLocalStorage(ids[i]);
+        }
+    }
 
-        // TODO : 2 개 보다 더 많은 챗 지원하기
+    function loadChats()
+    {
+        const ids = JSON.parse(localStorage.getItem("ids"));
+        for(let i = 0; i < ids.length; ++i )
+        {
+            const loadedChat = new ChatModel();
+            loadedChat.loadFromLocalStorage(ids[i]);
+            chats.push(loadedChat);
+        }
     }
 
     function makeSampleChats()
@@ -219,7 +248,7 @@
     }
 
     // 둘 중 하나만
-    // loadChats(); // 1. 실제 사용시
+    loadChats(); // 1. 실제 사용시
     makeSampleChats(); // 2. 샘플로 테스트 할 때
     updateSidebar();
     // 일단 처음 시작때는 첫번째 채팅을 보는 상태로 시작
@@ -381,6 +410,7 @@
                 // 추가된 메세지까지 포함해서 다시 표시 : 뷰 업데이트
                 selectChat(currChat);
                 textToSpeech(content); // ========================================================================= 아람
+                saveChats();
                 console.log(x);
             })
             .catch((error) => {
@@ -405,6 +435,18 @@
     // 채팅 데이터 저장하기
     window.addEventListener("beforeunload", event => {
         saveChats();
+    });
+
+    elemBtnNewChat.addEventListener('mousedown', event => {
+        const chatModel = new ChatModel();
+        const uuid = crypto.randomUUID();
+        chatModel.id = uuid;
+        chatModel.title = "새로운 채팅";
+        createNavLink(chatModel);
+        chats.push(chatModel);
+        const navLink = createNavLink(chatModel);
+        elemNavList.appendChild(navLink);
+        selectChat(chatModel);
     });
 
 })();

@@ -15,6 +15,10 @@ export class ChatModel {
     addMessage(role, content) {
         const message = new Message(role, content);
         this.messages.push(message);
+        if(this.messages.length == 0 )
+        {
+            this.title = content;
+        }
     }
 
     // 브라우저 저장소에 저장을 하기
@@ -34,6 +38,8 @@ export class ChatModel {
                 msg.timestamp = new Date(msg.timestamp);
                 return new Message(msg.role, msg.content, msg.timestamp);
             });
+            this.id = key;
+            this.title = data.title;
         }
     }
 
