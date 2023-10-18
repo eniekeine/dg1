@@ -1,3 +1,5 @@
+import {ChatModel} from './chat-model.js'
+
 // ChatModel의 배열. 히스토리에 표시되는 채팅 목록. i.e. `why is the sky blue?, 가나다라마바사`
 export const chats = [];
 // current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
@@ -67,5 +69,20 @@ export function saveChats()
     for(let i = 0; i < chats.length; ++i )
     {
         chats[i].saveToLocalStorage(ids[i])
+    }
+}
+
+export function loadChats()
+{
+    let ids = JSON.parse(localStorage.getItem("ids"));
+    if (ids == null)
+    {
+        ids = []
+    }
+    for(let i = 0; i < ids.length; ++i )
+    {
+        const loadedChat = new ChatModel();
+        loadedChat.loadFromLocalStorage(ids[i])
+        addChat(loadedChat)
     }
 }

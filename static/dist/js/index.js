@@ -149,6 +149,21 @@
         }
     }
 
+    function loadChats()
+    {
+        let ids = JSON.parse(localStorage.getItem("ids"));
+        if (ids == null)
+        {
+            ids = [];
+        }
+        for(let i = 0; i < ids.length; ++i )
+        {
+            const loadedChat = new ChatModel();
+            loadedChat.loadFromLocalStorage(ids[i]);
+            addChat(loadedChat);
+        }
+    }
+
     /* EXPANDER MENU */
     let navState = 'close';
     const elemNavList = document.querySelector('.nav__list');
@@ -257,21 +272,6 @@
     // 채팅 히스토리 목록
     document.querySelector('.nav__list');
 
-    function loadChats()
-    {
-        let ids = JSON.parse(localStorage.getItem("ids"));
-        if (ids == null)
-        {
-            ids = [];
-        }
-        for(let i = 0; i < ids.length; ++i )
-        {
-            const loadedChat = new ChatModel();
-            loadedChat.loadFromLocalStorage(ids[i]);
-            addChat(loadedChat);
-        }
-    }
-
     // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
     document.addEventListener("chatsUpdated", event => {
         elemChatMessages.textContent='';
@@ -284,8 +284,7 @@
         elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
     });
 
-    // 둘 중 하나만
-    loadChats(); // 1. 실제 사용시
+    loadChats();
     updateSidebar();
     // 일단 처음 시작때는 첫번째 채팅을 보는 상태로 시작
     // selectChat(chats[0])
