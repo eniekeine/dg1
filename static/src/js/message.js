@@ -40,7 +40,22 @@ export class Message {
                 alert("'" + this.content + "' 가 클립보드에 복사되었습니다.");
             })
             li.appendChild(clone);
+            this.elemBtnPlay = elemBtnPlay;
+            this.elemBtnCopy = elemBtnCopy;
         }
+        this.li = li;
+        this.divContent = divContent;
         return li;
+    }
+
+    updateView() {
+        // console.log(this.li);
+        // console.log(this.divContent);
+        // console.log(this.elemBtnPlay);
+        // console.log(this.elemBtnCopy);
+        if( this.divContent )
+        {
+            this.divContent.textContent = this.content;
+        }
     }
 }

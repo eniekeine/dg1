@@ -43,8 +43,23 @@
                     alert("'" + this.content + "' 가 클립보드에 복사되었습니다.");
                 });
                 li.appendChild(clone);
+                this.elemBtnPlay = elemBtnPlay;
+                this.elemBtnCopy = elemBtnCopy;
             }
+            this.li = li;
+            this.divContent = divContent;
             return li;
+        }
+
+        updateView() {
+            // console.log(this.li);
+            // console.log(this.divContent);
+            // console.log(this.elemBtnPlay);
+            // console.log(this.elemBtnCopy);
+            if( this.divContent )
+            {
+                this.divContent.textContent = this.content;
+            }
         }
     }
 
@@ -143,7 +158,6 @@
         anchor.addEventListener('mousedown', event => {
             selectChat(chatModel);
         });
-        
         elemBtnRemoveChat.addEventListener('mousedown', event =>{
             console.log("remove");
             let index = chats.indexOf(chatModel);
@@ -250,6 +264,7 @@
             const li = chatModel.messages[i].createListItem();
             elemChatMessages.appendChild(li);
         }
+        elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
     }
 
     // 둘 중 하나만
@@ -392,9 +407,12 @@
     });
 
     elemBtnNewChat.addEventListener('mousedown', event => {
+        // 새로운 채팅 데이터
         const chatModel = new ChatModel();
+        // 아이디는 UUID 적용
         const uuid = crypto.randomUUID();
         chatModel.id = uuid;
+        // 채팅 타이틀
         chatModel.title = "새로운 채팅";
         createNavLink(chatModel);
         chats.push(chatModel);
@@ -416,11 +434,13 @@
         if (!response.ok) {
             throw new Error("fetchStreamedChat failed : Network response was not ok");
         }
+        console.log("쿼리 제출. 응답 기다리는 중. (쿼리내용 : " + queryText + ")");
         // 사용자 메세지 추가
         currChat.addMessage("user", queryText);
         selectChat(currChat);
         // 비서 메세지 추가
         const message = currChat.addMessage("assistant", "");
+        selectChat(currChat);
         const reader = response.body.getReader();
         while (true) {
             const { done, value } = await reader.read();
@@ -429,9 +449,9 @@
             }
             let delta = new TextDecoder().decode(value);
             message.content = message.content + delta;
-            console.log(message.content);
-            console.log(delta);
-            selectChat(currChat);
+            // console.log(message.content)
+            // console.log(delta);
+            message.updateView();
         }
         // 비서 메세지가 완성되고 나면 음성실행
         textToSpeech(message.content);
