@@ -4,7 +4,7 @@
     설명 : index.html 파일의 로직을 지정하는 파일입니다.
 */
 import {ChatModel} from './chat-model.js'
-import {updateSidebar} from './sidebar.js'
+import {} from './sidebar.js'
 import {prevChat, currChat, selectChat, addChat, saveChats, loadChats} from './models.js'
 
 // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
