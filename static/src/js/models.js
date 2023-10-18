@@ -4,16 +4,20 @@ import {ChatModel} from './chat-model.js'
 export const chats = [];
 // current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
 export let currChat = null;
+export let prevChat = null;
 export const evtChatsUpdated = new Event('chatsUpdated', {
     chats : chats
 });
 export function selectChat(chatModel)
 {
-    currChat = chatModel
-    document.dispatchEvent(evtChatsUpdated)
+    // 현재 채팅이 무엇이었는 지 기록
+    prevChat = currChat;
+    // 현재 채팅을 주어진 chatModel로 설정
+    currChat = chatModel;
+    document.dispatchEvent(evtChatsUpdated);
 }
 
-function makeSampleChats()
+export function makeSampleChats()
 {
     const sampleChat1 = new ChatModel();
     sampleChat1.id = 1;

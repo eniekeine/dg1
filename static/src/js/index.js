@@ -4,8 +4,7 @@
     설명 : index.html 파일의 로직을 지정하는 파일입니다.
 */
 import {ChatModel} from './chat-model.js'
-import {updateSidebar} from './sidebar.js'
-import {currChat, selectChat, addChat, saveChats, loadChats} from './models.js'
+import {prevChat, currChat, selectChat, addChat, saveChats, loadChats} from './models.js'
 
 // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
 // 사용자가 음성 입력을 하려고 할 때 누를는 마이크 버튼
@@ -34,17 +33,24 @@ const elemNavList = document.querySelector('.nav__list');
 // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
 document.addEventListener("chatsUpdated", event => {
     elemChatMessages.textContent='';
-    // chatModel의 메세지 요소를 만들어서 페이지에 추가
-    for(let i = 0; i < currChat.messages.length; ++i )
+    // 새로운 채팅으로 옮겨간 경우, 현재 실행중인 답변을 중지
+    if (prevChat != currChat ) audioOutput.pause();
+    // 새로운 채팅이 주어진 경우 채팅 메세지 목록을 새로운 채팅의 내용으로 채우기
+    if (currChat)
     {
-        const li = currChat.messages[i].createListItem();
-        elemChatMessages.appendChild(li);
+        // chatModel의 메세지 요소를 만들어서 페이지에 추가
+        for(let i = 0; i < currChat.messages.length; ++i )
+        {
+            const li = currChat.messages[i].createListItem();
+            elemChatMessages.appendChild(li);
+        }
+        // 바닥까지 스크롤하기
+        elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
     }
-    elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
 });
 
+// 이전 세션에서의 채팅 목록을 불러오기
 loadChats();
-updateSidebar();
 // 일단 처음 시작때는 첫번째 채팅을 보는 상태로 시작
 // selectChat(chats[0])
 

@@ -64,7 +64,11 @@ export function createNavLink(chatModel) {
         selectChat(chatModel)
     });
     elemBtnRemoveChat.addEventListener('mousedown', event =>{
-        console.log("remove")
+        if( currChat == chatModel )
+        {
+            console.log("currChat removed")
+            selectChat(null)
+        }
         let index = chats.indexOf(chatModel);
         chats.splice(index, 1)
         updateSidebar();

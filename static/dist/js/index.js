@@ -121,11 +121,15 @@
     const chats = [];
     // current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
     let currChat = null;
+    let prevChat = null;
     const evtChatsUpdated = new Event('chatsUpdated', {
         chats : chats
     });
     function selectChat(chatModel)
     {
+        // 현재 채팅이 무엇이었는 지 기록
+        prevChat = currChat;
+        // 현재 채팅을 주어진 chatModel로 설정
         currChat = chatModel;
         document.dispatchEvent(evtChatsUpdated);
     }
@@ -164,84 +168,6 @@
         }
     }
 
-    /* EXPANDER MENU */
-    let navState = 'close';
-    const elemNavList = document.querySelector('.nav__list');
-    const toggle = document.getElementById('nav-toggle');
-    const navbar = document.getElementById('navbar');
-    const bodypadding = document.getElementById("body-pd");
-    const elemBtnNewChatText = document.querySelector(".btn-new-chat-text");
-
-    // 채팅 목록에 변화가 있을 경우
-    document.addEventListener('chatsUpdated', e => {
-        // 사이드바의 내용을 그에 맞춰 업데이트 할 것
-        updateSidebar();
-    });
-
-    toggle.addEventListener('click', ()=>{
-        if( navState == 'close' ) navState = 'open';
-        else navState = 'close';
-        navbar.classList.toggle('expander');
-        bodypadding.classList.toggle('body-pd');
-        showButtons(navState == 'open');
-    });
-
-    function showButtons(show)
-    {
-        let removeButtons = document.getElementsByClassName('btn-remove-chat');
-        for( let i = 0; i < removeButtons.length; ++i )
-        {
-            if( show ) removeButtons[i].classList.remove('hidden');
-            else removeButtons[i].classList.add('hidden');
-        }
-        let editButtons = document.getElementsByClassName('btn-edit-title');
-        for( let i = 0; i < editButtons.length; ++i )
-        {
-            if( show ) editButtons[i].classList.remove('hidden');
-            else editButtons[i].classList.add('hidden');
-        }
-        if( show ) elemBtnNewChatText.classList.remove('hidden');
-        else elemBtnNewChatText.classList.add('hidden');
-    }
-
-    // 사이드바에 채팅 목록 요소를 추가하는 함수
-    function updateSidebar()
-    {
-        elemNavList.textContent = "";
-        for(let i = 0; i < chats.length; ++i )
-        {
-            let nl = createNavLink(chats[i]);
-            elemNavList.appendChild(nl);
-        }
-        showButtons(navState == 'open');
-    }
-
-    // 히스토리에 표시되는 채팅 목록 요소를 만드는 함수
-    function createNavLink(chatModel) {
-        const templateNavLink = document.querySelector('#template-nav-link').content;
-        const clone = document.importNode(templateNavLink, true); // This creates a deep clone of the template content.
-        const anchor = clone.querySelector('.nav__link');
-        const elemBtnRemoveChat = clone.querySelector('.btn-remove-chat');
-        const elemBtnEditTitle = clone.querySelector('.btn-edit-title');
-        const span = anchor.querySelector('span');
-        span.textContent = chatModel.title;
-        anchor.addEventListener('mousedown', event => {
-            selectChat(chatModel);
-        });
-        elemBtnRemoveChat.addEventListener('mousedown', event =>{
-            console.log("remove");
-            let index = chats.indexOf(chatModel);
-            chats.splice(index, 1);
-            updateSidebar();
-        });
-        elemBtnEditTitle.addEventListener('mousedown', event => {
-            console.log("edit");
-        });
-        if ( chatModel == currChat )
-            anchor.classList.add('active');
-        return clone;
-    }
-
     /*
         파일이름 : index.js
         생성일 : 2023년 10월 16일 이경근이 만들었습니다.
@@ -275,17 +201,24 @@
     // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
     document.addEventListener("chatsUpdated", event => {
         elemChatMessages.textContent='';
-        // chatModel의 메세지 요소를 만들어서 페이지에 추가
-        for(let i = 0; i < currChat.messages.length; ++i )
+        // 새로운 채팅으로 옮겨간 경우, 현재 실행중인 답변을 중지
+        if (prevChat != currChat ) audioOutput.pause();
+        // 새로운 채팅이 주어진 경우 채팅 메세지 목록을 새로운 채팅의 내용으로 채우기
+        if (currChat)
         {
-            const li = currChat.messages[i].createListItem();
-            elemChatMessages.appendChild(li);
+            // chatModel의 메세지 요소를 만들어서 페이지에 추가
+            for(let i = 0; i < currChat.messages.length; ++i )
+            {
+                const li = currChat.messages[i].createListItem();
+                elemChatMessages.appendChild(li);
+            }
+            // 바닥까지 스크롤하기
+            elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
         }
-        elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
     });
 
+    // 이전 세션에서의 채팅 목록을 불러오기
     loadChats();
-    updateSidebar();
     // 일단 처음 시작때는 첫번째 채팅을 보는 상태로 시작
     // selectChat(chats[0])
 
