@@ -1,5 +1,5 @@
 /* EXPANDER MENU */
-import {chats, currChat, selectChat} from './models.js'
+import {chats, currChat, selectChat, removeChat} from './models.js'
 let navState = 'close';
 const elemNavList = document.querySelector('.nav__list');
 const toggle = document.getElementById('nav-toggle')
@@ -66,12 +66,9 @@ export function createNavLink(chatModel) {
     elemBtnRemoveChat.addEventListener('mousedown', event =>{
         if( currChat == chatModel )
         {
-            console.log("currChat removed")
             selectChat(null)
         }
-        let index = chats.indexOf(chatModel);
-        chats.splice(index, 1)
-        updateSidebar();
+        removeChat(chatModel)
     })
     elemBtnEditTitle.addEventListener('mousedown', event => {
         console.log("edit")

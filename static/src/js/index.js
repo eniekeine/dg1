@@ -35,7 +35,7 @@ const elemNavList = document.querySelector('.nav__list');
 document.addEventListener("chatsUpdated", event => {
     elemChatMessages.textContent='';
     // 새로운 채팅으로 옮겨간 경우, 현재 실행중인 답변을 중지
-    if (prevChat != currChat ) audioOutput.pause();
+    // if (prevChat != currChat ) audioOutput.pause(); // audioOutput 요소를 노출시켜 주셔야 할 수 있어요
     // 새로운 채팅이 주어진 경우 채팅 메세지 목록을 새로운 채팅의 내용으로 채우기
     if (currChat)
     {
@@ -48,6 +48,12 @@ document.addEventListener("chatsUpdated", event => {
         // 바닥까지 스크롤하기
         elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
     }
+});
+
+document.addEventListener('chatRemoved', e => {
+    console.log(e)
+    const removed = e.removed;
+    console.log(removed);
 });
 
 // 이전 세션에서의 채팅 목록을 불러오기

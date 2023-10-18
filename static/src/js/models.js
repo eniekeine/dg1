@@ -5,7 +5,7 @@ export const chats = [];
 // current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
 export let currChat = null;
 export let prevChat = null;
-export const evtChatsUpdated = new Event('chatsUpdated', {
+const evtChatsUpdated = new CustomEvent('chatsUpdated', {
     chats : chats
 });
 export function selectChat(chatModel)
@@ -60,6 +60,7 @@ export function makeSampleChats()
 export function addChat(chatModel)
 {
     chats.push(chatModel);
+    document.dispatchEvent(evtChatsUpdated)
 }
 
 export function saveChats()
@@ -89,4 +90,14 @@ export function loadChats()
         loadedChat.loadFromLocalStorage(ids[i])
         addChat(loadedChat)
     }
+}
+
+export function removeChat(chatModel)
+{
+    let index = chats.indexOf(chatModel);
+    chats.splice(index, 1)
+    document.dispatchEvent(evtChatsUpdated);
+    document.dispatchEvent(new CustomEvent('chatRemoved', {
+        removed : chatModel
+    }))
 }

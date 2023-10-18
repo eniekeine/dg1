@@ -121,14 +121,11 @@
     const chats = [];
     // current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
     let currChat = null;
-    let prevChat = null;
-    const evtChatsUpdated = new Event('chatsUpdated', {
+    const evtChatsUpdated = new CustomEvent('chatsUpdated', {
         chats : chats
     });
     function selectChat(chatModel)
     {
-        // 현재 채팅이 무엇이었는 지 기록
-        prevChat = currChat;
         // 현재 채팅을 주어진 chatModel로 설정
         currChat = chatModel;
         document.dispatchEvent(evtChatsUpdated);
@@ -137,6 +134,7 @@
     function addChat(chatModel)
     {
         chats.push(chatModel);
+        document.dispatchEvent(evtChatsUpdated);
     }
 
     function saveChats()
@@ -166,6 +164,16 @@
             loadedChat.loadFromLocalStorage(ids[i]);
             addChat(loadedChat);
         }
+    }
+
+    function removeChat(chatModel)
+    {
+        let index = chats.indexOf(chatModel);
+        chats.splice(index, 1);
+        document.dispatchEvent(evtChatsUpdated);
+        document.dispatchEvent(new CustomEvent('chatRemoved', {
+            removed : chatModel
+        }));
     }
 
     /* EXPANDER MENU */
@@ -235,12 +243,9 @@
         elemBtnRemoveChat.addEventListener('mousedown', event =>{
             if( currChat == chatModel )
             {
-                console.log("currChat removed");
                 selectChat(null);
             }
-            let index = chats.indexOf(chatModel);
-            chats.splice(index, 1);
-            updateSidebar();
+            removeChat(chatModel);
         });
         elemBtnEditTitle.addEventListener('mousedown', event => {
             console.log("edit");
@@ -284,7 +289,7 @@
     document.addEventListener("chatsUpdated", event => {
         elemChatMessages.textContent='';
         // 새로운 채팅으로 옮겨간 경우, 현재 실행중인 답변을 중지
-        if (prevChat != currChat ) audioOutput.pause();
+        // if (prevChat != currChat ) audioOutput.pause(); // audioOutput 요소를 노출시켜 주셔야 할 수 있어요
         // 새로운 채팅이 주어진 경우 채팅 메세지 목록을 새로운 채팅의 내용으로 채우기
         if (currChat)
         {
@@ -297,6 +302,12 @@
             // 바닥까지 스크롤하기
             elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
         }
+    });
+
+    document.addEventListener('chatRemoved', e => {
+        console.log(e);
+        const removed = e.removed;
+        console.log(removed);
     });
 
     // 이전 세션에서의 채팅 목록을 불러오기
