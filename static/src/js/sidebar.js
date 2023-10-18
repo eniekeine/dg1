@@ -2,6 +2,9 @@
 import {chats, currChat, selectChat} from './models.js'
 let navState = 'close';
 const elemNavList = document.querySelector('.nav__list');
+const toggle = document.getElementById('nav-toggle')
+const navbar = document.getElementById('navbar')
+const bodypadding = document.getElementById("body-pd")
 
 // 채팅 목록에 변화가 있을 경우
 document.addEventListener('chatsUpdated', e => {
@@ -9,34 +12,29 @@ document.addEventListener('chatsUpdated', e => {
     updateSidebar();
 });
 
-const showMenu = (toggleId, navbarId, bodyId) => {
-  const toggle = document.getElementById(toggleId),
-  navbar = document.getElementById(navbarId),
-  bodypadding = document.getElementById(bodyId)
+toggle.addEventListener('click', ()=>{
+    if( navState == 'close' ) navState = 'open';
+    else navState = 'close';
+    navbar.classList.toggle('expander');
+    bodypadding.classList.toggle('body-pd');
+    showButtons(navState == 'open')
+})
 
-  if( toggle && navbar ) {
-      toggle.addEventListener('click', ()=>{
-          if( navState == 'close' ) navState = 'open';
-          else navState = 'close';
-          navbar.classList.toggle('expander');
-          bodypadding.classList.toggle('body-pd');
-          let removeButtons = document.getElementsByClassName('btn-remove-chat')
-          for( let i = 0; i < removeButtons.length; ++i )
-          {
-            if( navState == 'close' ) removeButtons[i].classList.add('hidden')
-            else removeButtons[i].classList.remove('hidden')
-          }
-          let editButtons = document.getElementsByClassName('btn-edit-title')
-          for( let i = 0; i < editButtons.length; ++i )
-          {
-            if( navState == 'close' ) editButtons[i].classList.add('hidden')
-            else editButtons[i].classList.remove('hidden')
-          }
-      })
-  }
+function showButtons(show)
+{
+    let removeButtons = document.getElementsByClassName('btn-remove-chat')
+    for( let i = 0; i < removeButtons.length; ++i )
+    {
+        if( show ) removeButtons[i].classList.remove('hidden')
+        else removeButtons[i].classList.add('hidden')
+    }
+    let editButtons = document.getElementsByClassName('btn-edit-title')
+    for( let i = 0; i < editButtons.length; ++i )
+    {
+        if( show ) editButtons[i].classList.remove('hidden')
+        else editButtons[i].classList.add('hidden')
+    }
 }
-
-showMenu('nav-toggle', 'navbar', 'body-pd')
 
 // 사이드바에 채팅 목록 요소를 추가하는 함수
 export function updateSidebar()
@@ -47,6 +45,7 @@ export function updateSidebar()
         let nl = createNavLink(chats[i])
         elemNavList.appendChild(nl)
     }
+    showButtons(navState == 'open')
 }
 
 // 히스토리에 표시되는 채팅 목록 요소를 만드는 함수
