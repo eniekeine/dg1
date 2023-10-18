@@ -98,6 +98,7 @@
 
 .nav-row {
     position:relative;
+    overflow:visible;
 }
 
 .nav__link {
@@ -226,12 +227,17 @@
 .btn-remove-chat{
     right : 28px;
 }
+.btn-edit-cancel{
+    right : 28px;
+}
 .hidden {
     display:none;
 }
 .txt-edit-title{
     position:absolute;
     left : 36px;
-    bottom: 10px;
+    bottom: 12px;
     right : 50px;
+    background-color : inehrit;
+    border : 1px rgb(60, 60, 235);
 }

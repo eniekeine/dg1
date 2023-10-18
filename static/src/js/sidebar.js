@@ -58,7 +58,9 @@ export function createNavLink(chatModel) {
     const clone = document.importNode(templateNavLink, true); // This creates a deep clone of the template content.
     const anchor = clone.querySelector('.nav__link');
     const elemBtnRemoveChat = clone.querySelector('.btn-remove-chat');
+    const elemIconRemoveChat = elemBtnRemoveChat.querySelector('ion-icon');
     const elemBtnEditTitle = clone.querySelector('.btn-edit-title');
+    const elemIconEditTitle = elemBtnEditTitle.querySelector('ion-icon')
     const span = anchor.querySelector('span');
     const elemTxtEditTitle = clone.querySelector('.txt-edit-title');
     span.textContent = chatModel.title;
@@ -66,12 +68,44 @@ export function createNavLink(chatModel) {
         selectChat(chatModel)
     });
     elemBtnRemoveChat.addEventListener('mousedown', event =>{
-        if( currChat == chatModel ) selectChat(null)
-        removeChat(chatModel)
+        if(elemIconRemoveChat.getAttribute('name') =='checkmark-outline')
+        {
+            const newTitle = elemTxtEditTitle.value.trim();
+            if (newTitle === "" ) return;
+            chatModel.title = elemTxtEditTitle.value;
+            elemIconRemoveChat.setAttribute('name', 'trash-outline')
+            elemBtnRemoveChat.setAttribute('title', '채팅 삭제')
+            elemIconEditTitle.setAttribute('name', 'pencil-outline')
+            elemBtnEditTitle.setAttribute('title', '제목 수정')
+            elemTxtEditTitle.classList.add('hidden');
+            updateSidebar();
+        }
+        else
+        {
+            elemBtnRemoveChat.querySelector('ion-icon')
+            if( currChat == chatModel ) selectChat(null)
+            removeChat(chatModel)
+        }
     })
     elemBtnEditTitle.addEventListener('mousedown', event => {
-        console.log("edit")
-        elemTxtEditTitle.classList.remove('hidden');
+        if( elemIconEditTitle.getAttribute('name') == 'close-outline')
+        {
+            // cancel edit title
+            elemIconRemoveChat.setAttribute('name', 'trash-outline')
+            elemBtnRemoveChat.setAttribute('title', '채팅 삭제')
+            elemIconEditTitle.setAttribute('name', 'pencil-outline')
+            elemBtnEditTitle.setAttribute('title', '제목 수정')
+            elemTxtEditTitle.classList.add('hidden');
+        }
+        else
+        {
+            // edit title
+            elemIconRemoveChat.setAttribute('name', 'checkmark-outline')
+            elemBtnRemoveChat.setAttribute('title', '확인')
+            elemIconEditTitle.setAttribute('name', 'close-outline')
+            elemBtnEditTitle.setAttribute('title', '취소')
+            elemTxtEditTitle.classList.remove('hidden');
+        }
     })
     elemTxtEditTitle.addEventListener('keyup', event => {
         if(event.key === "Escape") 
@@ -83,7 +117,7 @@ export function createNavLink(chatModel) {
             const newTitle = elemTxtEditTitle.value.trim();
             if (newTitle === "" ) return;
             chatModel.title = elemTxtEditTitle.value;
-            elemTxtEditTitle.classList.add('hidden')
+            elemTxtEditTitle.classList.add('hidden');
             updateSidebar();
         }
     });
