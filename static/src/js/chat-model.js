@@ -19,6 +19,7 @@ export class ChatModel {
         {
             this.title = content;
         }
+        return message;
     }
 
     // 브라우저 저장소에 저장을 하기

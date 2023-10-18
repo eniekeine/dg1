@@ -161,6 +161,7 @@ updateSidebar();
 // 일단 처음 시작때는 첫번째 채팅을 보는 상태로 시작
 selectChat(chats[0])
 
+
 // --------------------------
 // 이벤트 리스너
 // mousedown - mouseup : 마우스를 누를 떄 - 마우스를 땔 때 발생하는 이벤트
@@ -188,7 +189,8 @@ elemBtnMic.addEventListener('mousedown', function (event) {
             elemTxtInput.value = text;
 
             // 백엔드 서버에 그 내용으로 쿼리를 보내주세요
-            submitQuery();
+            // submitQuery();
+            submitStreamedQuery();
         };
 
         // 비동기적 작업 → 이 작업이 끝났을 때 내가 원하는 코드를 부르려면? 콜백함수(onresult)를 지정해야 됩니다.
@@ -331,7 +333,8 @@ function submitQuery()
 // 텍스트 입력 후 비행기 버튼을 클릭했을 때 할 일
 elemBtnSubmit.addEventListener('mousedown', event => {
     event.preventDefault(); // prevent def
-    submitQuery();
+    // submitQuery();
+    submitStreamedQuery();
 })
 
 // 텍스트 박스 안의 내용이 바뀔 떄 할 일
@@ -355,3 +358,53 @@ elemBtnNewChat.addEventListener('mousedown', event => {
     elemNavList.appendChild(navLink);
     selectChat(chatModel);
 });
+
+async function fetchStreamedQuery(queryText) {
+    const response = await fetch('/text-stream-query', { 
+        method: 'POST' ,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            queryText: queryText,
+        })
+    });
+    if (!response.ok) {
+        throw new Error("fetchStreamedChat failed : Network response was not ok");
+    }
+    // 사용자 메세지 추가
+    currChat.addMessage("user", queryText);
+    selectChat(currChat)
+    // 비서 메세지 추가
+    const message = currChat.addMessage("assistant", "")
+    const reader = response.body.getReader();
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+            break;
+        }
+        let delta = new TextDecoder().decode(value);
+        message.content = message.content + delta;
+        console.log(message.content)
+        console.log(delta);
+        selectChat(currChat)
+    }
+    // 비서 메세지가 완성되고 나면 음성실행
+    textToSpeech(message.content);
+}
+
+function submitStreamedQuery()
+{
+    let queryText = elemTxtInput.value.trim();
+    // 쿼리가 비어있다면 
+    if( queryText === "" )
+    {
+        console.log("쿼리가 비어있으므로 실행을 취소합니다.")
+        return false;
+    }
+    // 쿼리가 비어있지 않다면
+    else
+    {
+        fetchStreamedQuery(queryText);
+    }
+}
