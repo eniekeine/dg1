@@ -87,7 +87,7 @@ function saveChats()
 
 function loadChats()
 {
-    const ids = JSON.parse(localStorage.getItem("ids"));
+    let ids = JSON.parse(localStorage.getItem("ids"));
     if (ids == null)
     {
         ids = []
