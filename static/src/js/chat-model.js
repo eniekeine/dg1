@@ -5,11 +5,10 @@ export class ChatModel {
     constructor() {
         // 오고간 메세지 목록
         this.messages = [];
-        // 제목
-        this.title = "chat";
-        // 아이디
-        const uuid = crypto.randomUUID();
-        this.id = uuid;
+        // 제목 (기본값은 "새로운 채팅")
+        this.title = "새로운 채팅";
+        // 아이디 (랜덤 값으로 설정)
+        this.id = crypto.randomUUID();
     }
 
     // 새로운 메세지를 추가하는 함수

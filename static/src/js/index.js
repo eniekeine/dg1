@@ -251,11 +251,6 @@ window.addEventListener("beforeunload", event => {
 elemBtnNewChat.addEventListener('mousedown', event => {
     // 새로운 채팅 데이터
     const chatModel = new ChatModel();
-    // 아이디는 UUID 적용
-    const uuid = crypto.randomUUID();
-    chatModel.id = uuid;
-    // 채팅 타이틀
-    chatModel.title = "새로운 채팅";
     addChat(chatModel)
     selectChat(chatModel);
 });
@@ -308,9 +303,18 @@ function submitStreamedQuery()
     // 쿼리가 비어있지 않다면
     else
     {
+        // 텍스트 상자의 내용을 비우기
+        elemTxtInput.value = ""
+        // 만약 현재 채팅이 없다면
+        if( !currChat )
+        {
+            // 새로운 채팅을 추가
+            let chatModel = new ChatModel();
+            addChat(chatModel)
+            selectChat(chatModel)
+        }
         fetchStreamedQuery(queryText)
         .then(() => {
-            console.log("뭐임")
             saveChats();
         })
         .catch(error => {

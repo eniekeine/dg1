@@ -68,11 +68,10 @@
         constructor() {
             // 오고간 메세지 목록
             this.messages = [];
-            // 제목
-            this.title = "chat";
-            // 아이디
-            const uuid = crypto.randomUUID();
-            this.id = uuid;
+            // 제목 (기본값은 "새로운 채팅")
+            this.title = "새로운 채팅";
+            // 아이디 (랜덤 값으로 설정)
+            this.id = crypto.randomUUID();
         }
 
         // 새로운 메세지를 추가하는 함수
@@ -425,11 +424,6 @@
     elemBtnNewChat.addEventListener('mousedown', event => {
         // 새로운 채팅 데이터
         const chatModel = new ChatModel();
-        // 아이디는 UUID 적용
-        const uuid = crypto.randomUUID();
-        chatModel.id = uuid;
-        // 채팅 타이틀
-        chatModel.title = "새로운 채팅";
         addChat(chatModel);
         selectChat(chatModel);
     });
@@ -482,9 +476,18 @@
         // 쿼리가 비어있지 않다면
         else
         {
+            // 텍스트 상자의 내용을 비우기
+            elemTxtInput.value = "";
+            // 만약 현재 채팅이 없다면
+            if( !currChat )
+            {
+                // 새로운 채팅을 추가
+                let chatModel = new ChatModel();
+                addChat(chatModel);
+                selectChat(chatModel);
+            }
             fetchStreamedQuery(queryText)
             .then(() => {
-                console.log("뭐임");
                 saveChats();
             })
             .catch(error => {
