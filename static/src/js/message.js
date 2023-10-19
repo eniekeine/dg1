@@ -1,3 +1,6 @@
+
+import {setVoiceType, textToSpeech} from './tts.js'
+
 // 각각의 메세지
 export class Message {
     constructor(role, content, timestamp = new Date()) {
@@ -33,6 +36,7 @@ export class Message {
             elemBtnPlay.addEventListener('mousedown', (event) => {
                 console.log("btn-play")
                 console.log(this.content)
+                textToSpeech(this.content)
             })
             elemBtnCopy.addEventListener('mousedown', (event) => {
                 console.log("btn-copy")

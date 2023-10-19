@@ -5,6 +5,7 @@ export const chats = [];
 // current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
 export let currChat = null;
 export let prevChat = null;
+
 export const evtChatsUpdated = new Event('chatsUpdated', {
     chats : chats
 });
