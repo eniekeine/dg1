@@ -4,32 +4,53 @@
     /* 
         파일이름 : config.js
         생성일 : 2023년 10월 19일 이아람이 만들었습니다.
-        설명 : tts.js 파일에 speed import
+        설명 : tts.js 파일에 import 할 부분 (speed, volume, voice) 
 
     */
 
+    // 음성 속도 조절
     let speed = 1.0;
     function setSpeed(newSpeed){
         speed = newSpeed;
     }
 
-    // 목소리 유형을 설정하는 함수 ================================================================= 아람
-    function setVoiceType(type) {
-        // 남자 목소리를 선택한 경우
-        if (type === 'male') {
-            return 'ko-KR-Wavenet-C';
-        }
-        // 여자 목소리를 선택한 경우
-        else if (type === 'female') {
-            return 'ko-KR-Wavenet-B';
-        }
-        // 기본 목소리 값 남자
-        return 'ko-KR-Wavenet-C';
+    // 음성 음량 조절
+    let volume = 0.0;
+    function setVolume(newVolume){
+        volume = newVolume;
     }
 
-    // Google Text-to-Speech API를 사용하여 텍스트를 음성으로 변환하는 함수 ========================================= 아람
-    function textToSpeech(text, type) {
-        console.log("API에 전달되는 속도 값 : ", speed);
+    // 음성 성별 조절
+    let voice = 'ko-KR-Wavenet-C';
+    function setVoice(newVoice){
+        voice = newVoice;
+    }
+
+    /* 
+        파일이름 : tts.js
+        생성일 : 2023년 10월 19일 이아람이 만들었습니다.
+        설명 : Google Text-to-Speech API
+
+    */
+
+
+    // 목소리 유형을 설정하는 함수
+    // export function setVoiceType(type) {
+    //     // 남자 목소리를 선택한 경우
+    //     if (type === 'male') {
+    //         return 'ko-KR-Wavenet-C';
+    //     }
+    //     // 여자 목소리를 선택한 경우
+    //     else if (type === 'female') {
+    //         return 'ko-KR-Wavenet-B';
+    //     }
+    //     // 기본 목소리 값 남자
+    //     return 'ko-KR-Wavenet-C';
+    // }
+
+    // Google Text-to-Speech API를 사용하여 텍스트를 음성으로 변환하는 함수 
+    function textToSpeech(text) {
+        console.log("API에 전달되는 볼륨 값 : ", voice);
         // API 키
         const apiKey = 'AIzaSyCT5ikIE-05ZiLhjAiDlRs4PgzQxsjXAgQ'; // 실제 API 키로 대체
         // 음성 출력을 위한 오디오 요소
@@ -44,8 +65,8 @@
             },
             body: JSON.stringify({
                 input: { text },
-                voice: { languageCode: 'ko-KR', name: setVoiceType(type) },
-                audioConfig: { audioEncoding: 'LINEAR16', speakingRate: speed }
+                voice: { languageCode: 'ko-KR', name: voice },
+                audioConfig: { audioEncoding: 'LINEAR16', speakingRate: speed, volumeGainDb: volume }
             }),
         })
         .then(response => response.json())
@@ -56,7 +77,7 @@
             audioOutput.play();
         })
         .catch(error => console.error('Error:', error));
-    } // ================================================================================================== 아람
+    }
 
     // 각각의 메세지
     class Message {
@@ -93,6 +114,7 @@
                 elemBtnPlay.addEventListener('mousedown', (event) => {
                     console.log("btn-play");
                     console.log(this.content);
+                    // 음성 출력
                     textToSpeech(this.content);
                 });
                 elemBtnCopy.addEventListener('mousedown', (event) => {
@@ -465,8 +487,8 @@
 
     elemSldConfigVolume.addEventListener('change', function (event) {
         console.log("볼륨 값 : ", this.value);
-
-        // TODO : 비서의 응답 소리가 볼륨 설정에 따라 크고 작아지도록 합니다.
+        const volume = parseFloat(this.value);
+        setVolume(volume);
     });
 
     elemChkConfigAutoplay.addEventListener('change', function (event) {
@@ -476,11 +498,15 @@
     elemBtnMalVoice.addEventListener('mousedown', event => {
         event.preventDefault(); // prevent default navigation behavior
         console.log("남성 목소리");
+        const voice = 'ko-KR-Wavenet-C'; 
+        setVoice(voice);
     });
 
     elemBtnFemVoice.addEventListener('mousedown', event => {
         event.preventDefault(); // prevent default navigation behavior
         console.log("여성 목소리");
+        const voice = 'ko-KR-Wavenet-B'; 
+        setVoice(voice); 
     });
 
     // 텍스트 입력 후 비행기 버튼을 클릭했을 때 할 일
