@@ -34,23 +34,9 @@
     */
 
 
-    // 목소리 유형을 설정하는 함수
-    // export function setVoiceType(type) {
-    //     // 남자 목소리를 선택한 경우
-    //     if (type === 'male') {
-    //         return 'ko-KR-Wavenet-C';
-    //     }
-    //     // 여자 목소리를 선택한 경우
-    //     else if (type === 'female') {
-    //         return 'ko-KR-Wavenet-B';
-    //     }
-    //     // 기본 목소리 값 남자
-    //     return 'ko-KR-Wavenet-C';
-    // }
 
     // Google Text-to-Speech API를 사용하여 텍스트를 음성으로 변환하는 함수 
     function textToSpeech(text) {
-        console.log("API에 전달되는 볼륨 값 : ", voice);
         // API 키
         const apiKey = 'AIzaSyCT5ikIE-05ZiLhjAiDlRs4PgzQxsjXAgQ'; // 실제 API 키로 대체
         // 음성 출력을 위한 오디오 요소
@@ -390,6 +376,8 @@
         설명 : index.html 파일의 로직을 지정하는 파일입니다.
     */
     console.log("안녕하세요");
+
+
     // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
     // 사용자가 음성 입력을 하려고 할 때 누를는 마이크 버튼
     const elemBtnMic = document.querySelector('.btn-mic');

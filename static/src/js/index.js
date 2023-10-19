@@ -6,7 +6,7 @@
 import {ChatModel} from './chat-model.js'
 import {} from './sidebar.js'
 import {prevChat, currChat, selectChat, addChat, saveChats, loadChats} from './models.js'
-import {setVoiceType, textToSpeech} from './tts.js'
+import {textToSpeech} from './tts.js'
 import {setSpeed, setVolume, setVoice} from './config.js'
 console.log("안녕하세요");
 
