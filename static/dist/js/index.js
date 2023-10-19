@@ -1,6 +1,63 @@
 (function () {
     'use strict';
 
+    /* 
+        파일이름 : config.js
+        생성일 : 2023년 10월 19일 이아람이 만들었습니다.
+        설명 : tts.js 파일에 speed import
+
+    */
+
+    let speed = 1.0;
+    function setSpeed(newSpeed){
+        speed = newSpeed;
+    }
+
+    // 목소리 유형을 설정하는 함수 ================================================================= 아람
+    function setVoiceType(type) {
+        // 남자 목소리를 선택한 경우
+        if (type === 'male') {
+            return 'ko-KR-Wavenet-C';
+        }
+        // 여자 목소리를 선택한 경우
+        else if (type === 'female') {
+            return 'ko-KR-Wavenet-B';
+        }
+        // 기본 목소리 값 남자
+        return 'ko-KR-Wavenet-C';
+    }
+
+    // Google Text-to-Speech API를 사용하여 텍스트를 음성으로 변환하는 함수 ========================================= 아람
+    function textToSpeech(text, type) {
+        console.log("API에 전달되는 속도 값 : ", speed);
+        // API 키
+        const apiKey = 'AIzaSyCT5ikIE-05ZiLhjAiDlRs4PgzQxsjXAgQ'; // 실제 API 키로 대체
+        // 음성 출력을 위한 오디오 요소
+        const audioOutput = new Audio();
+        const apiUrl = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
+
+        // fetch API를 사용하여 Text-to-Speech API에 요청을 보냅니다.
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                input: { text },
+                voice: { languageCode: 'ko-KR', name: setVoiceType(type) },
+                audioConfig: { audioEncoding: 'LINEAR16', speakingRate: speed }
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 오디오 URL을 생성하여 재생
+            const audioUrl = `data:audio/wav;base64,${data.audioContent}`;
+            audioOutput.src = audioUrl;
+            audioOutput.play();
+        })
+        .catch(error => console.error('Error:', error));
+    } // ================================================================================================== 아람
+
     // 각각의 메세지
     class Message {
         constructor(role, content, timestamp = new Date()) {
@@ -36,6 +93,7 @@
                 elemBtnPlay.addEventListener('mousedown', (event) => {
                     console.log("btn-play");
                     console.log(this.content);
+                    textToSpeech(this.content);
                 });
                 elemBtnCopy.addEventListener('mousedown', (event) => {
                     console.log("btn-copy");
@@ -121,6 +179,7 @@
     const chats = [];
     // current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
     let currChat = null;
+    let prevChat = null;
     const evtChatsUpdated = new CustomEvent('chatsUpdated', {
         chats : chats
     });
@@ -332,7 +391,7 @@
     // 새 채팅 추가 버튼
     const elemBtnNewChat = document.querySelector('.btn-new-chat');
     // 채팅 히스토리 목록
-    document.querySelector('.nav__list');
+    document.querySelector('.nav__list'); 
 
     // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
     document.addEventListener("chatsUpdated", event => {
@@ -401,8 +460,8 @@
     });
     elemSldConfigRate.addEventListener('change', function (event) {
         console.log("속도 값 : ", this.value);
-
-        // TODO : 비서의 응답 속도가 속도 설정에 따라 빠르거나 느려지도록 합니다.
+        const speed = parseFloat(this.value);
+        setSpeed(speed); // setSpeed 함수 불러옴
     });
 
     elemSldConfigVolume.addEventListener('change', function (event) {
@@ -413,65 +472,17 @@
 
     elemChkConfigAutoplay.addEventListener('change', function (event) {
         console.log("자동재생 : ", this.checked);
-
-        // TODO : 응답이 돌아왔을 때 자동으로 소리내어 읽도록 합니다.
     });
 
     elemBtnMalVoice.addEventListener('mousedown', event => {
         event.preventDefault(); // prevent default navigation behavior
         console.log("남성 목소리");
-        
     });
 
     elemBtnFemVoice.addEventListener('mousedown', event => {
         event.preventDefault(); // prevent default navigation behavior
         console.log("여성 목소리");
-        
     });
-
-    // 목소리 유형을 설정하는 함수 ================================================================= 아람
-    function setVoiceType(type) {
-        // 남자 목소리를 선택한 경우
-        if (type === 'male') {
-            return 'ko-KR-Wavenet-C';
-        }
-        // 여자 목소리를 선택한 경우
-        else if (type === 'female') {
-            return 'ko-KR-Wavenet-B';
-        }
-        // 기본 목소리 값 남자
-        return 'ko-KR-Wavenet-C';
-    }
-
-    // Google Text-to-Speech API를 사용하여 텍스트를 음성으로 변환하는 함수 ========================================= 아람
-    function textToSpeech(text, type) {
-        // API 키
-        const apiKey = 'AIzaSyCT5ikIE-05ZiLhjAiDlRs4PgzQxsjXAgQ'; // 실제 API 키로 대체
-        // 음성 출력을 위한 오디오 요소
-        const audioOutput = new Audio();
-        const apiUrl = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
-
-        // fetch API를 사용하여 Text-to-Speech API에 요청을 보냅니다.
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                input: { text },
-                voice: { languageCode: 'ko-KR', name: setVoiceType(type) },
-                audioConfig: { audioEncoding: 'LINEAR16' }
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            // 오디오 URL을 생성하여 재생
-            const audioUrl = `data:audio/wav;base64,${data.audioContent}`;
-            audioOutput.src = audioUrl;
-            audioOutput.play();
-        })
-        .catch(error => console.error('Error:', error));
-    } // ================================================================================================== 아람
 
     // 텍스트 입력 후 비행기 버튼을 클릭했을 때 할 일
     elemBtnSubmit.addEventListener('mousedown', event => {
@@ -532,7 +543,11 @@
             message.updateView();
         }
         // 비서 메세지가 완성되고 나면 음성실행
-        textToSpeech(message.content);
+        //textToSpeech(message.content);
+        // 자동 재생이 체크되어 있을 때만 음성 출력 기능 실행
+        if (elemChkConfigAutoplay.checked) {
+            textToSpeech(message.content); 
+        } // ========================================================================= 아람
     }
 
     function submitStreamedQuery()

@@ -6,6 +6,8 @@
 import {ChatModel} from './chat-model.js'
 import {} from './sidebar.js'
 import {prevChat, currChat, selectChat, addChat, saveChats, loadChats} from './models.js'
+import {setVoiceType, textToSpeech} from './tts.js'
+import {setSpeed} from './config.js'
 
 // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
 // 사용자가 음성 입력을 하려고 할 때 누를는 마이크 버튼
@@ -29,7 +31,7 @@ const elemChatMessages = document.querySelector('.chat-messages');
 // 새 채팅 추가 버튼
 const elemBtnNewChat = document.querySelector('.btn-new-chat')
 // 채팅 히스토리 목록
-const elemNavList = document.querySelector('.nav__list');
+const elemNavList = document.querySelector('.nav__list'); 
 
 // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
 document.addEventListener("chatsUpdated", event => {
@@ -99,7 +101,7 @@ elemBtnMic.addEventListener('mousedown', function (event) {
 elemSldConfigRate.addEventListener('change', function (event) {
     console.log("속도 값 : ", this.value);
     const speed = parseFloat(this.value);
-    // TODO : 비서의 응답 속도가 속도 설정에 따라 빠르거나 느려지도록 합니다.
+    setSpeed(speed); // setSpeed 함수 불러옴
 });
 
 elemSldConfigVolume.addEventListener('change', function (event) {
@@ -110,67 +112,19 @@ elemSldConfigVolume.addEventListener('change', function (event) {
 
 elemChkConfigAutoplay.addEventListener('change', function (event) {
     console.log("자동재생 : ", this.checked);
-
-    // TODO : 응답이 돌아왔을 때 자동으로 소리내어 읽도록 합니다.
 });
 
 elemBtnMalVoice.addEventListener('mousedown', event => {
     event.preventDefault(); // prevent default navigation behavior
     console.log("남성 목소리");
     setVoiceType('male'); // =============================================================== 아람
-    
 })
 
 elemBtnFemVoice.addEventListener('mousedown', event => {
     event.preventDefault(); // prevent default navigation behavior
     console.log("여성 목소리");
     setVoiceType('female'); // =============================================================== 아람
-    
 })
-
-// 목소리 유형을 설정하는 함수 ================================================================= 아람
-function setVoiceType(type) {
-    // 남자 목소리를 선택한 경우
-    if (type === 'male') {
-        return 'ko-KR-Wavenet-C';
-    }
-    // 여자 목소리를 선택한 경우
-    else if (type === 'female') {
-        return 'ko-KR-Wavenet-B';
-    }
-    // 기본 목소리 값 남자
-    return 'ko-KR-Wavenet-C';
-}
-
-// Google Text-to-Speech API를 사용하여 텍스트를 음성으로 변환하는 함수 ========================================= 아람
-function textToSpeech(text, type, speed) {
-    // API 키
-    const apiKey = 'AIzaSyCT5ikIE-05ZiLhjAiDlRs4PgzQxsjXAgQ'; // 실제 API 키로 대체
-    // 음성 출력을 위한 오디오 요소
-    const audioOutput = new Audio();
-    const apiUrl = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
-
-    // fetch API를 사용하여 Text-to-Speech API에 요청을 보냅니다.
-    fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            input: { text },
-            voice: { languageCode: 'ko-KR', name: setVoiceType(type) },
-            audioConfig: { audioEncoding: 'LINEAR16', speakingRate: speed }
-        }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        // 오디오 URL을 생성하여 재생
-        const audioUrl = `data:audio/wav;base64,${data.audioContent}`;
-        audioOutput.src = audioUrl;
-        audioOutput.play();
-    })
-    .catch(error => console.error('Error:', error));
-} // ================================================================================================== 아람
 
 // 백엔드 서버에 테스트 쿼리를 보내는 함수
 function submitQuery()
@@ -214,7 +168,11 @@ function submitQuery()
             currChat.addMessage("assistant", content)
             // 추가된 메세지까지 포함해서 다시 표시 : 뷰 업데이트
             selectChat(currChat)
-            textToSpeech(content); // ========================================================================= 아람
+            
+            // 자동 재생이 체크되어 있을 때만 음성 출력 기능 실행
+            //if (elemChkConfigAutoplay.checked) {
+            //        textToSpeech(content); 
+            //    } // ========================================================================= 아람
             saveChats();
         })
         .catch((error) => {
@@ -283,8 +241,6 @@ async function fetchStreamedQuery(queryText) {
         // console.log(delta);
         message.updateView();
     }
-    // 비서 메세지가 완성되고 나면 음성실행
-    //textToSpeech(message.content);
     // 자동 재생이 체크되어 있을 때만 음성 출력 기능 실행
     if (elemChkConfigAutoplay.checked) {
         textToSpeech(message.content);
