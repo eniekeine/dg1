@@ -7,7 +7,7 @@ import {ChatModel} from './chat-model.js'
 import {} from './sidebar.js'
 import {prevChat, currChat, selectChat, addChat, saveChats, loadChats} from './models.js'
 import {setVoiceType, textToSpeech} from './tts.js'
-import {setSpeed} from './config.js'
+import {setSpeed, setVolume, setVoice} from './config.js'
 
 // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
 // 사용자가 음성 입력을 하려고 할 때 누를는 마이크 버튼
@@ -106,8 +106,8 @@ elemSldConfigRate.addEventListener('change', function (event) {
 
 elemSldConfigVolume.addEventListener('change', function (event) {
     console.log("볼륨 값 : ", this.value);
-
-    // TODO : 비서의 응답 소리가 볼륨 설정에 따라 크고 작아지도록 합니다.
+    const volume = parseFloat(this.value);
+    setVolume(volume);
 });
 
 elemChkConfigAutoplay.addEventListener('change', function (event) {
@@ -117,13 +117,15 @@ elemChkConfigAutoplay.addEventListener('change', function (event) {
 elemBtnMalVoice.addEventListener('mousedown', event => {
     event.preventDefault(); // prevent default navigation behavior
     console.log("남성 목소리");
-    setVoiceType('male'); // =============================================================== 아람
+    const voice = 'ko-KR-Wavenet-C'; 
+    setVoice(voice);
 })
 
 elemBtnFemVoice.addEventListener('mousedown', event => {
     event.preventDefault(); // prevent default navigation behavior
     console.log("여성 목소리");
-    setVoiceType('female'); // =============================================================== 아람
+    const voice = 'ko-KR-Wavenet-B'; 
+    setVoice(voice); 
 })
 
 // 백엔드 서버에 테스트 쿼리를 보내는 함수
