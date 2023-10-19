@@ -98,7 +98,7 @@ elemBtnMic.addEventListener('mousedown', function (event) {
 });
 elemSldConfigRate.addEventListener('change', function (event) {
     console.log("속도 값 : ", this.value);
-
+    const speed = parseFloat(this.value);
     // TODO : 비서의 응답 속도가 속도 설정에 따라 빠르거나 느려지도록 합니다.
 });
 
@@ -143,7 +143,7 @@ function setVoiceType(type) {
 }
 
 // Google Text-to-Speech API를 사용하여 텍스트를 음성으로 변환하는 함수 ========================================= 아람
-function textToSpeech(text, type) {
+function textToSpeech(text, type, speed) {
     // API 키
     const apiKey = 'AIzaSyCT5ikIE-05ZiLhjAiDlRs4PgzQxsjXAgQ'; // 실제 API 키로 대체
     // 음성 출력을 위한 오디오 요소
@@ -159,7 +159,7 @@ function textToSpeech(text, type) {
         body: JSON.stringify({
             input: { text },
             voice: { languageCode: 'ko-KR', name: setVoiceType(type) },
-            audioConfig: { audioEncoding: 'LINEAR16' }
+            audioConfig: { audioEncoding: 'LINEAR16', speakingRate: speed }
         }),
     })
     .then(response => response.json())
@@ -284,7 +284,11 @@ async function fetchStreamedQuery(queryText) {
         message.updateView();
     }
     // 비서 메세지가 완성되고 나면 음성실행
-    textToSpeech(message.content);
+    //textToSpeech(message.content);
+    // 자동 재생이 체크되어 있을 때만 음성 출력 기능 실행
+    if (elemChkConfigAutoplay.checked) {
+        textToSpeech(message.content);
+    } // ========================================================================= 아람 
 }
 
 function submitStreamedQuery()
