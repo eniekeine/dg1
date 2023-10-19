@@ -179,7 +179,6 @@
     const chats = [];
     // current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
     let currChat = null;
-    let prevChat = null;
     const evtChatsUpdated = new CustomEvent('chatsUpdated', {
         chats : chats
     });
@@ -368,7 +367,7 @@
         생성일 : 2023년 10월 16일 이경근이 만들었습니다.
         설명 : index.html 파일의 로직을 지정하는 파일입니다.
     */
-
+    console.log("안녕하세요");
     // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
     // 사용자가 음성 입력을 하려고 할 때 누를는 마이크 버튼
     const elemBtnMic = document.querySelector('.btn-mic');
@@ -542,12 +541,10 @@
             // console.log(delta);
             message.updateView();
         }
-        // 비서 메세지가 완성되고 나면 음성실행
-        //textToSpeech(message.content);
         // 자동 재생이 체크되어 있을 때만 음성 출력 기능 실행
         if (elemChkConfigAutoplay.checked) {
-            textToSpeech(message.content); 
-        } // ========================================================================= 아람
+            textToSpeech(message.content);
+        } // ========================================================================= 아람 
     }
 
     function submitStreamedQuery()
