@@ -524,6 +524,10 @@
     });
 
     async function fetchStreamedQuery(queryText) {
+        // 사용자 메세지 추가
+        currChat.addMessage("user", queryText);
+        selectChat(currChat);
+        console.log("쿼리 제출. 응답 기다리는 중. (쿼리내용 : " + queryText + ")");
         const response = await fetch('/text-stream-query', { 
             method: 'POST' ,
             headers: {
@@ -536,23 +540,16 @@
         if (!response.ok) {
             throw new Error("fetchStreamedChat failed : Network response was not ok");
         }
-        console.log("쿼리 제출. 응답 기다리는 중. (쿼리내용 : " + queryText + ")");
-        // 사용자 메세지 추가
-        currChat.addMessage("user", queryText);
-        selectChat(currChat);
+        
         // 비서 메세지 추가
         const message = currChat.addMessage("assistant", "");
         selectChat(currChat);
         const reader = response.body.getReader();
         while (true) {
             const { done, value } = await reader.read();
-            if (done) {
-                break;
-            }
+            if (done) break;
             let delta = new TextDecoder().decode(value);
             message.content = message.content + delta;
-            // console.log(message.content)
-            // console.log(delta);
             message.updateView();
         }
         // 자동 재생이 체크되어 있을 때만 음성 출력 기능 실행

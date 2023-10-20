@@ -58,23 +58,25 @@ def is_openapi_server_okay():
                     {"role": "user", "content": "1이라고 말해봐"},
                 ]
         )
-        return True
+        return (True, response)
     except openai.error.APIError as e:
-        return False
+        return (False, e)
     except openai.error.APIConnectionError as e:
-        return False
+        return (False, e)
     except openai.error.RateLimitError as e:
-        return False
+        return (False, e)
 
 @app.route('/text-stream-query', methods=['POST'])
 def text_stream_query():
     print(" ==================== text_stream_query ====================")
-    if is_openapi_server_okay() == False:
+    data = request.json
+    print(data)
+    status, content = is_openapi_server_okay()
+    if status == False:
+        print("OpenAI API 통신 에러 : ", content.error)
         return make_response("OpenAI 서버가 다운되었습니다.", 500)
     def generate():
         # i.e. data = { "queryText" : "1+1은 2다"};
-        data = request.json
-        print(data)
         # OpenAI API 서버에 요청을 보냅니다.
         # response : Dictionary 사전 객체
         try:
