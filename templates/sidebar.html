@@ -7,18 +7,19 @@
                     <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
                     <a href="#" class="nav__logo">GP지기</a>
                 </div>
-                <div class="nav__list"></div>
+                <div class="sidebar-btns">
+                    <a href="#" class="btn-new-chat">
+                        <div>
+                            +
+                        </div>
+                        <div class="btn-new-chat-text">
+                            채팅 추가하기
+                        </div>
+                    </a>
+                </div>
             </div>
-            <div class="sidebar-btns">
-                <a href="#" class="btn-new-chat">
-                    <div>
-                        +
-                    </div>
-                    <div class="btn-new-chat-text">
-                        채팅 추가하기
-                    </div>
-                </a>
-            </div>
+            <div class="nav__list"></div>
+            {% include 'config.html' %}
         </nav>
     </div>
 </section>

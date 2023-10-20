@@ -101,6 +101,10 @@
     overflow:visible;
 }
 
+.nav__list {
+    flex-grow:1;
+}
+
 .nav__link {
     display: grid;
     grid-template-columns: max-content max-content;

@@ -34,7 +34,7 @@ header {
     display: flex;
     justify-content: center;
     align-self: center;
-    height: 87px;
+    height: 105px;
     border: gray;
     width: 100%;
     padding : 0;
@@ -50,13 +50,11 @@ header {
     justify-content: center;
     align-items: center;
     flex-grow: 1;
-    padding: 0px 50px;
 }
 
 .chat {
     display: flex;
-    width: 50%;
-    height: 90%;
+    height: 100%;
     min-width: 480px;
     flex-direction: column;
     justify-content: top;
@@ -117,13 +115,13 @@ header {
 }
 
 .config {
+    border-top : 1px solid black;
     width: 400px;
     height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, .3);
+    color: black;
     flex-grow:0;
 }
 
@@ -161,14 +159,10 @@ header {
     text-decoration: none;  /* Remove the underline */
 }
 
-.config-voice-sel-btn-tag{
-    color:white;
-}
-
 .config-voice-sel-btn ion-icon
 {
-    width:98px;
-    height:98px;
+    width:64px;
+    height:64px;
 }
 
 .content {

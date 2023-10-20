@@ -31,23 +31,19 @@
         {% include 'header.html' %}
         <div class="main-middle">
             <div class="chat">
-                <div class="chat-top-filler"></div>
-                <div class="chat-middle">
-                    <div class="chat-middle-left">
-                        <ul class="chat-messages">
-                        </ul>
-                        <div title="클릭한 뒤 말을 걸어 보세요" class="mic-input-area">
-                            <div class="tag-btn-mic">누르고 음성 입력</div>
-                            <a href="#" class="btn-mic">
-                                <ion-icon name="mic-circle"></ion-icon>
-                            </a>
-                        </div>
-                        <div class = "input-container">
-                            <input id="txt-input"/>
-                            <a title="클릭하면 글을 전송합니다" id="btn-submit"><ion-icon name="paper-plane-outline"></ion-icon></a>
-                        </div>
+                <div class="chat-middle-left">
+                    <ul class="chat-messages">
+                    </ul>
+                    <div title="클릭한 뒤 말을 걸어 보세요" class="mic-input-area">
+                        <div class="tag-btn-mic">누르고 음성 입력</div>
+                        <a href="#" class="btn-mic">
+                            <ion-icon name="mic-circle"></ion-icon>
+                        </a>
                     </div>
-                    {% include 'config.html' %}
+                    <div class = "input-container">
+                        <input id="txt-input"/>
+                        <a title="클릭하면 글을 전송합니다" id="btn-submit"><ion-icon name="paper-plane-outline"></ion-icon></a>
+                    </div>
                 </div>
             </div>
         </div>
