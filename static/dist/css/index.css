@@ -194,6 +194,14 @@ header {
     border-radius: 8px 8px 8px 0px;
 }
 
+.message-system {
+    color: gray;
+    width: auto;
+    max-width: 80%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px 8px 8px 0px;
+}
+
 /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_rangeslider */
 .slider {
     -webkit-appearance: none;

@@ -275,7 +275,8 @@ function submitStreamedQuery()
             saveChats();
         })
         .catch(error => {
-            console.error(error)
+            currChat.addMessage("system", "현재는 서버를 이용할 수 없습니다. 나중에 다시 시도해 주세요.");
+            selectChat(currChat);
         });
     }
 }
