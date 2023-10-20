@@ -177,7 +177,14 @@
 }
 
 .sidebar-btns{
-    display:flex;
+    display: flex;
+    height: 60px;
+    padding: 16px 12px;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    border: 2px solid #4470C8;
+    /* display:flex;
     justify-content: center;
     align-items: center;
     
@@ -185,10 +192,15 @@
     border: 1px solid #000;
     background-color: inherit;
     overflow:hidden;
-    height : 48px;
+    height : 48px; */
 }
 .btn-new-chat{
-    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    
+    /* text-decoration: none;
     color: inherit;
     display:flex;
     justify-content: center;
@@ -198,15 +210,30 @@
 
     transition-property: all;
     transition-duration: 0.4s;
-    transition-timing-function: ease-out;
+    transition-timing-function: ease-out; */
 }
-.btn-new-chat:hover{
+/* .btn-new-chat:hover{
     background-color: #A2A4A8;
+} */
+
+.sidebar-btns:hover{
+    background-color: #d3d3d3;
 }
+
 .btn-new-chat-text{
-    overflow:hidden;
+    color: #4470C8;
+
+    /* Button/M */
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 16px */
+    letter-spacing: 0.5px;
+    
+    /* overflow:hidden;
     white-space: nowrap;
-    margin-left: 8px;
+    margin-left: 8px; */
 }
 .sidebar-chat-button{
     position: absolute;
