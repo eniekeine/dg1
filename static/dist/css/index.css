@@ -57,9 +57,9 @@ body {
 }
 
 .main {
-    display: flex; /* flex를 사용해 내 자식 요소를 정렬하겠다 */
-    flex-direction: row; /* 내 안의 요소들이 위에서 아래로 나열된다 */
-    justify-content: space-between;
+    display: flex;
+    flex-direction: center;
+    justify-content: center;
     flex-grow :1;
     width:100%;
 }
@@ -76,47 +76,17 @@ header a{
     height: 128px;
 }
 
-.main-middle {
-    width: 99%;
-    height: 506px;
-    border-radius: 20px;
-    border: 1px solid #C8C8C8;
-    background: linear-gradient(180deg, #FFF 0%, #FFF 100%);
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-    padding: 0px 50px;
-}
-
 .chat {
     display:flex;
-    width:100%;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
     margin: 5 5;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-}
-
-.chat-middle {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.chat-middle-left {
-    display: flex;
-    flex-direction: column;
-    height: 450px;
-    border: 1px solid rgba(255, 255, 255, .3);
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    
+    width:100%;
+    min-width: 360px;
+    max-width : 1170px;
 }
 
 .brief{
@@ -206,6 +176,47 @@ header a{
     padding: 10px 10px;
     width: fit-content;
     block-size: fit-content;
+}
+
+.message-user {
+    display: flex;
+    width: auto;
+    max-width: 80%;
+    padding: 12px 20px;
+    align-self: flex-end;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    border-radius: 15px;
+    background: #7875FF;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.message-assistant {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    max-width: 80%;
+    align-items: center;
+    gap: 10px;
+    border-radius: 15px;
+    background: #FFF;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #000;
+    text-align: center;
+    font-family: NanumGothic;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.message-system {
+    color: gray;
+    width: auto;
+    max-width: 80%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px 8px 8px 0px;
 }
 
 .btn-stop-generating{
@@ -331,4 +342,19 @@ footer {
     padding: 10px 0;
 }
 
-
+.message-menu-divider {
+    border-top : solid 1px rgba(0, 0, 0, 0.46);
+    width : 100%;
+    height : 0;
+}
+.message-menu-btns {
+    display:flex;
+}
+.btn-message-tool {
+    color: #7875FF;
+    font-family: "NanumGothic";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

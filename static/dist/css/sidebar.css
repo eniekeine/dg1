@@ -79,9 +79,11 @@
 }
 
 .nav-name{
-    flex-grow:1;
+    flex-grow: 1;
     padding-left: 8px;
     min-width: 170px;
+    white-space: nowrap;
+    overflow:hidden;
 }
 
 .nav__list {
@@ -278,54 +280,6 @@
 .content {
     /* padding-bottom: 10px; */
     margin: 5 5;
-}
-
-.message-user {
-    display: flex;
-    width: auto;
-    max-width: 80%;
-    padding: 12px 20px;
-    align-self: flex-end;
-    align-items: center;
-    gap: 10px;
-    color: white;
-    
-    /* color: white;
-    background-color: #10A37F;
-    border-radius: 8px 8px 0px 8px;
-    padding: 12px;
-    width: auto;
-    max-width: 80%;
-    align-self: flex-end; */
-    border-radius: 15px;
-    background: #7875FF;
-    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
-
-.message-assistant {
-    display: flex;
-    width: auto;
-    max-width: 80%;
-    align-items: center;
-    gap: 10px;
-    border-radius: 15px;
-    background: #FFF;
-    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    color: #000;
-    text-align: center;
-    font-family: NanumGothic;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
-
-.message-system {
-    color: gray;
-    width: auto;
-    max-width: 80%;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 8px 8px 8px 0px;
 }
 
 /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_rangeslider */

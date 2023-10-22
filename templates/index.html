@@ -9,8 +9,18 @@
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <script defer src="{{ url_for('static', filename='dist/js/index.js') }}"></script>
     <template id="template-message-menu">
-        <button title="음성으로 재생" class="btn-play"><ion-icon name="megaphone-outline"></ion-icon></button>
-        <button title="클립보드에 복사" class="btn-copy"><ion-icon name="clipboard-outline"></ion-icon></button>
+        <hr class="message-menu-divider"></div>
+        <div class="message-menu-btns">
+            <button title="음성으로 재생" class="btn-message-tool btn-play">
+                <!-- <ion-icon name="megaphone-outline"></ion-icon> -->
+                <img src="{{url_for('static', filename='dist/img/replay-icon.svg')}}"/>재생
+            </button>
+            <div>　</div>
+            <button title="클립보드에 복사" class="btn-message-tool btn-copy">
+                <!-- <ion-icon name="clipboard-outline"></ion-icon> -->
+                <img src="{{url_for('static', filename='dist/img/copy-icon.svg')}}"/>복사
+            </button>
+        </div>
     </template>
     <template id="template-nav-link">
         <div class="nav-row">
@@ -34,65 +44,63 @@
     <div class="page-root">
         <section class="main">
             <div class="chat">
-                <div class="chat-middle">
-                    <a href="#">
-                        <img class="header-logo" src="{{url_for('static', filename='dist/img/logo.svg')}}"/>
-                    </a>
-                    <div class="brief">
-                        GP지기에 오신 것을 환영합니다.
-                    </div>
-                    <div class="intro">안녕하세요! GP지기는 ChatGPT를 활용한 AI 음성 비서 서비스입니다.</div>
-                    <div class="intro">저희 GPTeam은 OpenAI의 API를 활용하여 음성으로 대화를 나눌 수 있게 하는 프로젝트를 목적으로 이 페이지를 만들었습니다.</div>
-                    <div class="intro-cards">
-                        <div class="intro-card">
-                            <h3>
-                                <img src="{{url_for('static', filename='dist/img/megaphone-icon.svg')}}"/>
-                                음성 채팅
-                            </h3>
-                            <div class="intro-card-desc">
-                                <div>마이크로 음성 대화가 가능합니다.</div>
-                                <div>답변이 텍스트와 음성으로 동시 출력되며, 왼쪽 상단 메뉴창에서 자동재생을 설정할 수 있습니다.</div>
-                            </div>
-                        </div>
-                        <div class="intro-pad"></div>
-                        <div class="intro-card">
-                            <h3>
-                                <img src="{{url_for('static', filename='dist/img/refresh-icon.svg')}}"/>
-                                음성 선택
-                            </h3>
-                            <div class="intro-card-desc">
-                                <div>답변 목소리를 바꿀 수 있습니다.</div>
-                                <div>왼쪽 상단 메뉴창에서 음성 선택 기능으로 다른 목소리로 답변을 들으실 수 있습니다.</div>
-                            </div>
-                        </div>
-                        <div class="intro-pad"></div>
-                        <div class="intro-card">
-                            <h3>
-                                <img src="{{url_for('static', filename='dist/img/wave-icon.svg')}}"/>
-                                음성 속도 조절
-                            </h3> 
-                            <div class="intro-card-desc">
-                                <div>답변의 속도를 조절할 수 있습니다.</div>
-                                <div>왼쪽 상단 메뉴창에서 하단의 재생 속도 바를 이용해서 음성 답변 속도를 조절할 수 있습니다.</div>
-                            </div>
+                <a href="#">
+                    <img class="header-logo" src="{{url_for('static', filename='dist/img/logo.svg')}}"/>
+                </a>
+                <div class="brief">
+                    GP지기에 오신 것을 환영합니다.
+                </div>
+                <div class="intro">안녕하세요! GP지기는 ChatGPT를 활용한 AI 음성 비서 서비스입니다.</div>
+                <div class="intro">저희 GPTeam은 OpenAI의 API를 활용하여 음성으로 대화를 나눌 수 있게 하는 프로젝트를 목적으로 이 페이지를 만들었습니다.</div>
+                <div class="intro-cards">
+                    <div class="intro-card">
+                        <h3>
+                            <img src="{{url_for('static', filename='dist/img/megaphone-icon.svg')}}"/>
+                            음성 채팅
+                        </h3>
+                        <div class="intro-card-desc">
+                            <div>마이크로 음성 대화가 가능합니다.</div>
+                            <div>답변이 텍스트와 음성으로 동시 출력되며, 왼쪽 상단 메뉴창에서 자동재생을 설정할 수 있습니다.</div>
                         </div>
                     </div>
-                    <ul class="chat-messages">
-                    </ul>
-                    <button class="btn-stop-generating">
-                        <img src="{{url_for('static', filename='dist/img/stop-icon.svg')}}"/>
-                    </button>
-                    <div class = "input-wrapper">
-                        <img src="{{url_for('static', filename='dist/img/chat-icon.svg')}}" title="클릭하면 새로운 채팅을 시작합니다." class="btn-new-chat"/>
-                        <div class = "input-container">
-                            <input id="txt-input"/>
-                            <a title="클릭하면 글을 전송합니다" id="btn-submit">
-                                <!-- <ion-icon name="paper-plane-outline"></ion-icon> -->
-                                <img src="{{url_for('static', filename='dist/img/submit-icon.svg')}}"/>
-                            </a>
+                    <div class="intro-pad"></div>
+                    <div class="intro-card">
+                        <h3>
+                            <img src="{{url_for('static', filename='dist/img/refresh-icon.svg')}}"/>
+                            음성 선택
+                        </h3>
+                        <div class="intro-card-desc">
+                            <div>답변 목소리를 바꿀 수 있습니다.</div>
+                            <div>왼쪽 상단 메뉴창에서 음성 선택 기능으로 다른 목소리로 답변을 들으실 수 있습니다.</div>
                         </div>
-                        <img src="{{url_for('static', filename='dist/img/mic-icon.svg')}}" class="btn-mic"/>
                     </div>
+                    <div class="intro-pad"></div>
+                    <div class="intro-card">
+                        <h3>
+                            <img src="{{url_for('static', filename='dist/img/wave-icon.svg')}}"/>
+                            음성 속도 조절
+                        </h3> 
+                        <div class="intro-card-desc">
+                            <div>답변의 속도를 조절할 수 있습니다.</div>
+                            <div>왼쪽 상단 메뉴창에서 하단의 재생 속도 바를 이용해서 음성 답변 속도를 조절할 수 있습니다.</div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="chat-messages">
+                </ul>
+                <button class="btn-stop-generating">
+                    <img src="{{url_for('static', filename='dist/img/stop-icon.svg')}}"/>
+                </button>
+                <div class = "input-wrapper">
+                    <img src="{{url_for('static', filename='dist/img/chat-icon.svg')}}" title="클릭하면 새로운 채팅을 시작합니다." class="btn-new-chat"/>
+                    <div class = "input-container">
+                        <input id="txt-input"/>
+                        <a title="클릭하면 글을 전송합니다" id="btn-submit">
+                            <!-- <ion-icon name="paper-plane-outline"></ion-icon> -->
+                            <img src="{{url_for('static', filename='dist/img/submit-icon.svg')}}"/>
+                        </a>
+                    </div>
+                    <img src="{{url_for('static', filename='dist/img/mic-icon.svg')}}" class="btn-mic"/>
                 </div>
             </div>
             <div id="target"></div>

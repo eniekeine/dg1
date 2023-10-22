@@ -34,8 +34,6 @@ const elemTxtInput = document.querySelector('#txt-input');
 const elemChatMessages = document.querySelector('.chat-messages');
 // 새 채팅 추가 버튼
 const elemBtnNewChat = document.querySelector('.btn-new-chat')
-// 채팅 히스토리 목록
-const elemNavList = document.querySelector('.nav__list'); 
 
 // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
 document.addEventListener("chatsUpdated", event => {

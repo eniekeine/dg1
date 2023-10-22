@@ -1,5 +1,6 @@
 # 파일이름 : app.py 
 # 설명 : 플라스크 백엔드 서버의 라우팅을 정의하는 파일입니다.
+from datetime import datetime
 import os
 from flask import Flask, render_template, send_from_directory, jsonify, request, Response, stream_with_context, make_response
 import openai
@@ -80,15 +81,30 @@ def text_stream_query():
         # OpenAI API 서버에 요청을 보냅니다.
         # response : Dictionary 사전 객체
         try:
+            now = datetime.now() 
+            Y= now.year
+            M= now.month
+            D= now.day
+            h= now.hour
+            m= now.minute
+            s= now.second
+            weekdays = ['월', '화', '수', '목', '금', '토', '일']
+            tellTime = f"오늘 시간은 {Y}년 {M}월 {D}일 {h}시 {m}분 {s}초 {weekdays[now.weekday()]}요일 입니다. 앞으로 현재 시간에 대해 물어보면 이 정보를 이용해주세요."
+            CONVERSATION = [
+                # TODO : 앞에서 대화한 내용 추가
+                # TODO : 프롬프트
+                {"role": "system", "content": "You are an helpful assistant."}, # 유능한 비서로서 답할 것
+                {"role": "system", "content": "You mainly speak Korean."}, # 한국어로 답할 것
+                {"role": "user", "content": "From now on, answer my messages with no more than three sentences."}, # 세 문장 이상으로 답하지 말것
+                {"role": "assistant", "content": "알겠습니다. 잊지 않을게요."},
+                {"role": "user", "content": tellTime}, # 대답할 때 현재 시간에 대한 정보를 숙지하고 있을 것
+                {"role": "assistant", "content": "알겠습니다. 잊지 않을게요."},
+                # 사용자의 요청
+                {"role": "user", "content": data["queryText"]},
+            ]
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
-                messages=[
-                        # TODO : 앞에서 대화한 내용 추가
-                        # TODO : 프롬프트
-                        {"role": "system", "content": "You are a helpful assistant."},
-                        # 사용자의 요청
-                        {"role": "user", "content": data["queryText"]},
-                    ],
+                messages=CONVERSATION,
                 stream=True
             )
             # create variables to collect the stream of chunks
