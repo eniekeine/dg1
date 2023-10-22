@@ -1,11 +1,11 @@
 /* EXPANDER MENU */
 import {chats, currChat, selectChat, removeChat} from './models.js'
 let navState = 'close';
+const elemSidebar = document.querySelector('.sidebar');
 const elemNavList = document.querySelector('.nav__list');
 const toggle = document.getElementById('nav-toggle')
 const navbar = document.getElementById('navbar')
 const bodypadding = document.getElementById("body-pd")
-const elemBtnNewChatText = document.querySelector(".btn-new-chat-text")
 
 // 채팅 목록에 변화가 있을 경우
 document.addEventListener('chatsUpdated', e => {
@@ -16,28 +16,11 @@ document.addEventListener('chatsUpdated', e => {
 toggle.addEventListener('click', ()=>{
     if( navState == 'close' ) navState = 'open';
     else navState = 'close';
+    elemSidebar.classList.toggle('expander');
     navbar.classList.toggle('expander');
+    toggle.classList.toggle('expander');
     bodypadding.classList.toggle('body-pd');
-    showButtons(navState == 'open')
 })
-
-function showButtons(show)
-{
-    let removeButtons = document.getElementsByClassName('btn-remove-chat')
-    for( let i = 0; i < removeButtons.length; ++i )
-    {
-        if( show ) removeButtons[i].classList.remove('hidden')
-        else removeButtons[i].classList.add('hidden')
-    }
-    let editButtons = document.getElementsByClassName('btn-edit-title')
-    for( let i = 0; i < editButtons.length; ++i )
-    {
-        if( show ) editButtons[i].classList.remove('hidden')
-        else editButtons[i].classList.add('hidden')
-    }
-    if( show ) elemBtnNewChatText.classList.remove('hidden')
-    else elemBtnNewChatText.classList.add('hidden')
-}
 
 // 사이드바에 채팅 목록 요소를 추가하는 함수
 export function updateSidebar()
@@ -49,7 +32,6 @@ export function updateSidebar()
         elemNavList.appendChild(nl);
         nl.chatModel = chats[i];
     }
-    showButtons(navState == 'open')
 }
 
 // 히스토리에 표시되는 채팅 목록 요소를 만드는 함수
@@ -64,10 +46,13 @@ export function createNavLink(chatModel) {
     const span = anchor.querySelector('span');
     const elemTxtEditTitle = clone.querySelector('.txt-edit-title');
     span.textContent = chatModel.title;
-    anchor.addEventListener('mousedown', event => {
+    anchor.addEventListener('click', event => {
+        console.log("anchor.click")
         selectChat(chatModel)
     });
-    elemBtnRemoveChat.addEventListener('mousedown', event =>{
+    elemBtnRemoveChat.addEventListener('click', event =>{
+        event.stopPropagation();
+        console.log("elemBtnRemoveChat.click")
         if(elemIconRemoveChat.getAttribute('name') =='checkmark-outline')
         {
             const newTitle = elemTxtEditTitle.value.trim();
@@ -87,7 +72,9 @@ export function createNavLink(chatModel) {
             removeChat(chatModel)
         }
     })
-    elemBtnEditTitle.addEventListener('mousedown', event => {
+    elemBtnEditTitle.addEventListener('click', event => {
+        event.stopPropagation();
+        console.log("elemBtnEditTitle.click")
         if( elemIconEditTitle.getAttribute('name') == 'close-outline')
         {
             // cancel edit title
@@ -121,6 +108,11 @@ export function createNavLink(chatModel) {
             updateSidebar();
         }
     });
-    if ( chatModel == currChat ) anchor.classList.add('active');
+    if ( chatModel == currChat )
+    {
+        anchor.classList.add('active');
+        elemBtnEditTitle.classList.remove('hidden');
+        elemBtnRemoveChat.classList.remove('hidden');
+    }
     return clone;
 }

@@ -12,8 +12,10 @@ console.log("안녕하세요");
 
 
 // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
-// 사용자가 음성 입력을 하려고 할 때 누를는 마이크 버튼
+// 사용자가 음성 입력을 하려고 할 때 누르는 마이크 버튼
 const elemBtnMic = document.querySelector('.btn-mic');
+// 사용자가 응답 생성을 취소하고 싶을 때 누르는 정지 버튼
+const elemBtnStopGenerating = document.querySelector('.btn-stop-generating');
 // 설정에서 목소리 속도 바꾸는 슬라이더
 const elemSldConfigRate = document.querySelector('#sld-config-rate');
 // 설정에서 목소리 볼륨 바꾸는 슬라이더
@@ -100,6 +102,8 @@ elemBtnMic.addEventListener('mousedown', function (event) {
         recognition.start();
     }
 });
+elemBtnStopGenerating.addEventListener('mousedown', function(event) {
+});
 elemSldConfigRate.addEventListener('change', function (event) {
     console.log("속도 값 : ", this.value);
     const speed = parseFloat(this.value);
@@ -117,15 +121,11 @@ elemChkConfigAutoplay.addEventListener('change', function (event) {
 });
 
 elemBtnMalVoice.addEventListener('mousedown', event => {
-    event.preventDefault(); // prevent default navigation behavior
-    console.log("남성 목소리");
     const voice = 'ko-KR-Wavenet-C'; 
     setVoice(voice);
 })
 
 elemBtnFemVoice.addEventListener('mousedown', event => {
-    event.preventDefault(); // prevent default navigation behavior
-    console.log("여성 목소리");
     const voice = 'ko-KR-Wavenet-B'; 
     setVoice(voice); 
 })

@@ -245,12 +245,11 @@
     }
 
     /* EXPANDER MENU */
-    let navState = 'close';
+    const elemSidebar = document.querySelector('.sidebar');
     const elemNavList = document.querySelector('.nav__list');
     const toggle = document.getElementById('nav-toggle');
     const navbar = document.getElementById('navbar');
     const bodypadding = document.getElementById("body-pd");
-    const elemBtnNewChatText = document.querySelector(".btn-new-chat-text");
 
     // 채팅 목록에 변화가 있을 경우
     document.addEventListener('chatsUpdated', e => {
@@ -259,30 +258,11 @@
     });
 
     toggle.addEventListener('click', ()=>{
-        if( navState == 'close' ) navState = 'open';
-        else navState = 'close';
+        elemSidebar.classList.toggle('expander');
         navbar.classList.toggle('expander');
+        toggle.classList.toggle('expander');
         bodypadding.classList.toggle('body-pd');
-        showButtons(navState == 'open');
     });
-
-    function showButtons(show)
-    {
-        let removeButtons = document.getElementsByClassName('btn-remove-chat');
-        for( let i = 0; i < removeButtons.length; ++i )
-        {
-            if( show ) removeButtons[i].classList.remove('hidden');
-            else removeButtons[i].classList.add('hidden');
-        }
-        let editButtons = document.getElementsByClassName('btn-edit-title');
-        for( let i = 0; i < editButtons.length; ++i )
-        {
-            if( show ) editButtons[i].classList.remove('hidden');
-            else editButtons[i].classList.add('hidden');
-        }
-        if( show ) elemBtnNewChatText.classList.remove('hidden');
-        else elemBtnNewChatText.classList.add('hidden');
-    }
 
     // 사이드바에 채팅 목록 요소를 추가하는 함수
     function updateSidebar()
@@ -294,7 +274,6 @@
             elemNavList.appendChild(nl);
             nl.chatModel = chats[i];
         }
-        showButtons(navState == 'open');
     }
 
     // 히스토리에 표시되는 채팅 목록 요소를 만드는 함수
@@ -309,10 +288,13 @@
         const span = anchor.querySelector('span');
         const elemTxtEditTitle = clone.querySelector('.txt-edit-title');
         span.textContent = chatModel.title;
-        anchor.addEventListener('mousedown', event => {
+        anchor.addEventListener('click', event => {
+            console.log("anchor.click");
             selectChat(chatModel);
         });
-        elemBtnRemoveChat.addEventListener('mousedown', event =>{
+        elemBtnRemoveChat.addEventListener('click', event =>{
+            event.stopPropagation();
+            console.log("elemBtnRemoveChat.click");
             if(elemIconRemoveChat.getAttribute('name') =='checkmark-outline')
             {
                 const newTitle = elemTxtEditTitle.value.trim();
@@ -332,7 +314,9 @@
                 removeChat(chatModel);
             }
         });
-        elemBtnEditTitle.addEventListener('mousedown', event => {
+        elemBtnEditTitle.addEventListener('click', event => {
+            event.stopPropagation();
+            console.log("elemBtnEditTitle.click");
             if( elemIconEditTitle.getAttribute('name') == 'close-outline')
             {
                 // cancel edit title
@@ -366,7 +350,12 @@
                 updateSidebar();
             }
         });
-        if ( chatModel == currChat ) anchor.classList.add('active');
+        if ( chatModel == currChat )
+        {
+            anchor.classList.add('active');
+            elemBtnEditTitle.classList.remove('hidden');
+            elemBtnRemoveChat.classList.remove('hidden');
+        }
         return clone;
     }
 
@@ -379,8 +368,10 @@
 
 
     // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
-    // 사용자가 음성 입력을 하려고 할 때 누를는 마이크 버튼
+    // 사용자가 음성 입력을 하려고 할 때 누르는 마이크 버튼
     const elemBtnMic = document.querySelector('.btn-mic');
+    // 사용자가 응답 생성을 취소하고 싶을 때 누르는 정지 버튼
+    const elemBtnStopGenerating = document.querySelector('.btn-stop-generating');
     // 설정에서 목소리 속도 바꾸는 슬라이더
     const elemSldConfigRate = document.querySelector('#sld-config-rate');
     // 설정에서 목소리 볼륨 바꾸는 슬라이더
@@ -467,6 +458,8 @@
             recognition.start();
         }
     });
+    elemBtnStopGenerating.addEventListener('mousedown', function(event) {
+    });
     elemSldConfigRate.addEventListener('change', function (event) {
         console.log("속도 값 : ", this.value);
         const speed = parseFloat(this.value);
@@ -484,15 +477,11 @@
     });
 
     elemBtnMalVoice.addEventListener('mousedown', event => {
-        event.preventDefault(); // prevent default navigation behavior
-        console.log("남성 목소리");
         const voice = 'ko-KR-Wavenet-C'; 
         setVoice(voice);
     });
 
     elemBtnFemVoice.addEventListener('mousedown', event => {
-        event.preventDefault(); // prevent default navigation behavior
-        console.log("여성 목소리");
         const voice = 'ko-KR-Wavenet-B'; 
         setVoice(voice); 
     });
