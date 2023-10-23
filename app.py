@@ -81,6 +81,8 @@ def text_stream_query():
         # OpenAI API 서버에 요청을 보냅니다.
         # response : Dictionary 사전 객체
         try:
+            query_text = data["queryText"]
+            history = data["history"]
             now = datetime.now() 
             Y= now.year
             M= now.month
@@ -90,7 +92,7 @@ def text_stream_query():
             s= now.second
             weekdays = ['월', '화', '수', '목', '금', '토', '일']
             tellTime = f"오늘 시간은 {Y}년 {M}월 {D}일 {h}시 {m}분 {s}초 {weekdays[now.weekday()]}요일 입니다. 앞으로 현재 시간에 대해 물어보면 이 정보를 이용해주세요."
-            CONVERSATION = [
+            conversation = [
                 # TODO : 앞에서 대화한 내용 추가
                 # TODO : 프롬프트
                 {"role": "system", "content": "You are an helpful assistant."}, # 유능한 비서로서 답할 것
@@ -99,12 +101,17 @@ def text_stream_query():
                 {"role": "assistant", "content": "알겠습니다. 잊지 않을게요."},
                 {"role": "user", "content": tellTime}, # 대답할 때 현재 시간에 대한 정보를 숙지하고 있을 것
                 {"role": "assistant", "content": "알겠습니다. 잊지 않을게요."},
-                # 사용자의 요청
-                {"role": "user", "content": data["queryText"]},
+                {"role": "user", "content": "너는 누구야?"}, 
+                {"role": "assistant", "content": "저는 음성 챗봇 지피지기입니다."},
+                {"role": "user", "content": "왜 네 이름이 지피지기야?"},
+                {"role": "assistant", "content": "제 이름 지피지기는 챗 GPT와 친구를 뜻하는 말 지기를 합친 것입니다."},
+                *history,
+                {"role": "user", "content": query_text}
             ]
+            print(conversation)
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
-                messages=CONVERSATION,
+                messages=conversation,
                 stream=True
             )
             # create variables to collect the stream of chunks
@@ -118,7 +125,7 @@ def text_stream_query():
                     time.sleep(1)
                     continue
                 yield content  # Sending each chat as a separate chunk
-                print(f"sent {content}")  # print the delay and text
+                # print(f"sent {content}")
         except openai.error.APIError as e:
             print(f"OpenAI API returned an API Error: {e}")
             yield "!! 답변을 생성하던 중 에러가 발생했습니다."

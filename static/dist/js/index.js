@@ -375,8 +375,6 @@
         생성일 : 2023년 10월 16일 이경근이 만들었습니다.
         설명 : index.html 파일의 로직을 지정하는 파일입니다.
     */
-    console.log("안녕하세요");
-
 
     // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
     // 사용자가 음성 입력을 하려고 할 때 누르는 마이크 버튼
@@ -404,12 +402,10 @@
 
     // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
     document.addEventListener("chatsUpdated", event => {
-        console.log('a');
         elemChatMessages.textContent='';
         // 새로운 채팅으로 옮겨간 경우, 현재 실행중인 답변을 중지
         if( prevChat != currChat )
         {
-            console.log('a');
             stopTextToSpeech();
         }
         // 새로운 채팅이 주어진 경우 채팅 메세지 목록을 새로운 채팅의 내용으로 채우기
@@ -530,6 +526,12 @@
     });
 
     async function fetchStreamedQuery(queryText) {
+        const history = currChat.messages.map(function (message) {
+            return {
+                role: message.role,
+                content: message.content
+            };
+        });
         // 사용자 메세지 추가
         currChat.addMessage("user", queryText);
         selectChat(currChat);
@@ -540,6 +542,7 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                history : history,
                 queryText: queryText,
             })
         });
@@ -591,6 +594,7 @@
                 saveChats();
             })
             .catch(error => {
+                console.error(error);   
                 currChat.addMessage("system", "현재는 서버를 이용할 수 없습니다. 나중에 다시 시도해 주세요.");
                 selectChat(currChat);
             });

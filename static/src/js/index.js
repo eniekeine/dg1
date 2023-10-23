@@ -8,8 +8,6 @@ import {} from './sidebar.js'
 import {prevChat, currChat, selectChat, addChat, saveChats, loadChats} from './models.js'
 import {textToSpeech, stopTextToSpeech, audioOutput} from './tts.js'
 import {setSpeed, setVolume, setVoice} from './config.js'
-console.log("안녕하세요");
-
 
 // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
 // 사용자가 음성 입력을 하려고 할 때 누르는 마이크 버튼
@@ -218,6 +216,12 @@ elemBtnNewChat.addEventListener('mousedown', event => {
 });
 
 async function fetchStreamedQuery(queryText) {
+    const history = currChat.messages.map(function (message) {
+        return {
+            role: message.role,
+            content: message.content
+        };
+    });
     // 사용자 메세지 추가
     currChat.addMessage("user", queryText);
     selectChat(currChat)
@@ -228,6 +232,7 @@ async function fetchStreamedQuery(queryText) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+            history : history,
             queryText: queryText,
         })
     });
@@ -279,6 +284,7 @@ function submitStreamedQuery()
             saveChats();
         })
         .catch(error => {
+            console.error(error);   
             currChat.addMessage("system", "현재는 서버를 이용할 수 없습니다. 나중에 다시 시도해 주세요.");
             selectChat(currChat);
         });
