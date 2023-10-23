@@ -16,8 +16,12 @@ const elemBtnMic = document.querySelector('.btn-mic');
 const elemBtnStopGenerating = document.querySelector('.btn-stop-generating');
 // 설정에서 목소리 속도 바꾸는 슬라이더
 const elemSldConfigRate = document.querySelector('#sld-config-rate');
+// 설정에서 목소리 속도 바꾸는 슬라이더 값 표시
+const spanSldConfigRateValue = document.getElementById('sld-config-rate-value');
 // 설정에서 목소리 볼륨 바꾸는 슬라이더
 const elemSldConfigVolume = document.querySelector('#sld-config-volume');
+// 설정에서 목소리 볼륨 바꾸는 슬라이더 값 표시
+const spanSldConfigVolumeValue = document.getElementById('sld-config-volume-value');
 // 설정에서 자동재생 토글 버튼
 const elemChkConfigAutoplay = document.querySelector('#chk-config-autoplay');
 // 남자 목소리 버튼
@@ -115,12 +119,14 @@ elemBtnStopGenerating.addEventListener('click', function(event) {
 });
 elemSldConfigRate.addEventListener('change', function (event) {
     console.log("속도 값 : ", this.value);
+    spanSldConfigRateValue.textContent = this.value + "x"; // 값 업데이트
     const speed = parseFloat(this.value);
     setSpeed(speed); // setSpeed 함수 불러옴
 });
 
 elemSldConfigVolume.addEventListener('change', function (event) {
     console.log("볼륨 값 : ", this.value);
+    spanSldConfigVolumeValue.textContent = this.value + "db";
     const volume = parseFloat(this.value);
     setVolume(volume);
 });

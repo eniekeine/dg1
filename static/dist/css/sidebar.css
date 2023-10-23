@@ -223,6 +223,23 @@
     align-items: start;
     justify-content: start;
     align-items: center;
+    position: relative;
+}
+
+#sld-config-rate-value {
+    display: block;
+    position: absolute;
+    top: 100%; /* 부모 요소 아래로 위치시키기 위해 top을 100%로 설정 */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#sld-config-volume-value {
+    display: block;
+    position: absolute;
+    top: 100%; /* 부모 요소 아래로 위치시키기 위해 top을 100%로 설정 */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .config-voice-sel-btn-area {
