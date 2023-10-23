@@ -195,11 +195,14 @@
     const chats = [];
     // current Chat. chats 안에 있는 것들 중에서 현재 사용자가 보고있는 ChatModel
     let currChat = null;
+    let prevChat = null;
     const evtChatsUpdated = new CustomEvent('chatsUpdated', {
         chats : chats
     });
     function selectChat(chatModel)
     {
+        // 현재 채팅이 무엇이었는 지 기록
+        prevChat = currChat;
         // 현재 채팅을 주어진 chatModel로 설정
         currChat = chatModel;
         document.dispatchEvent(evtChatsUpdated);
@@ -401,9 +404,14 @@
 
     // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
     document.addEventListener("chatsUpdated", event => {
+        console.log('a');
         elemChatMessages.textContent='';
         // 새로운 채팅으로 옮겨간 경우, 현재 실행중인 답변을 중지
-        // if (prevChat != currChat ) audioOutput.pause(); // audioOutput 요소를 노출시켜 주셔야 할 수 있어요
+        if( prevChat != currChat )
+        {
+            console.log('a');
+            stopTextToSpeech();
+        }
         // 새로운 채팅이 주어진 경우 채팅 메세지 목록을 새로운 채팅의 내용으로 채우기
         if (currChat)
         {
@@ -421,6 +429,7 @@
     document.addEventListener('chatRemoved', e => {
         const removed = e.detail.removed;
         console.log('removed', removed);
+        stopTextToSpeech();
     });
 
     // 이전 세션에서의 채팅 목록을 불러오기
@@ -465,7 +474,7 @@
         }
     });
     elemBtnStopGenerating.addEventListener('click', function(event) {
-        // 오디오를 일시 중지
+        // 오디오 일시 중지
         stopTextToSpeech();
     });
     elemSldConfigRate.addEventListener('change', function (event) {
