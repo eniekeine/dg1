@@ -108,7 +108,6 @@ def text_stream_query():
                 *history,
                 {"role": "user", "content": query_text}
             ]
-            print(conversation)
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=conversation,

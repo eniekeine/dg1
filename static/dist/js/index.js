@@ -106,6 +106,9 @@
                 const elemBtnPlay = clone.querySelector(".btn-play");
                 const elemBtnCopy = clone.querySelector(".btn-copy");
                 elemBtnPlay.addEventListener('mousedown', (event) => {
+                    // 사용자가 응답 생성을 취소하고 싶을 때 누르는 정지 버튼
+                    const elemBtnStopGenerating = document.querySelector('.btn-stop-generating');
+                    elemBtnStopGenerating.classList.remove('hidden');
                     console.log("btn-play");
                     console.log(this.content);
                     // 음성 출력
