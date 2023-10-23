@@ -6,7 +6,7 @@
 import {ChatModel} from './chat-model.js'
 import {} from './sidebar.js'
 import {prevChat, currChat, selectChat, addChat, saveChats, loadChats} from './models.js'
-import {textToSpeech} from './tts.js'
+import {textToSpeech, stopTextToSpeech, audioOutput} from './tts.js'
 import {setSpeed, setVolume, setVoice} from './config.js'
 console.log("안녕하세요");
 
@@ -100,7 +100,9 @@ elemBtnMic.addEventListener('mousedown', function (event) {
         recognition.start();
     }
 });
-elemBtnStopGenerating.addEventListener('mousedown', function(event) {
+elemBtnStopGenerating.addEventListener('click', function(event) {
+    // 오디오 일시 중지
+    stopTextToSpeech();
 });
 elemSldConfigRate.addEventListener('change', function (event) {
     console.log("속도 값 : ", this.value);
