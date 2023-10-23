@@ -399,6 +399,10 @@
     const elemChatMessages = document.querySelector('.chat-messages');
     // 새 채팅 추가 버튼
     const elemBtnNewChat = document.querySelector('.btn-new-chat');
+    // 쿼리 오브젝트
+    let queryObject = {
+        generating : false,
+    };
 
     // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
     document.addEventListener("chatsUpdated", event => {
@@ -470,8 +474,11 @@
         }
     });
     elemBtnStopGenerating.addEventListener('click', function(event) {
-        // 오디오 일시 중지
+        // 답변 생성 중일 경우 답변 생성 중지
+        queryObject.generating = false;
+        // 오디오 재생 중일 경우 오디오 재생 중지
         stopTextToSpeech();
+        elemBtnStopGenerating.classList.add('hidden');
     });
     elemSldConfigRate.addEventListener('change', function (event) {
         console.log("속도 값 : ", this.value);
@@ -557,6 +564,13 @@
         while (true) {
             const { done, value } = await reader.read();
             if (done) break;
+            if (queryObject.generating == false) {
+                message.role = "system";
+                message.content = message.content + " !!사용자가 응답 생성을 중지하였습니다.";
+                message.updateView();
+                selectChat(currChat);
+                return;
+            }
             let delta = new TextDecoder().decode(value);
             message.content = message.content + delta;
             message.updateView();
@@ -569,12 +583,13 @@
 
     function submitStreamedQuery()
     {
+        // 이전 답변에 대답하는 도중일 경우 새로운 질문을 받지 않습니다.
+        if(queryObject.generating == true ) return;
         let queryText = elemTxtInput.value.trim();
         // 쿼리가 비어있다면 
         if( queryText === "" )
         {
             console.log("쿼리가 비어있으므로 실행을 취소합니다.");
-            return false;
         }
         // 쿼리가 비어있지 않다면
         else
@@ -589,11 +604,18 @@
                 addChat(chatModel);
                 selectChat(chatModel);
             }
+            // 답변 생성 시작임을 알림
+            queryObject.generating = true;
+            elemBtnStopGenerating.classList.remove('hidden');
             fetchStreamedQuery(queryText)
             .then(() => {
                 saveChats();
+                // 답변 생성이 종료되었음을 알림
+                queryObject.generating = false;
             })
             .catch(error => {
+                // 답변 생성이 종료되었음을 알림
+                queryObject.generating = false;
                 console.error(error);   
                 currChat.addMessage("system", "현재는 서버를 이용할 수 없습니다. 나중에 다시 시도해 주세요.");
                 selectChat(currChat);
