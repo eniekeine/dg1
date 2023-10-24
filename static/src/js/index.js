@@ -6,7 +6,7 @@
 import {ChatModel} from './chat-model.js'
 import {} from './sidebar.js'
 import {prevChat, currChat, selectChat, addChat, saveChats, loadChats} from './models.js'
-import {textToSpeech, stopTextToSpeech, audioOutput} from './tts.js'
+import {textToSpeech, stopTextToSpeech} from './tts.js'
 import {setSpeed, setVolume, setVoice} from './config.js'
 
 // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
