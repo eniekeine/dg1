@@ -183,6 +183,7 @@ header a{
     flex-direction: column;
     margin: 0 0;
     width: 100%;
+    max-width: 800px;
     height: 100%;
     flex-grow : 1;
     padding: 0;
