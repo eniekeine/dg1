@@ -489,7 +489,8 @@
     });
     elemSldConfigRate.addEventListener('change', function (event) {
         console.log("속도 값 : ", this.value);
-        spanSldConfigRateValue.textContent = this.value + "x"; // 값 업데이트
+        if(this.value == 0) this.value = 0.25; // 0이 될 수는 없음.
+        spanSldConfigRateValue.textContent = this.value == 1 ? '보통' : (this.value + "x"); // 값 업데이트
         const speed = parseFloat(this.value);
         setSpeed(speed); // setSpeed 함수 불러옴
     });
