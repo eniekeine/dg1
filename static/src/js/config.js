@@ -12,10 +12,10 @@ export function setSpeed(newSpeed){
 }
 
 // 음성 음량 조절
-export let volume = 0.0;
-export function setVolume(newVolume){
-    volume = newVolume;
-}
+// export let volume = 0.0;
+// export function setVolume(newVolume){
+//     volume = newVolume;
+// }
 
 // 음성 성별 조절
 export let voice = 'ko-KR-Wavenet-C';

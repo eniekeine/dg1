@@ -5,7 +5,7 @@
 
 */
 
-import { speed, volume, voice } from './config.js'
+import { speed, voice } from './config.js'
 
 // 음성 출력을 위한 오디오 요소
 export const audioOutput = new Audio();
@@ -27,7 +27,7 @@ export function textToSpeech(text) {
         body: JSON.stringify({
             input: { text },
             voice: { languageCode: 'ko-KR', name: voice },
-            audioConfig: { audioEncoding: 'LINEAR16', speakingRate: speed, volumeGainDb: volume }
+            audioConfig: { audioEncoding: 'LINEAR16', speakingRate: speed }
         }),
     })
     .then(response => response.json())
