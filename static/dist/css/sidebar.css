@@ -7,7 +7,7 @@
     position:fixed;
     transition: .5s;
     height:100%;
-    border: 3px solid rgba(78, 75, 255, 0);
+    border: none;
     border-radius: 10px;
     background: #FFF;
     z-index:100;
