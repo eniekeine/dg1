@@ -15,13 +15,11 @@
 
 @media only screen and (min-width: 600px) {
     .sidebar{
-        position: -webkit-sticky; /* Safari */
-        position: sticky;
+        position: static;
         height:100vh;
         top: 0;
     }
 }
-
 
 .sidebar.expander{
     border: 3px solid #7875FF;
