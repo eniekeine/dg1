@@ -55,7 +55,6 @@ body {
 
 .main {
     display: flex;
-    flex-direction: center;
     justify-content: center;
     flex-grow :1;
     width:100%;
@@ -97,7 +96,7 @@ header a{
 }
 
 .intro{
-    width : 800px;
+    max-width : 800px;
     color: #000;
     font-family: "Nanum Gothic";
     font-size: 15px;
@@ -109,12 +108,25 @@ header a{
 
 .intro-cards{
     display:flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
 }
 
+@media only screen and (min-width: 600px) {
+    .intro-cards{
+        flex-direction: row;
+    }
+}
+
 .intro-pad{
+    display:none;
     width: 56px;
+}
+
+@media only screen and (min-width: 600px) {
+    .intro-pad{
+        display:block;
+    }
 }
 
 .intro-card{
