@@ -15,10 +15,10 @@
     }
 
     // 음성 음량 조절
-    let volume = 0.0;
-    function setVolume(newVolume){
-        volume = newVolume;
-    }
+    // export let volume = 0.0;
+    // export function setVolume(newVolume){
+    //     volume = newVolume;
+    // }
 
     // 음성 성별 조절
     let voice = 'ko-KR-Wavenet-C';
@@ -54,7 +54,7 @@
             body: JSON.stringify({
                 input: { text },
                 voice: { languageCode: 'ko-KR', name: voice },
-                audioConfig: { audioEncoding: 'LINEAR16', speakingRate: speed, volumeGainDb: volume }
+                audioConfig: { audioEncoding: 'LINEAR16', speakingRate: speed }
             }),
         })
         .then(response => response.json())
@@ -389,9 +389,9 @@
     // 설정에서 목소리 속도 바꾸는 슬라이더 값 표시
     const spanSldConfigRateValue = document.getElementById('sld-config-rate-value');
     // 설정에서 목소리 볼륨 바꾸는 슬라이더
-    const elemSldConfigVolume = document.querySelector('#sld-config-volume');
+    //const elemSldConfigVolume = document.querySelector('#sld-config-volume');
     // 설정에서 목소리 볼륨 바꾸는 슬라이더 값 표시
-    const spanSldConfigVolumeValue = document.getElementById('sld-config-volume-value');
+    //const spanSldConfigVolumeValue = document.getElementById('sld-config-volume-value');
     // 설정에서 자동재생 토글 버튼
     const elemChkConfigAutoplay = document.querySelector('#chk-config-autoplay');
     // 남자 목소리 버튼
@@ -494,12 +494,12 @@
         setSpeed(speed); // setSpeed 함수 불러옴
     });
 
-    elemSldConfigVolume.addEventListener('change', function (event) {
-        console.log("볼륨 값 : ", this.value);
-        spanSldConfigVolumeValue.textContent = this.value + "db";
-        const volume = parseFloat(this.value);
-        setVolume(volume);
-    });
+    // elemSldConfigVolume.addEventListener('change', function (event) {
+    //     console.log("볼륨 값 : ", this.value);
+    //     spanSldConfigVolumeValue.textContent = this.value + "db";
+    //     const volume = parseFloat(this.value);
+    //     setVolume(volume);
+    // });
 
     elemChkConfigAutoplay.addEventListener('change', function (event) {
         console.log("자동재생 : ", this.checked);
