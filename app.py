@@ -1,6 +1,6 @@
 # 파일이름 : app.py 
 # 설명 : 플라스크 백엔드 서버의 라우팅을 정의하는 파일입니다.
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 from flask import Flask, render_template, send_from_directory, jsonify, request, Response, stream_with_context, make_response
 import openai
@@ -84,14 +84,21 @@ def text_stream_query():
             query_text = data["queryText"]
             history = data["history"]
             now = datetime.now() 
-            Y= now.year
-            M= now.month
-            D= now.day
-            h= now.hour
-            m= now.minute
-            s= now.second
+            # 9시간 후의 시간 계산, 한국 시간과 동기를 맞춤
+            time_difference = timedelta(hours=9)
+            future_time = now + time_difference
+            
+            Y = future_time.year
+            M = future_time.month
+            D = future_time.day
+            h = future_time.hour
+            m = future_time.minute
+            s = future_time.second
+            
             weekdays = ['월', '화', '수', '목', '금', '토', '일']
-            tellTime = f"오늘 시간은 {Y}년 {M}월 {D}일 {h}시 {m}분 {s}초 {weekdays[now.weekday()]}요일 입니다. 앞으로 현재 시간에 대해 물어보면 이 정보를 이용해주세요."
+            
+            tellTime = f"한국의 현재시간은 {Y}년 {M}월 {D}일 {h}시 {m}분 {s}초 {weekdays[future_time.weekday()]}요일 입니다."
+        
             conversation = [
                 # TODO : 앞에서 대화한 내용 추가
                 # TODO : 프롬프트
