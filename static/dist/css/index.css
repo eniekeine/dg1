@@ -9,17 +9,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
 /* roboto */
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap');
-/* KBIZ한마음고딕체 */
-@font-face {
-    font-family: 'KBIZHanmaumGothic';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/KBIZHanmaumGothic.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
 /* 나눔고딕 */
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
 /* 나눔스퀘어 */
 @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+/* Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
 *, ::before, ::after {
     box-sizing: border-box;
@@ -150,7 +145,6 @@ header a{
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    letter-spacing: 0.6px;
 }
 .intro-card-desc{
     height: 100px;
