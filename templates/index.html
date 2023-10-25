@@ -50,39 +50,34 @@
                 </div> -->
                 <br>
                 <div class="intro">GP지기는 ChatGPT를 활용한 AI 음성 비서 서비스입니다.</div>
+                <br>
                 <!-- <div class="intro">저희 GPTeam은 OpenAI의 API를 활용하여 음성으로 대화를 나눌 수 있게 하는 프로젝트를 목적으로 이 페이지를 만들었습니다.</div> -->
                 <div class="intro-cards">
                     <div class="intro-card">
+                        <img src="{{url_for('static', filename='dist/img/megaphone-icon.svg')}}"/>
                         <h3>
-                            <img src="{{url_for('static', filename='dist/img/megaphone-icon.svg')}}"/>
                             음성 채팅
                         </h3>
-                        <div class="intro-card-desc">
-                            <div>마이크로 음성 대화가 가능합니다.</div>
-                            <div>답변이 텍스트와 음성으로 동시 출력되며, 왼쪽 상단 메뉴창에서 자동재생을 설정할 수 있습니다.</div>
-                        </div>
+                        <div>음성으로 채팅을 입력하고, </div>
+                        <div>답변을 출력 받을 수 있습니다.</div>
                     </div>
                     <div class="intro-pad"></div>
                     <div class="intro-card">
+                        <img src="{{url_for('static', filename='dist/img/refresh-icon.svg')}}"/>
                         <h3>
-                            <img src="{{url_for('static', filename='dist/img/refresh-icon.svg')}}"/>
                             음성 선택
                         </h3>
-                        <div class="intro-card-desc">
-                            <div>답변 목소리를 바꿀 수 있습니다.</div>
-                            <div>왼쪽 상단 메뉴창에서 음성 선택 기능으로 다른 목소리로 답변을 들으실 수 있습니다.</div>
-                        </div>
+                        <div>답변 목소리를 </div>
+                        <div>선택 할 수 있습니다.</div>
                     </div>
                     <div class="intro-pad"></div>
                     <div class="intro-card">
-                        <h3>
-                            <img src="{{url_for('static', filename='dist/img/wave-icon.svg')}}"/>
-                            음성 속도 조절
+                        <img src="{{url_for('static', filename='dist/img/wave-icon.svg')}}"/>
+                        <h3> 
+                            음성 조절
                         </h3> 
-                        <div class="intro-card-desc">
-                            <div>답변의 속도를 조절할 수 있습니다.</div>
-                            <div>왼쪽 상단 메뉴창에서 하단의 재생 속도 바를 이용해서 음성 답변 속도를 조절할 수 있습니다.</div>
-                        </div>
+                        <div>답변 음성의 속도를 </div>
+                        <div>조절 할 수 있습니다.</div>
                     </div>
                 </div> 
                 <ul class="chat-messages">
