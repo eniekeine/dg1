@@ -10,7 +10,7 @@
 /* roboto */
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap');
 /* 나눔고딕 */
-@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url('https://fonts.googleapis.com/earlyaccess/nanumgothic.css');
 /* 나눔스퀘어 */
 @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
 /* Poppins */
@@ -59,6 +59,7 @@ body {
     align-items: center;
     flex-grow :1;
     width:100%;
+    margin-top: 1rem;
 }
 
 header a{
@@ -68,7 +69,7 @@ header a{
 }
 
 .header-logo {
-    padding-top: 20px;
+    padding-top: 15px;
     width: 80px;
     height: 73.85px;
 }
@@ -100,12 +101,13 @@ header a{
 .intro{
     /* max-width : 800px; */
     color: #000;
-    font-family: "Nanum Gothic";
-    font-size: 15px;
+    font-family: "KBIZHanmaumGothic";
+    /* font-family: "Nanum Gothic"; */
+    font-size: 28px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    padding-top : 15px;
+    padding: 15px 0 15px 0;
     margin: 0 1rem;
     text-align: left;
 }
@@ -143,9 +145,9 @@ header a{
 }
 
 @media only screen and (min-width: 600px) {
-    .intro-card{
+    /* .intro-card{
         height: 260px;
-    }
+    } */
 }
 
 .intro-card h3 {
@@ -162,6 +164,11 @@ header a{
     justify-content: space-between;
     align-items: center;
 }
+
+  h3 img {
+    margin-right: 10px; /* 이미지와 텍스트 사이 간격 조절 */
+  }
+
 .intro-card div{
     color: #000;
     font-family: "NanumSquare";
@@ -229,6 +236,10 @@ header a{
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    
+    /* color: gray;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px 8px 8px 0px; */
 }
 
 .message-system {
@@ -257,7 +268,7 @@ header a{
     align-items: center;
     width:50px;
     height:50px;
-
+    margin: auto;
     border: none;
     background-color:white;
     cursor: pointer;
@@ -282,6 +293,7 @@ header a{
     justify-content: center;
     align-items: center;
     margin:1rem;
+    /* position: fixed; */
 }
 
 .input-container {
@@ -331,7 +343,7 @@ header a{
     align-items: center;
     flex-shrink: 0;
     border-radius: 8px;
-    border: 1px solid #C8C8C8;
+    border: none;
     background: #F1F1F1;
     
     /* width: 100%;
@@ -381,6 +393,8 @@ footer {
     border-top : solid 1px rgba(0, 0, 0, 0.46);
     width : 100%;
     height : 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 .message-menu-btns {
     display:flex;
