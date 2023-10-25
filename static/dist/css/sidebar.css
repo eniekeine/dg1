@@ -281,9 +281,13 @@
 }
 
 .config-voice-sel-btn-tag:hover{
-    border-radius: 10px;
     background: #7875FF;
     box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
+    color:white;
+}
+
+.config-voice-sel-btn-tag.active{
+    background: #7875FF;
     color:white;
 }
 

@@ -26,8 +26,10 @@ const spanSldConfigRateValue = document.getElementById('sld-config-rate-value');
 const elemChkConfigAutoplay = document.querySelector('#chk-config-autoplay');
 // 남자 목소리 버튼
 const elemBtnMalVoice = document.querySelector('#btn-mal-voice');
+const elemBtnMalVoiceTag = document.querySelector('#btn-mal-voice div');
 // 여자 목소리 버튼
 const elemBtnFemVoice = document.querySelector('#btn-fem-voice');
+const elemBtnFemVoiceTag = document.querySelector('#btn-fem-voice div');
 // 제출 버튼 (비행기 아이콘)
 const elemBtnSubmit = document.querySelector('#btn-submit');
 // 텍스트 상자
@@ -153,11 +155,15 @@ elemChkConfigAutoplay.addEventListener('change', function (event) {
 elemBtnMalVoice.addEventListener('click', event => {
     const voice = 'ko-KR-Wavenet-C'; 
     setVoice(voice);
+    elemBtnMalVoiceTag.classList.add("active")
+    elemBtnFemVoiceTag.classList.remove("active")
 })
 
 elemBtnFemVoice.addEventListener('click', event => {
     const voice = 'ko-KR-Wavenet-B'; 
     setVoice(voice); 
+    elemBtnFemVoiceTag.classList.add("active")
+    elemBtnMalVoiceTag.classList.remove("active")
 })
 
 // 백엔드 서버에 테스트 쿼리를 보내는 함수
