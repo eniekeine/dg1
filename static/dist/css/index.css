@@ -252,20 +252,18 @@ header a{
 }
 
 .btn-mic {
-    width:50px;
-    height:50px;
     display: flex;
     justify-content: center;
     align-items: center;
     width:50px;
     height:50px;
+
     border: none;
-    cursor: pointer;
     background-color:white;
+    cursor: pointer;
     color:#7875FF;
     border-radius:25%;
-    display:flex;
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.25));
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .btn-mic:hover{
@@ -313,7 +311,7 @@ header a{
     border-radius: 25%;
     color: #7875FF;
     cursor: pointer;
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.25));
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .btn-new-chat:hover{
