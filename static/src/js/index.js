@@ -40,6 +40,7 @@ const elemBtnNewChat = document.querySelector('.btn-new-chat');
 let queryObject = {
     generating : false,
 }
+let recording = false;
 
 // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
 document.addEventListener("chatsUpdated", event => {
@@ -74,40 +75,53 @@ loadChats();
 // 일단 처음 시작때는 첫번째 채팅을 보는 상태로 시작
 // selectChat(chats[0])
 
+// TODO : 마이크 버튼을 클릭했을 때 음성 입력을 받아들이는 상태임을 사용자 눈에 보이게 표시합니다.
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+recognition.lang = 'ko-KR'; // 'en-US' 영어
+recognition.interimResults = false; 
+// TODO : 파이어폭스에서는 안되는데 어떻게?
+if (!SpeechRecognition) {
+    alert('Your browser does not support the Web Speech API. Please try another browser.');
+} else {
+    // 목소리 녹화가 끝나면?
+    recognition.onresult = function(event) {
+        console.log('result');
+        // 녹화된 텍스트 내용
+        const text = event.results[0][0].transcript;
+
+        // 그 내용을 텍스트 박스에다가 적어주세요
+        elemTxtInput.value = text;
+
+        // 백엔드 서버에 그 내용으로 쿼리를 보내주세요
+        // submitQuery();
+        submitStreamedQuery();
+        elemBtnMic.classList.remove('active')
+        recording = false;
+    };
+}
+
+
 // --------------------------
 // 이벤트 리스너
-// mousedown - mouseup : 마우스를 누를 떄 - 마우스를 땔 때 발생하는 이벤트
-elemBtnMic.addEventListener('mousedown', function (event) {
+// click - mouseup : 마우스를 누를 떄 - 마우스를 땔 때 발생하는 이벤트
+elemBtnMic.addEventListener('click', function (event) {
     // 기본 이벤트 헨들러가 작동하는 것을 막습니다.
     event.preventDefault(); 
 
-    // TODO : 마이크 버튼을 클릭했을 때 음성 입력을 받아들이는 상태임을 사용자 눈에 보이게 표시합니다.
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    // TODO : 파이어폭스에서는 안되는데 어떻게?
-    if (!SpeechRecognition) {
-        alert('Your browser does not support the Web Speech API. Please try another browser.');
-    } else {
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'ko-KR'; // 'en-US' 영어
-        recognition.interimResults = false; 
-
-        // 작업이 끝나면 이 콜백 함수를 불러주세요
-        // 목소리 녹화가 끝나면?
-        recognition.onresult = function(event) {
-            // 녹화된 텍스트 내용
-            const text = event.results[0][0].transcript;
-
-            // 그 내용을 텍스트 박스에다가 적어주세요
-            elemTxtInput.value = text;
-
-            // 백엔드 서버에 그 내용으로 쿼리를 보내주세요
-            // submitQuery();
-            submitStreamedQuery();
-        };
-
-        // 비동기적 작업 → 이 작업이 끝났을 때 내가 원하는 코드를 부르려면? 콜백함수(onresult)를 지정해야 됩니다.
-        // 목소리 녹화 시작!
+    if( recording == false )
+    {
+        // console.log('start');
         recognition.start();
+        elemBtnMic.classList.add('active')
+        recording = true;
+    }
+    else
+    {
+        // console.log('stop');
+        recognition.abort();
+        elemBtnMic.classList.remove('active')
+        recording = false;
     }
 });
 elemBtnStopGenerating.addEventListener('click', function(event) {
@@ -136,12 +150,12 @@ elemChkConfigAutoplay.addEventListener('change', function (event) {
     console.log("자동재생 : ", this.checked);
 });
 
-elemBtnMalVoice.addEventListener('mousedown', event => {
+elemBtnMalVoice.addEventListener('click', event => {
     const voice = 'ko-KR-Wavenet-C'; 
     setVoice(voice);
 })
 
-elemBtnFemVoice.addEventListener('mousedown', event => {
+elemBtnFemVoice.addEventListener('click', event => {
     const voice = 'ko-KR-Wavenet-B'; 
     setVoice(voice); 
 })
@@ -204,7 +218,7 @@ function submitQuery()
 }
 
 // 텍스트 입력 후 비행기 버튼을 클릭했을 때 할 일
-elemBtnSubmit.addEventListener('mousedown', event => {
+elemBtnSubmit.addEventListener('click', event => {
     event.preventDefault(); // prevent def
     // submitQuery();
     submitStreamedQuery();
@@ -222,7 +236,7 @@ window.addEventListener("beforeunload", event => {
     saveChats();
 });
 
-elemBtnNewChat.addEventListener('mousedown', event => {
+elemBtnNewChat.addEventListener('click', event => {
     // 새로운 채팅 데이터
     const chatModel = new ChatModel();
     addChat(chatModel)
