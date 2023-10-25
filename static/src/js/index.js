@@ -228,6 +228,7 @@ elemBtnSubmit.addEventListener('click', event => {
     event.preventDefault(); // prevent def
     // submitQuery();
     submitStreamedQuery();
+    
 })
 
 // 텍스트 박스 안의 내용이 바뀔 떄 할 일

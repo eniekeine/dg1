@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!Document html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GP지기</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/index.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/sidebar.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
@@ -43,7 +43,7 @@
         <section class="main">
             <div class="chat">
                 <a href="#">
-                    <img class="header-logo" src="{{url_for('static', filename='dist/img/logo.svg')}}"/>
+                    <img class="header-logo" src="{{url_for('static', filename='dist/img/logo_blue.png')}}"/>
                 </a>
                 <!-- <div class="brief">
                     GP지기에 오신 것을 환영합니다.
@@ -54,7 +54,7 @@
                 <!-- <div class="intro">저희 GPTeam은 OpenAI의 API를 활용하여 음성으로 대화를 나눌 수 있게 하는 프로젝트를 목적으로 이 페이지를 만들었습니다.</div> -->
                 <div class="intro-cards">
                     <div class="intro-card">
-                        <img src="{{url_for('static', filename='dist/img/Icon.png')}}" width="35px" height="30px"/>
+                        <img src="{{url_for('static', filename='dist/img/Icon.png')}}" width="35px" height="34px"/>
                         <h3>
                             음성 채팅
                         </h3>
@@ -101,10 +101,12 @@
                         </svg>
                     </button>
                     <div class = "input-container">
-                        <input id="txt-input"/>
+                        <div id="txt-input-container">
+                            <textarea id="txt-input"></textarea>
+                        </div>
                         <a title="클릭하면 글을 전송합니다" id="btn-submit">
                             <!-- <ion-icon name="paper-plane-outline"></ion-icon> -->
-                            <img src="{{url_for('static', filename='dist/img/submit-icon.svg')}}"/>
+                            <img src="{{url_for('static', filename='dist/img/Frame.png')}}"/>
                         </a>
                     </div>
                     <button title="클릭하고 말을 해보세요" class="btn-mic">

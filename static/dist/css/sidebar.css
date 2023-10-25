@@ -22,7 +22,7 @@
 }
 
 .sidebar.expander{
-    border: 3px solid #7875FF;
+    border: 3px solid #2B4CDC;
 }
 
 .sidebar ul {
@@ -98,8 +98,8 @@
 
 /* 스크롤바 막대 */
 ::-webkit-scrollbar-thumb {
-    background: #7875FF; /* 스크롤바 막대 색상 */
-    border: 1px solid #7875FF; /* 스크롤바 막대 테두리 설정  */
+    background: #2B4CDC; /* 스크롤바 막대 색상 */
+    border: 1px solid #2B4CDC; /* 스크롤바 막대 테두리 설정  */
     border-radius: 3px 3px 3px 3px;
 }
 
@@ -122,7 +122,7 @@
 }
 
 .nav__link:hover {
-    background: #7875FF;
+    background: #2B4CDC;
     color: white;
 }
 
@@ -135,7 +135,7 @@
 }
 
 .active {
-    background-color: #7875FF;
+    background-color: #2B4CDC;
     color: white;
 }
 
@@ -224,7 +224,7 @@
     width: 80px;
     height: 30px;
     border-radius: 30px;
-    border: 1px solid #7875FF;
+    border: 1px solid #2B4CDC;
     box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 0.25);
     color: #000;
     text-align: center;
@@ -297,7 +297,7 @@
     width: 45px;
     height: 20px;
     border-radius: 10px;
-    border: 1px solid #7875FF;
+    border: 1px solid #2B4CDC;
     box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
 
     text-align: center;
@@ -309,13 +309,13 @@
 }
 
 .config-voice-sel-btn-tag:hover{
-    background: #7875FF;
+    background: #2B4CDC;
     box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
     color:white;
 }
 
 .config-voice-sel-btn-tag.active{
-    background: #7875FF;
+    background: #2B4CDC;
     color:white;
 }
 
@@ -328,6 +328,7 @@
 .content {
     /* padding-bottom: 10px; */
     margin: 5 5;
+    white-space: pre-wrap;
 }
 
 /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_rangeslider */
@@ -351,7 +352,7 @@
     appearance: none;
     width: 14px;
     height: 14px;
-    background: #7875ff;
+    background: #2B4CDC; 
     cursor: pointer;
     border-radius: 50%;
 }
@@ -359,7 +360,7 @@
 .slider::-moz-range-thumb {
     width: 14px;
     height: 14px;
-    background: #7875ff;
+    background: #2B4CDC;
     cursor: pointer;
     border-radius: 50%;
 }
@@ -404,7 +405,7 @@
 }
 
 input:checked+.toggle {
-    background-color: #7875ff;
+    background-color: #2B4CDC;
 }
 
 input:focus+.toggle {

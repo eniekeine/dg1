@@ -32,6 +32,7 @@ export function updateSidebar()
         elemNavList.appendChild(nl);
         nl.chatModel = chats[i];
     }
+
 }
 
 // 히스토리에 표시되는 채팅 목록 요소를 만드는 함수

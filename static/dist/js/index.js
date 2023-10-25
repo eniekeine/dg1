@@ -288,6 +288,7 @@
             elemNavList.appendChild(nl);
             nl.chatModel = chats[i];
         }
+
     }
 
     // 히스토리에 표시되는 채팅 목록 요소를 만드는 함수
@@ -541,6 +542,7 @@
         event.preventDefault(); // prevent def
         // submitQuery();
         submitStreamedQuery();
+        
     });
 
     // 텍스트 박스 안의 내용이 바뀔 떄 할 일
