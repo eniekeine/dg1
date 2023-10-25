@@ -233,13 +233,13 @@
     transform: translateX(-50%);
 }
 
-#sld-config-volume-value {
+/* #sld-config-volume-value {
     display: block;
     position: absolute;
-    top: 100%; /* 부모 요소 아래로 위치시키기 위해 top을 100%로 설정 */
+    top: 100%; 
     left: 50%;
     transform: translateX(-50%);
-}
+} */
 
 .config-voice-sel-btn-area {
     display: flex;
@@ -319,7 +319,7 @@
     appearance: none;
     width: 14px;
     height: 14px;
-    background: #4470C8;
+    background: #7875ff;
     cursor: pointer;
     border-radius: 50%;
 }
@@ -327,7 +327,7 @@
 .slider::-moz-range-thumb {
     width: 14px;
     height: 14px;
-    background: #4470C8;
+    background: #7875ff;
     cursor: pointer;
     border-radius: 50%;
 }
@@ -371,7 +371,7 @@
 }
 
 input:checked+.toggle {
-    background-color: #4470C8;
+    background-color: #7875ff;
 }
 
 input:focus+.toggle {
