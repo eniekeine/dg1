@@ -32,8 +32,6 @@ def text_query():
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-                # TODO : 앞에서 대화한 내용 추가
-                # TODO : 프롬프트
                 {"role": "system", "content": "You are a helpful assistant."},
                 # 사용자의 요청
                 {"role": "user", "content": data["queryText"]},
@@ -52,8 +50,6 @@ def is_openapi_server_okay():
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                    # TODO : 앞에서 대화한 내용 추가
-                    # TODO : 프롬프트
                     {"role": "system", "content": "You are a helpful assistant."},
                     # 사용자의 요청
                     {"role": "user", "content": "1이라고 말해봐"},
@@ -67,12 +63,33 @@ def is_openapi_server_okay():
     except openai.error.RateLimitError as e:
         return (False, e)
 
+def make_tell_time_prompt():
+    now = datetime.now() 
+    # 9시간 후의 시간 계산, 한국 시간과 동기를 맞춤
+    time_difference = timedelta(hours=9)
+    future_time = now + time_difference
+    
+    Y = future_time.year
+    M = future_time.month
+    D = future_time.day
+    h = future_time.hour
+    m = future_time.minute
+    s = future_time.second
+    
+    weekdays = ['월', '화', '수', '목', '금', '토', '일']
+    
+    tell_time = f"한국의 현재시간은 {Y}년 {M}월 {D}일 {h}시 {m}분 {s}초 {weekdays[future_time.weekday()]}요일 입니다."
+
+    return tell_time
+    
+
 @app.route('/text-stream-query', methods=['POST'])
 def text_stream_query():
     print(" ==================== text_stream_query ====================")
     data = request.json
     print(data)
     status, content = is_openapi_server_okay()
+    tell_time_prompt = make_tell_time_prompt()
     if status == False:
         print("OpenAI API 통신 에러 : ", content.error)
         return make_response("OpenAI 서버가 다운되었습니다.", 500)
@@ -83,30 +100,13 @@ def text_stream_query():
         try:
             query_text = data["queryText"]
             history = data["history"]
-            now = datetime.now() 
-            # 9시간 후의 시간 계산, 한국 시간과 동기를 맞춤
-            time_difference = timedelta(hours=9)
-            future_time = now + time_difference
-            
-            Y = future_time.year
-            M = future_time.month
-            D = future_time.day
-            h = future_time.hour
-            m = future_time.minute
-            s = future_time.second
-            
-            weekdays = ['월', '화', '수', '목', '금', '토', '일']
-            
-            tellTime = f"한국의 현재시간은 {Y}년 {M}월 {D}일 {h}시 {m}분 {s}초 {weekdays[future_time.weekday()]}요일 입니다."
         
             conversation = [
-                # TODO : 앞에서 대화한 내용 추가
-                # TODO : 프롬프트
                 {"role": "system", "content": "You are an helpful assistant."}, # 유능한 비서로서 답할 것
                 {"role": "system", "content": "You mainly speak Korean."}, # 한국어로 답할 것
                 {"role": "user", "content": "From now on, answer my messages with no more than three sentences."}, # 세 문장 이상으로 답하지 말것
                 {"role": "assistant", "content": "알겠습니다. 잊지 않을게요."},
-                {"role": "user", "content": tellTime}, # 대답할 때 현재 시간에 대한 정보를 숙지하고 있을 것
+                {"role": "user", "content": tell_time_prompt}, # 대답할 때 현재 시간에 대한 정보를 숙지하고 있을 것
                 {"role": "assistant", "content": "알겠습니다. 잊지 않을게요."},
                 {"role": "user", "content": "너는 누구야?"}, 
                 {"role": "assistant", "content": "저는 음성 챗봇 지피지기입니다."},
@@ -125,10 +125,12 @@ def text_stream_query():
             # iterate through the stream of events
             for chunk in response:
                 collected_chunks.append(chunk)  # save the event response
-                chunk_message = chunk['choices'][0]['delta']  # extract the message
+                choice = chunk['choices'][0]
+                if choice['finish_reason'] == "stop":
+                    break
+                chunk_message = choice['delta']
                 content = chunk_message.content
                 if len(content) == 0:
-                    time.sleep(1)
                     continue
                 yield content  # Sending each chat as a separate chunk
                 # print(f"sent {content}")
