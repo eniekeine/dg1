@@ -65,6 +65,7 @@ export function addChat(chatModel)
 
 export function saveChats()
 {
+    localStorage.clear();
     let ids = []
     for(let i = 0; i < chats.length; ++i )
     {
