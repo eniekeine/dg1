@@ -413,6 +413,7 @@
     let queryObject = {
         generating : false,
     };
+    // 현재 음성 입력을 받는 도중이면 true인 변수
     let recording = false;
 
     // 현재 보이고 있는 채팅의 메세지를 지우고, 지정된 채팅(chatModel)을 표시
@@ -438,17 +439,14 @@
     });
 
     document.addEventListener('chatRemoved', e => {
-        const removed = e.detail.removed;
-        console.log('removed', removed);
+        e.detail.removed;
+        // console.log('removed', removed)
         stopTextToSpeech();
     });
 
     // 이전 세션에서의 채팅 목록을 불러오기
     loadChats();
-    // 일단 처음 시작때는 첫번째 채팅을 보는 상태로 시작
-    // selectChat(chats[0])
 
-    // TODO : 마이크 버튼을 클릭했을 때 음성 입력을 받아들이는 상태임을 사용자 눈에 보이게 표시합니다.
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
     recognition.lang = 'ko-KR'; // 'en-US' 영어
@@ -459,7 +457,6 @@
     } else {
         // 목소리 녹화가 끝나면?
         recognition.onresult = function(event) {
-            console.log('result');
             // 녹화된 텍스트 내용
             const text = event.results[0][0].transcript;
 
@@ -505,7 +502,7 @@
         elemBtnStopGenerating.classList.add('hidden');
     });
     elemSldConfigRate.addEventListener('change', function (event) {
-        console.log("속도 값 : ", this.value);
+        // console.log("속도 값 : ", this.value);
         if(this.value == 0) this.value = 0.25; // 0이 될 수는 없음.
         spanSldConfigRateValue.textContent = this.value == 1 ? '보통' : (this.value + "x"); // 값 업데이트
         const speed = parseFloat(this.value);
@@ -545,9 +542,23 @@
         
     });
 
-    // 텍스트 박스 안의 내용이 바뀔 떄 할 일
+    // 엔터를 누를 시 새 줄을 입력하지 않도록 함
+    elemTxtInput.addEventListener('keydown', function(event) {
+        // 사용자가 엔터를 입력한 경우
+        if (event.key === 'Enter') {
+            // shift를 누른 채였다면 새줄을 입력합니다.
+            if( event.shiftKey )
+                return;
+            // shift를 누르지 않았다면 새줄을 입력하지 않습니다.
+            else
+                event.preventDefault();
+        }
+    });
+    // 엔터를 눌렀다가 때면 입력을 제출함
     elemTxtInput.addEventListener('keyup', event => {
-        if (event.key === 'Enter' || event.keyCode === 13) {
+        // Shift를 누르지 않은 채로 엔터를 입력한 경우
+        if (event.key === 'Enter' && !event.shiftKey) {
+            // 쿼리를 시작해주세요
             submitStreamedQuery();
         }
     });
