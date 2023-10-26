@@ -4,7 +4,7 @@
     설명 : index.html 파일의 로직을 지정하는 파일입니다.
 */
 import {ChatModel} from './chat-model.js'
-import {} from './sidebar.js'
+import {elemNavList} from './sidebar.js'
 import {prevChat, currChat, selectChat, addChat, saveChats, loadChats} from './models.js'
 import {textToSpeech, stopTextToSpeech} from './tts.js'
 import {setSpeed, setVoice} from './config.js'
@@ -253,6 +253,7 @@ elemBtnNewChat.addEventListener('click', event => {
     const chatModel = new ChatModel();
     addChat(chatModel)
     selectChat(chatModel);
+    elemNavList.scrollTop = elemPageRoot.scrollHeight;
 });
 
 async function fetchStreamedQuery(queryText) {

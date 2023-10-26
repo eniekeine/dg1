@@ -568,6 +568,7 @@
         const chatModel = new ChatModel();
         addChat(chatModel);
         selectChat(chatModel);
+        elemNavList.scrollTop = elemPageRoot.scrollHeight;
     });
 
     async function fetchStreamedQuery(queryText) {

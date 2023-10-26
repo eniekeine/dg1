@@ -2,7 +2,7 @@
 import {chats, currChat, selectChat, removeChat} from './models.js'
 let navState = 'close';
 const elemSidebar = document.querySelector('.sidebar');
-const elemNavList = document.querySelector('.nav__list');
+export const elemNavList = document.querySelector('.nav__list');
 const toggle = document.getElementById('nav-toggle')
 const navbar = document.getElementById('navbar')
 const bodypadding = document.getElementById("body-pd")
