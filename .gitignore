@@ -1,3 +1,5 @@
 environ.txt
 goorm.manifest
 __pycache__/**/*
+static/node_modules/**
+.vscode/

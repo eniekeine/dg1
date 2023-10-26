@@ -9,6 +9,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
 /* roboto */
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+/* 나눔고딕 */
+@import url('https://fonts.googleapis.com/earlyaccess/nanumgothic.css');
+/* 나눔스퀘어 */
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+/* Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+button {
+    all: unset;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button:focus {
+    outline: revert;
+}
 
 body {
     display: flex;
@@ -18,269 +40,221 @@ body {
     margin: 0;
     /* 내 바깥의 부모와의 간격 */
     font-family: 'Raleway', 'Noto Sans KR', sans-serif;
+    /* background: linear-gradient(98deg, #FFF -4.78%, #C0D9FE 102%); */
+    overflow:hidden;
 }
 
+.page-root{
+    width:100%;
+    height:100vh;
+    display:flex;
+    flex-direction: column;
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
 
 .main {
-    display: flex; /* flex를 사용해 내 자식 요소를 정렬하겠다 */
-    overflow: hidden; /* hidden - 안 보이게 놔둔다. scroll - 스크롤 바를 추가하여 직접 스크롤 할 수 있게 한다 */
-    height: 100vh; /* 화면 전체를 차지하도록 높이를 설정하겠다 */
-    width: 100%; /* 부모 영역의 100%를 차지하겠다 */
-    flex-direction: column; /* 내 안의 요소들이 위에서 아래로 나열된다 */
-    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow :1;
+    width:100%;
+    margin-top: 90px;
 }
 
-header {
-    display: flex;
-    justify-content: center;
-    align-self: center;
-    height: 87px;
-    border: gray;
-    width: 100%;
-}
-
-.main-middle {
-    display: flex;
+header a{
+    flex-grow:1;
     justify-content: center;
     align-items: center;
-    flex-grow: 1;
-    padding: 0px 50px;
+}
+
+.header-logo {
+    width: 80px;
+    height: 73.85px;
 }
 
 .chat {
-    display: flex;
-    width: 50%;
-    height: 90%;
-    min-width: 480px;
+    display:flex;
     flex-direction: column;
-    justify-content: top;
-    background-color: #343541;
-    margin: 5 5;
-    align-items: center;
-    align-content: center;
-    flex-grow: 1;
-}
-
-.chat-middle {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    height: 100%;
-    border: 1px solid rgba(255, 255, 255, .3);
-    flex-grow: 1;
-}
-
-.chat-middle-left {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border: 1px solid rgba(255, 255, 255, .3);
-    flex-grow: 1;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    flex-grow: 1;
+    margin: 5 5;
+    
+    width:100%;
+    min-width: 360px;
+    max-width : 1170px;
 }
+
+.brief{
+    color: #000;
+    text-align: center;
+    font-family: "KBIZHanmaumGothic";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 0 1rem;
+}
+
+.intro{
+    /* max-width : 800px; */
+    color: #000;
+    font-family: "KBIZHanmaumGothic";
+    /* font-family: "Nanum Gothic"; */
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 15px 0 15px 0;
+    margin: 0 1rem;
+    text-align: left;
+}
+
+.intro-cards{
+    display:flex;
+    flex-direction:  column;
+    justify-content: center;
+}
+
+@media only screen and (min-width: 600px) {
+    .intro-cards{
+        flex-direction: row;
+    }
+}
+
+.intro-pad{
+    display:none;
+    width: 56px;
+}
+
+@media only screen and (min-width: 600px) {
+    .intro-pad{
+        display:block;
+    }
+}
+
+.intro-card{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 150px;
+    border: 1px solid gray;
+    border-radius: 15px;
+    text-align: center;
+    line-height: 150px;
+    margin-top: 1rem;
+}
+
+@media only screen and (min-width: 600px) {
+    .intro-card{
+        margin-top: auto;
+    } 
+}
+
+.intro-card h3 {
+    height: 30px;
+    color: #000;
+    text-align: center;
+    font-family: "Nanum Gothic";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+  h3 img {
+    margin-right: 10px; /* 이미지와 텍스트 사이 간격 조절 */
+  }
+
+.intro-card div{
+    color: #000;
+    font-family: "NanumSquare";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+/* .intro-card-desc{
+    height: 100px;
+    border: 1px solid #2B4CDC;
+    background: #FFF;
+} */
 
 .chat-messages {
     display: flex;
     flex-direction: column;
-    border: 1px solid rgba(255, 255, 255, .3);
-    margin: 0 0;
-    overflow-y: scroll;
-    max-height: 480px;
+    margin-top: 20px;
     width: 100%;
+    /* max-width: 800px; */
     height: 100%;
     flex-grow : 1;
-}
-
-.chat-top-filler {
-    width: 100%;
-    height: 62px;
-    border: 1px solid rgba(255, 255, 255, .3);
-    background-repeat: no-repeat;
-    background-image: url("/static/dist/img/chatgpt-symbol.svg");
-    background-position: center center;
+    padding: 0;
 }
 
 .chat li {
     list-style-type: none;
-    margin: 12px 24px;
+    margin: 12px 35px 12px 35px;
     padding: 10px 10px;
     width: fit-content;
     block-size: fit-content;
 }
 
-.config {
-    width: 400px;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, .3);
-    flex-grow:0;
-}
-
-.config-row {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 0;
-    margin: 10px;
-}
-
-.config-col1 {
-    display: flex;
-    width: 100px;
-}
-
-.config-col2 {
-    display: flex;
-    flex-grow: 1;
-    align-items: start;
-    justify-content: start;
-    align-items: center;
-}
-
-.config-voice-sel-btn-area {
-    display: flex;
-    flex-direction: row;
-}
-
-.config-voice-sel-btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: inherit;     /* Use the color of the parent element */
-    text-decoration: none;  /* Remove the underline */
-}
-
-.config-voice-sel-btn-tag{
-    color:white;
-}
-
-.config-voice-sel-btn ion-icon
-{
-    width:98px;
-    height:98px;
-}
-
-.content {
-    padding-bottom: 10px;
-    margin: 5 5;
-}
-
 .message-user {
-    color: white;
-    background-color: #10A37F;
-    border-radius: 8px 8px 0px 8px;
-    padding: 12px;
+    display: flex;
     width: auto;
     max-width: 80%;
+    padding: 12px 20px;
     align-self: flex-end;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    border-radius: 25px 25px 0 25px;
+    background: #2B4CDC;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .message-assistant {
-    color: white;
+    display: flex;
+    flex-direction: column;
     width: auto;
     max-width: 80%;
+    align-items: baseline;
+    gap: 10px;
+    border-radius: 25px 25px 25px 0;
+    background: #D9EDFF;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #000;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    
+    /* color: gray;
     background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 8px 8px 8px 0px;
+    border-radius: 8px 8px 8px 0px; */
 }
 
-/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_rangeslider */
-.slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 4px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
+.message-system {
+    color: gray;
+    width: auto;
+    max-width: 80%;
+    background-color: #f4f5f8;
+    border-radius: 8px 8px 8px 8px;
 }
 
-.slider:hover {
-    opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 14px;
-    height: 14px;
-    background: #10A37F;
-    cursor: pointer;
-    border-radius: 50%;
-}
-
-.slider::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
-    background: #10A37F;
-    cursor: pointer;
-    border-radius: 50%;
-}
-
-/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 30px;
-    height: 17px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.toggle {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: gray;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-.toggle:before {
-    position: absolute;
-    content: "";
-    height: 13px;
-    width: 13px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-input:checked+.toggle {
-    background-color: #10A37F;
-}
-
-input:focus+.toggle {
-    box-shadow: 0 0 1px #10A37F;
-}
-
-input:checked+.toggle:before {
-    -webkit-transform: translateX(13px);
-    -ms-transform: translateX(13px);
-    transform: translateX(13px);
-}
-
-/* Rounded sliders */
-.toggle.round {
-    border-radius: 17px;
-}
-
-.toggle.round:before {
-    border-radius: 50%;
+.btn-stop-generating{
+    width:50px;
+    height:50px;
+    margin:1rem;
 }
 
 .mic-input-area {
@@ -290,30 +264,109 @@ input:checked+.toggle:before {
 }
 
 .btn-mic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:50px;
+    height:50px;
     border: none;
+    background-color:white;
     cursor: pointer;
-    border-radius: 50%;
+    color:#2B4CDC;
+    border-radius:25%;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-.btn-mic ion-icon {
-    width: 61px;
-    height: 61px;
-    color: #10A37F;
+.btn-mic:hover{
+    color:#5855EF;
 }
 
-.tag-btn-mic {
+.btn-mic.active{
+    background-color:#2B4CDC;
     color:white;
 }
 
+.input-wrapper {
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin:1rem;
+    /* position: fixed; */
+}
 
 .input-container {
     position: relative;
     width: 100%;
-    max-width: 650px;
+    justify-content:center;
+    align-items: center;
+    flex-grow : 1;
+    max-width : 980px;
+    margin : 1rem;
+}
+
+#txt-input-container{
+    padding-top: 13px;
+    padding-left: 10px;
+    border-radius: 15px;
+    background: #f5f6f7;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    /* weight: 814px;*/
+    height: 50px;
+    max-height: 200px; 
+    position: relative;
+}
+
+#txt-input {
+    width: 791px;
+    max-height: 200px; 
+    height: 28px; 
+    overflow: hidden;
+    resize: none;
+    background-color: #00000000;
+    font-size: 16px;
+    border: none; /* 테두리 없애기 */
+    outline: none; /* 포커스 효과 없애기 */
+    position: absolute;
+}
+
+
+.btn-new-chat{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width:50px;
+    height:50px;
+    background-color: white;
+    border-radius: 25%;
+    color: #2B4CDC;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.btn-new-chat:hover{
+    color: #5855EF;
+}
+
+.btn-new-chat svg{
+    filter: none;
 }
 
 .input-container input {
+    display: flex;
     width: 100%;
+    height: 50px;
+    padding: 8px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: none;
+    background: #F1F1F1;
+    
+    /* width: 100%;
     border: none;
     font-size: 20px;
     background-color: rgba(255, 255, 255, 0.05);
@@ -325,7 +378,7 @@ input:checked+.toggle:before {
         rgba(0, 0, 0, 0.05) 0 4px 6px,
         rgba(0, 0, 0, 0.05) 0 12px 3px,
         rgba(0, 0, 0, 0.05) 0 -3px 5px;
-    color: white;
+    color: white; */
 }
 
 .input-container input:focus {
@@ -334,23 +387,50 @@ input:checked+.toggle:before {
 
 #btn-submit {
     position: absolute;
-    bottom : 2px;
-    right : 0;
+    bottom : 0.25rem;
+    right : 0.25rem;
     cursor : pointer;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 1px;
 }
 
-#btn-submit ion-icon{
-    background-color: #10A37F;
-    color: white;
-    padding: 5px;
-    border-radius:5px;
-}
+#btn-submit img{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+} 
 
 footer {
-    background-color: rgba(133, 134, 141, .5);
+    /* background-color: rgba(133, 134, 141, .5); */
+    background-color: white;
     text-align: center;
-    color: white;
-    padding: 20px 0;
+    color: black;
+    padding: 10px 0;
 }
+
+.message-menu-divider {
+    border-top : solid 1px rgba(0, 0, 0, 0.46);
+    width : 100%;
+    height : 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.message-menu-btns {
+    display:flex;
+}
+.btn-message-tool {
+    color: #2B4CDC;
+    font-family: "NanumGothic";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+/* .pad-bottom{
+    height:64px;
+} */

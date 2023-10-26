@@ -1,46 +1,31 @@
-/* GOOGLE FONTS */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
-
-/* VARIABLES CSS */
 :root {
-    --nav--width: 92px;
-
-    /* Colores */
-    --first-color: #F2F4F8;
-    --bg-color: #F2F4F8;
+    --first-color: #A2A4A8;
     --sub-color: #b6cefc;
-    --font-color: black;
-
-    /* Fuente y tipografia */
-    --body-font: 'Poppins', sans-serif;
-    --normal-font-size: 1rem;
-    --small-font-size: .875rem;
-
-    /* z index */
-    --z-fixed: 100;
-}
-
-/* BASE */
-*, ::before, ::after {
-    box-sizing: border-box;
 }
 
 .sidebar {
-    position: relative;
-    margin: 0;
-    padding: 2rem 0 0 6.75rem;
-    font-family: var(--body-font);
-    font-size: var(--normal-font-size);
+    position:fixed;
     transition: .5s;
+    height:100%;
+    border: none;
+    border-radius: 10px;
+    background: #FFF;
+    z-index:100;
 }
 
-.sidebar h1 {
-    margin: 0;
+@media only screen and (min-width: 600px) {
+    .sidebar{
+        position: static;
+        height:100vh;
+        top: 0;
+    }
+}
+
+.sidebar.expander{
+    border: 3px solid #2B4CDC;
 }
 
 .sidebar ul {
-    margin: 0;
-    padding: 0;
     list-style: none;
 }
 
@@ -48,41 +33,36 @@
     text-decoration: none;
 }
 
-/* l NAV */
 .l-navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: var(--nav--width);
-    height: 100vh;
-    background-color: var(--bg-color);
-    color: var(--font-color);
-    padding: 1.5rem 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    margin-top : 2rem;
+    width: 0;
+    height: 100%;
     transition: .5s;
-    z-index: var(--z-fixed);
+    padding: 1.5rem 0rem;
 }
 
-/* NAV */
 .nav {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     overflow: hidden;
 }
 
-.nav__brand {
-    display: grid;
-    grid-template-columns: max-content max-content;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
+.nav__toggle {
+    position:fixed;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    left: 5px;
+    top: 5px;
+    transition: .5s;
+    z-index:101;
 }
 
-.nav__toggle {
-    font-size: 1.25rem;
-    padding: .75rem;
-    cursor: pointer;
+.nav__toggle.expander {
+    left : 260px;
 }
 
 .nav__logo {
@@ -90,77 +70,360 @@
     font-weight: 600;
 }
 
+.nav-row {
+    position:relative;
+    overflow:visible;
+    margin-left: 1rem;
+    margin-right:1rem;
+}
+
+.nav-name{
+    flex-grow: 1;
+    padding-left: 8px;
+    min-width: 170px;
+    white-space: nowrap;
+    overflow:hidden;
+}
+
+.nav__list {
+    overflow-x:hidden;
+    overflow-y:scroll;
+    flex-grow: 1;
+}
+
+/* 스크롤바 전체 영역 */
+::-webkit-scrollbar {
+    width: 4px;  /* 세로축 스크롤바 폭 너비 */
+}
+
+/* 스크롤바 막대 */
+::-webkit-scrollbar-thumb {
+    background: #2B4CDC; /* 스크롤바 막대 색상 */
+    border: 1px solid #2B4CDC; /* 스크롤바 막대 테두리 설정  */
+    border-radius: 3px 3px 3px 3px;
+}
+
+/* ::-webkit-scrollbar {
+  display: none; 
+} */
+
 .nav__link {
-    display: grid;
-    grid-template-columns: max-content max-content;
+    display: flex;
     align-items: center;
-    column-gap: .75rem;
-    padding: .75rem;
-    color: var(--font-color);
     border-radius: .5rem;
     margin-bottom: 1rem;
+    padding-left: 1rem;
     transition: .3s;
     cursor: pointer;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    height: 50px;
 }
 
 .nav__link:hover {
-    background-color: var(--first-color);
+    background: #2B4CDC;
+    color: white;
 }
 
 .nav__icon {
     font-size: 1.25rem;
 }
 
-.nav_name {
-    font-size: var(--small-font-size);
+.l-navbar.expander {
+    width: 300px;
 }
 
-/* Expander menu */
-.expander {
-    width: calc(var(--nav--width) + 9.25rem);
-}
-
-/* Add padding body*/
-.body-pd {
-    padding: 2rem 0 0 16rem;
-}
-
-/* Active links menu */
 .active {
-    background-color: var(--first-color);
+    background-color: #2B4CDC;
+    color: white;
 }
 
-/* COLLAPSE */
-.collapse {
-    grid-template-columns: 20px max-content 1fr;
-}
-
-.collapse__link {
-    justify-self: flex-end;
-    transition: .5;
-}
-
-.collapse__menu {
-    display: none;
-    padding: .75rem 2.25rem;
-}
-
-.collapse__sublink {
-    color: var(--sub-color);
-    font-size: var(--small-font-size);
-}
-
-.collapse__sublink:hover {
-    color: var(--font-color);
-}
-
-/* Show collapse */
-.showCollapse {
-    display: block;
-}
-
-/* Rotate icon */
 .rotate {
     transform: rotate(180deg);
     transition: .5s;
+}
+
+.sidebar-btns{
+    display: flex;
+    height: 60px;
+    padding: 16px 12px;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    border: 2px solid #4470C8;
+}
+
+.sidebar-btns:hover{
+    background-color: #d3d3d3;
+}
+
+.sidebar-chat-button{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: none;
+    width:24px;
+    height:24px;
+}
+.hidden {
+    display:none;
+}
+.txt-edit-title{
+    position:absolute;
+    left : 36px;
+    bottom: 12px;
+    right : 50px;
+    background-color : inehrit;
+    border : 1px rgb(60, 60, 235);
+}
+
+.config {
+    margin: 10px 10px 20px 10px;
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* border: solid 1px rgba(0, 0, 0, 0.25); */
+    border-radius: 5%;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.config-row {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+    margin: 10px;
+}
+
+.config-row-stack{
+    display: flex;
+    flex-direction: column;
+    /* flex-grow: 1; */
+    height : 200px;
+    margin: 10px;
+}
+
+.config-grid {
+    display:grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.config-col1 {
+    display: flex;
+    width: 100px;
+}
+
+.config-label {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 80px;
+    height: 30px;
+    /* border-radius: 30px;
+    border: 1px solid #2B4CDC;
+    box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 0.25); */
+    color: #2B4CDC;
+    text-align: center;
+    font-family: "NanumGothic";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-weight: bold;
+}
+
+.config-col2 {
+    display: flex;
+    flex-grow: 1;
+    align-items: start;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.config-text {
+    color: #000;
+    text-align: center;
+    font-family: "NanumGothic";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#sld-config-rate-value {
+    display: block;
+    position: absolute;
+    top: 100%; /* 부모 요소 아래로 위치시키기 위해 top을 100%로 설정 */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* #sld-config-volume-value {
+    display: block;
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%);
+} */
+
+.config-voice-sel-btn-area {
+    display: flex;
+    flex-direction: row;
+    margin-top : 1rem;
+    justify-content: space-evenly;
+    align-self: center;
+}
+
+.config-voice-sel-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #85868D;     /* Use the color of the parent element */
+    text-decoration: none;  /* Remove the underline */
+}
+.config-voice-sel-btn img {
+    width: 60px;
+    height: 60px;
+}
+
+.config-voice-sel-btn-tag{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid #2B4CDC;
+    box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
+
+    text-align: center;
+    font-family: NanumGothic;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.config-voice-sel-btn-tag:hover{
+    background: #2B4CDC;
+    box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
+    color:white;
+}
+
+.config-voice-sel-btn-tag.active{
+    background: #2B4CDC;
+    color:white;
+}
+
+.config-voice-sel-btn ion-icon
+{
+    width:64px;
+    height:64px;
+}
+
+.content {
+    /* padding-bottom: 10px; */
+    margin: 5 5;
+    white-space: pre-wrap;
+}
+
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_rangeslider */
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: #d3d3d3; 
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #2B4CDC; 
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: #2B4CDC;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 17px;
+    margin: 0 15px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: gray;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.toggle:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.toggle {
+    background-color: #2B4CDC;
+}
+
+input:focus+.toggle {
+    box-shadow: 0 0 1px #10A37F;
+}
+
+input:checked+.toggle:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.toggle.round {
+    border-radius: 17px;
+}
+
+.toggle.round:before {
+    border-radius: 50%;
 }

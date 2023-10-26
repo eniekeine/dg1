@@ -1,41 +1,132 @@
-<!DOCTYPE html>
+<!Document html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GP지기</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/sidebar.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <script defer src="{{ url_for('static', filename='dist/js/index.js') }}"></script>
-    <script defer src="{{ url_for('static', filename='dist/js/sidebar.js') }}"></script>
+    <template id="template-message-menu">
+        <!-- <hr class="message-menu-divider"> -->
+        <div class="message-menu-btns">
+            <button title="음성으로 재생" class="btn-message-tool btn-play">
+                <img src="{{url_for('static', filename='dist/img/replay-icon.svg')}}"/>재생
+            </button>
+            <div>　</div>
+            <button title="클립보드에 복사" class="btn-message-tool btn-copy">
+                <img src="{{url_for('static', filename='dist/img/copy-icon.svg')}}"/>복사
+            </button>
+        </div>
+    </template>
+    <template id="template-nav-link">
+        <div class="nav-row">
+            <input class="txt-edit-title hidden"/>
+            <div title="채팅 선택" class="nav__link">
+                <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
+                <span class="nav-name"></span>                    
+                <button title="제목 수정" class="btn-edit-title sidebar-chat-button hidden">
+                    <ion-icon name="pencil-outline"></ion-icon>
+                </button>
+                <button title="채팅 삭제" class="btn-remove-chat sidebar-chat-button hidden">
+                    <ion-icon name="trash-outline"></ion-icon>
+                </button>
+            </div>
+        </div>
+    </template>
 </head>
 <body>
     {% include 'sidebar.html' %}
-    <section class="main">
-        {% include 'header.html' %}
-        <div class="main-middle">
+    <img src="{{url_for('static', filename='dist/img/menu-icon.svg')}}" class="nav__toggle" id="nav-toggle"/>
+    <div class="page-root">
+        <section class="main">
             <div class="chat">
-                <div class="chat-top-filler"></div>
-                <div class="chat-middle">
-                    <div class="chat-middle-left">
-                        <ul class="chat-messages">
-                        </ul>
-                        <div class="mic-input-area">
-                            <div class="tag-btn-mic">누르고 음성 입력</div>
-                            <a href="#" class="btn-mic">
-                                <ion-icon name="mic-circle"></ion-icon>
-                            </a>
-                        </div>
-                        <div class = "input-container">
-                            <input id="txt-input"/>
-                            <a id="btn-submit"><ion-icon name="paper-plane-outline"></ion-icon></a>
-                        </div>
+                <a href="#">
+                    <img class="header-logo" src="{{url_for('static', filename='dist/img/logo_blue2.png')}}"/>
+                </a>
+                <!-- <div class="brief">
+                    GP지기에 오신 것을 환영합니다.
+                </div> -->
+                <br>
+                <div class="intro">GP지기는 ChatGPT를 활용한 AI 음성 비서 서비스입니다.</div>
+                <br>
+                <!-- <div class="intro">저희 GPTeam은 OpenAI의 API를 활용하여 음성으로 대화를 나눌 수 있게 하는 프로젝트를 목적으로 이 페이지를 만들었습니다.</div> -->
+                <div class="intro-cards">
+                    <div class="intro-card">
+                        <img src="{{url_for('static', filename='dist/img/Icon.png')}}" width="35px" height="34px"/>
+                        <h3>
+                            음성 채팅
+                        </h3>
+                        <div>음성으로 채팅을 입력하고, </div>
+                        <div>답변을 출력 받을 수 있습니다.</div>
                     </div>
-                    {% include 'config.html' %}
+                    <div class="intro-pad"></div>
+                    <div class="intro-card">
+                        <img src="{{url_for('static', filename='dist/img/cursor-click.png')}}" width="39px" height="34px"/>
+                        <h3>
+                            음성 선택
+                        </h3>
+                        <div>답변 목소리를 </div>
+                        <div>선택 할 수 있습니다.</div>
+                    </div>
+                    <div class="intro-pad"></div>
+                    <div class="intro-card">
+                        <img src="{{url_for('static', filename='dist/img/adjustments.png')}}" width="39px" height="34px"/>
+                        <h3> 
+                            음성 조절
+                        </h3> 
+                        <div>답변 음성의 속도를 </div>
+                        <div>조절 할 수 있습니다.</div>
+                    </div>
+                </div> 
+                <ul class="chat-messages">
+                </ul>
+                <button class="btn-stop-generating hidden">
+                    <img src="{{url_for('static', filename='dist/img/stop-icon.svg')}}" style="width: 50px"/>
+                </button>
+                <div class = "input-wrapper">
+                    <button title="클릭하면 새로운 채팅을 시작합니다." class="btn-new-chat">
+                        <div class="btn-new-chat-rect"></div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="58" height="58" viewBox="2 2 50 50" fill="none">
+                            <g filter="url(#filter0_d_341_604)">
+                                <rect x="2" y="2" width="50" height="50" rx="15" fill="none"/>
+                                <mask id="mask0_341_604" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="7" y="7" width="40" height="40">
+                                    <rect x="7" y="7" width="40" height="40" fill="#D9D9D9"/>
+                                </mask>
+                                <g mask="url(#mask0_341_604)">
+                                <path d="M21 26.5C21.425 26.5 21.7812 26.3563 22.0688 26.0688C22.3562 25.7813 22.5 25.425 22.5 25C22.5 24.575 22.3562 24.2188 22.0688 23.9312C21.7812 23.6438 21.425 23.5 21 23.5C20.575 23.5 20.2188 23.6438 19.9312 23.9312C19.6437 24.2188 19.5 24.575 19.5 25C19.5 25.425 19.6437 25.7813 19.9312 26.0688C20.2188 26.3563 20.575 26.5 21 26.5ZM27 26.5C27.425 26.5 27.7813 26.3563 28.0688 26.0688C28.3563 25.7813 28.5 25.425 28.5 25C28.5 24.575 28.3563 24.2188 28.0688 23.9312C27.7813 23.6438 27.425 23.5 27 23.5C26.575 23.5 26.2188 23.6438 25.9313 23.9312C25.6438 24.2188 25.5 24.575 25.5 25C25.5 25.425 25.6438 25.7813 25.9313 26.0688C26.2188 26.3563 26.575 26.5 27 26.5ZM33 26.5C33.425 26.5 33.7812 26.3563 34.0688 26.0688C34.3563 25.7813 34.5 25.425 34.5 25C34.5 24.575 34.3563 24.2188 34.0688 23.9312C33.7812 23.6438 33.425 23.5 33 23.5C32.575 23.5 32.2188 23.6438 31.9313 23.9312C31.6438 24.2188 31.5 24.575 31.5 25C31.5 25.425 31.6438 25.7813 31.9313 26.0688C32.2188 26.3563 32.575 26.5 33 26.5ZM12 43V16C12 15.175 12.2938 14.4688 12.8813 13.8813C13.4688 13.2938 14.175 13 15 13H39C39.825 13 40.5312 13.2938 41.1188 13.8813C41.7063 14.4688 42 15.175 42 16V34C42 34.825 41.7063 35.5312 41.1188 36.1188C40.5312 36.7063 39.825 37 39 37H18L12 43ZM16.725 34H39V16H15V35.6875L16.725 34Z" fill="currentColor"/>
+                                </g>
+                            </g>
+                        </svg>
+                    </button>
+                    <div class = "input-container">
+                        <div id="txt-input-container" oninput='this.style.height = ""; this.style.height = this.scrollHeight + "px"'>
+                            <textarea id="txt-input" rows="1" oninput='this.style.height = ""; this.style.height = this.scrollHeight + "px"'></textarea>
+                        </div>
+                        <a title="클릭하면 글을 전송합니다" id="btn-submit">
+                            <!-- <ion-icon name="paper-plane-outline"></ion-icon> -->
+                            <img src="{{url_for('static', filename='dist/img/Frame.png')}}"/>
+                        </a>
+                    </div>
+                    <button title="클릭하고 말을 해보세요" class="btn-mic">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="58" height="58" viewBox="2 2 50 50" fill="none">
+                            <g filter="url(#filter0_d_341_524)">
+                              <rect x="2" y="2" width="50" height="50" rx="15" fill="transparent"/>
+                              <mask id="mask0_341_524" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="7" y="8" width="40" height="40">
+                                <rect x="7" y="8" width="40" height="40" fill="currentColor"/>
+                              </mask>
+                              <g mask="url(#mask0_341_524)">
+                                <path d="M27 31.3334C25.6111 31.3334 24.4305 30.8473 23.4583 29.875C22.4861 28.9028 22 27.7223 22 26.3334V16.3334C22 14.9445 22.4861 13.7639 23.4583 12.7917C24.4305 11.8195 25.6111 11.3334 27 11.3334C28.3889 11.3334 29.5694 11.8195 30.5416 12.7917C31.5139 13.7639 32 14.9445 32 16.3334V26.3334C32 27.7223 31.5139 28.9028 30.5416 29.875C29.5694 30.8473 28.3889 31.3334 27 31.3334ZM25.3333 43V37.875C22.4444 37.4862 20.0555 36.1945 18.1666 34C16.2778 31.8056 15.3333 29.25 15.3333 26.3334H18.6666C18.6666 28.6389 19.4791 30.6042 21.1041 32.2292C22.7291 33.8542 24.6944 34.6667 27 34.6667C29.3055 34.6667 31.2708 33.8542 32.8958 32.2292C34.5208 30.6042 35.3333 28.6389 35.3333 26.3334H38.6666C38.6666 29.25 37.7222 31.8056 35.8333 34C33.9444 36.1945 31.5555 37.4862 28.6666 37.875V43H25.3333ZM27 28C27.4722 28 27.868 27.8403 28.1875 27.5209C28.5069 27.2014 28.6666 26.8056 28.6666 26.3334V16.3334C28.6666 15.8612 28.5069 15.4653 28.1875 15.1459C27.868 14.8264 27.4722 14.6667 27 14.6667C26.5278 14.6667 26.1319 14.8264 25.8125 15.1459C25.493 15.4653 25.3333 15.8612 25.3333 16.3334V26.3334C25.3333 26.8056 25.493 27.2014 25.8125 27.5209C26.1319 27.8403 26.5278 28 27 28Z" fill="currentColor"/>
+                              </g>
+                            </g>
+                        </svg>
+                    </button>
                 </div>
             </div>
-        </div>
-        {% include 'footer.html' %}
-    </section>
+            <div class="pad-bottom"></div>
+        </section>
+    </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
