@@ -112,17 +112,14 @@ header a{
 }
 
 .intro-cards{
-    height: 150px;
     display:flex;
     flex-direction:  column;
     justify-content: center;
-    margin-top: 8rem;
 }
 
 @media only screen and (min-width: 600px) {
     .intro-cards{
         flex-direction: row;
-        margin-top: auto;
     }
 }
 
@@ -148,12 +145,12 @@ header a{
     border-radius: 15px;
     text-align: center;
     line-height: 150px;
-    margin-top:1rem;
+    margin-top: 1rem;
 }
 
 @media only screen and (min-width: 600px) {
     .intro-card{
-        margin-top:auto;
+        margin-top: auto;
     } 
 }
 
