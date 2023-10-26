@@ -546,20 +546,13 @@
     elemTxtInput.addEventListener('keydown', function(event) {
         // 사용자가 엔터를 입력한 경우
         if (event.key === 'Enter') {
-            // shift를 누른 채였다면 새줄을 입력합니다.
-            if( event.shiftKey )
-                return;
-            // shift를 누르지 않았다면 새줄을 입력하지 않습니다.
-            else
+            // shift를 누른 채가 아니었다면 쿼리를 전송합니다.
+            if( !event.shiftKey )
+            {
                 event.preventDefault();
-        }
-    });
-    // 엔터를 눌렀다가 때면 입력을 제출함
-    elemTxtInput.addEventListener('keyup', event => {
-        // Shift를 누르지 않은 채로 엔터를 입력한 경우
-        if (event.key === 'Enter' && !event.shiftKey) {
-            // 쿼리를 시작해주세요
-            submitStreamedQuery();
+                submitStreamedQuery();
+            }
+            // shift를 누른 채였다면 새줄을 입력합니다.
         }
     });
 
