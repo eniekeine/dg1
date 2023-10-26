@@ -116,13 +116,11 @@ header a{
     display:flex;
     flex-direction:  column;
     justify-content: center;
-    margin-top: 8rem;
 }
 
 @media only screen and (min-width: 600px) {
     .intro-cards{
         flex-direction: row;
-        margin-top: 0rem;
     }
 }
 
@@ -148,14 +146,14 @@ header a{
     border-radius: 15px;
     text-align: center;
     line-height: 150px;
-    margin-top: 1rem;
+    
 }
 
-@media only screen and (min-width: 600px) {
+/* @media only screen and (min-width: 600px) {
     .intro-card{
-        margin-top: 0rem;
+        height: 260px;
     } 
-}
+} */
 
 .intro-card h3 {
     height: 30px;
@@ -431,3 +429,6 @@ footer {
     font-weight: 400;
     line-height: normal;
 }
+/* .pad-bottom{
+    height:64px;
+} */
