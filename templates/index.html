@@ -101,8 +101,8 @@
                         </svg>
                     </button>
                     <div class = "input-container">
-                        <div id="txt-input-container">
-                            <textarea id="txt-input"></textarea>
+                        <div id="txt-input-container" oninput='this.style.height = ""; this.style.height = this.scrollHeight + "px"'>
+                            <textarea id="txt-input" rows="1" oninput='this.style.height = ""; this.style.height = this.scrollHeight + "px"'></textarea>
                         </div>
                         <a title="클릭하면 글을 전송합니다" id="btn-submit">
                             <!-- <ion-icon name="paper-plane-outline"></ion-icon> -->

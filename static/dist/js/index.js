@@ -406,6 +406,8 @@
     const elemBtnFemVoiceTag = document.querySelector('#btn-fem-voice div');
     // 제출 버튼 (비행기 아이콘)
     const elemBtnSubmit = document.querySelector('#btn-submit');
+    // 텍스트 상자 컨테이너
+    const elemTxtInputCon = document.querySelector('#txt-input-container');
     // 텍스트 상자
     const elemTxtInput = document.querySelector('#txt-input');
     // 채팅 메세지가 표시되는 영역
@@ -553,6 +555,8 @@
             {
                 event.preventDefault();
                 submitStreamedQuery();
+                elemTxtInput.style.height = '28px';           
+                elemTxtInputCon.style.height = '50px';
             }
             // shift를 누른 채였다면 새줄을 입력합니다.
         }
