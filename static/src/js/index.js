@@ -9,6 +9,8 @@ import {prevChat, currChat, selectChat, addChat, saveChats, loadChats} from './m
 import {textToSpeech, stopTextToSpeech} from './tts.js'
 import {setSpeed, setVoice} from './config.js'
 
+// 스크롤 되는 페이지 영역
+const elemPageRoot = document.querySelector('.page-root');
 // index.html에 있는 내가 상호작용해야하는 요소를 미리 찾아둡니다.
 // 사용자가 음성 입력을 하려고 할 때 누르는 마이크 버튼
 const elemBtnMic = document.querySelector('.btn-mic');
@@ -62,8 +64,7 @@ document.addEventListener("chatsUpdated", event => {
             const li = currChat.messages[i].createListItem();
             elemChatMessages.appendChild(li);
         }
-        // 바닥까지 스크롤하기
-        elemChatMessages.scrollTop = elemChatMessages.scrollHeight;
+        elemPageRoot.scrollTop = elemPageRoot.scrollHeight;
     }
 });
 
