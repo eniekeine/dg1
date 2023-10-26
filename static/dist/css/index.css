@@ -116,11 +116,13 @@ header a{
     display:flex;
     flex-direction:  column;
     justify-content: center;
+    margin-top: 8rem;
 }
 
 @media only screen and (min-width: 600px) {
     .intro-cards{
         flex-direction: row;
+        margin-top: auto;
     }
 }
 
@@ -146,14 +148,14 @@ header a{
     border-radius: 15px;
     text-align: center;
     line-height: 150px;
-    
+    margin-top:1rem;
 }
 
-/* @media only screen and (min-width: 600px) {
+@media only screen and (min-width: 600px) {
     .intro-card{
-        height: 260px;
+        margin-top:auto;
     } 
-} */
+}
 
 .intro-card h3 {
     height: 30px;
@@ -216,7 +218,7 @@ header a{
     align-items: center;
     gap: 10px;
     color: white;
-    border-radius: 15px;
+    border-radius: 25px 25px 0 25px;
     background: #2B4CDC;
     box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
@@ -226,18 +228,18 @@ header a{
     flex-direction: column;
     width: auto;
     max-width: 80%;
-    align-items: center;
+    align-items: baseline;
     gap: 10px;
-    border-radius: 15px;
+    border-radius: 25px 25px 25px 0;
     background: #D9EDFF;
     box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
     color: #000;
     text-align: center;
-    font-family: NanumGothic;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    text-align: left;
     
     /* color: gray;
     background-color: rgba(255, 255, 255, 0.2);
